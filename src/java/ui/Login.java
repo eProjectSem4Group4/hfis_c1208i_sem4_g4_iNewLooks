@@ -7,16 +7,12 @@ package ui;
 import controller.AccountController;
 import entity.Account;
 import exception.CustomException;
-import model.DatabaseManagement;
-import java.io.IOException;
 import java.io.Serializable;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
-import javax.faces.context.FacesContext;
-import javax.servlet.http.HttpServletResponse;
 
 /**
  *
@@ -51,11 +47,11 @@ public class Login implements Serializable {
     }
 
     public void login() {
-        if (username != null && password != null) {
+        if (this.username != null && this.password != null) {
             try {
-                if (getAccountController().isAccountValid(username, password)) {
-                    user = getAccountController().getAccount(username);
-                    role = true;
+                if (getAccountController().isAccountValid(this.username, this.password)) {
+                    this.user = getAccountController().getAccount(this.username);
+                    this.role = true;
                 } else {
                     this.message = "Invalid username or password";
                 }
