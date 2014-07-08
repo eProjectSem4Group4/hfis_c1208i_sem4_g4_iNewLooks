@@ -32,6 +32,10 @@ public class AccountController implements Serializable{
         return getAccountModel().getAccount(username);
     }
     
+    public Account getAccount(int id) throws SQLException, ClassNotFoundException, CustomException{
+        return getAccountModel().getAccount(id);
+    }
+    
     public List<Account> getAllAccounts() throws SQLException, ClassNotFoundException, CustomException{
         return getAccountModel().getAllAccounts();
     }

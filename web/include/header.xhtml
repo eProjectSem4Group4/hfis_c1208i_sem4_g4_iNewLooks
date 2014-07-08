@@ -120,6 +120,11 @@
                                        actionListener="#{hpmanager.showPageAdminViewAllUser()}"/>
                     </dd>
                     <dd>
+                        <p:commandLink value="All requests" process="@this" 
+                                       update=":frmUser:pnlLoginForm :frmAdminPage:pnlAdminPage :frmUserPage:pnlUserPage" 
+                                       actionListener="#{hpmanager.showPageAdminViewRequest()}"/>
+                    </dd>
+                    <dd>
                         <p:commandLink value="Add elevator" process="@this" 
                                        update=":frmUser:pnlLoginForm :frmAdminPage:pnlAdminPage :frmUserPage:pnlUserPage" 
                                        actionListener="#{hpmanager.showPageAdminAddElevator()}"/>

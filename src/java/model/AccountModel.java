@@ -49,6 +49,34 @@ public class AccountModel extends DatabaseManagement implements Serializable {
         }
     }
 
+    public Account getAccount(int username) throws SQLException, ClassNotFoundException, CustomException {
+        try {
+            makeConnection();
+            ResultSet rs = getResultSet("SELECT * FROM Account WHERE id = ?", new QueryParameter[]{new QueryParameter(1, username)});
+            if (rs.next()) {
+                Account acc = new Account();
+                acc.setId(rs.getInt("id"));
+                acc.setUsername(rs.getString("username"));
+                acc.setName(rs.getString("name"));
+                acc.setEmail(rs.getString("email"));
+                acc.setAddress(rs.getString("address"));
+                acc.setCompany(rs.getString("company"));
+                acc.setAdmin(rs.getBoolean("admin"));
+                closeConnection();
+                return acc;
+            } else {
+                closeConnection();
+                throw new CustomException("Account doesn't exists!");
+            }
+        } catch (SQLException | ClassNotFoundException | CustomException ex) {
+            Logger.getLogger(AccountModel.class.getName()).log(Level.SEVERE, null, ex);
+            throw ex;
+        } catch (Exception ex) {
+            Logger.getLogger(AccountModel.class.getName()).log(Level.SEVERE, null, ex);
+            throw new CustomException("Unknown exception", ex);
+        }
+    }
+
     public List<Account> getAllAccounts() throws SQLException, ClassNotFoundException, CustomException {
         try {
             List<Account> result = new ArrayList<Account>();
@@ -126,7 +154,7 @@ public class AccountModel extends DatabaseManagement implements Serializable {
                 new QueryParameter(4, acc.getEmail()),
                 new QueryParameter(5, acc.getAddress()),
                 new QueryParameter(6, acc.getCompany()),
-                new QueryParameter(7, "0")
+                new QueryParameter(7, acc.isAdmin() ? "1" : "0")
             });
             closeConnection();
         } catch (SQLException | ClassNotFoundException | CustomException ex) {

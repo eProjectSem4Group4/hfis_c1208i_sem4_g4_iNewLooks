@@ -71,6 +71,34 @@
                         </tr>
                     </table>
                 </p:panel>
+                <p:panel id="pnlAdmin_ViewRequests" visible="#{hpmanager.admin_ViewRequestMode}">
+                    <p:dataTable id="tblRequests" value="#{hpmanager.viewrequest_requestList}" var="request">
+                        <p:column headerText="id">
+                            <h:outputText value="#{request.id}"/>
+                        </p:column>
+                        <p:column headerText="In progress">
+                            <h:outputText value="#{request.processing}"/>
+                        </p:column>
+                        <p:column headerText="From account">
+                            <h:outputText value="#{request.userId}"/>
+                        </p:column>
+                        <p:column headerText="Elevator">
+                            <h:outputText value="#{request.elevatorId}"/>
+                        </p:column>
+                        <p:column headerText="Floors">
+                            <h:outputText value="#{request.floorCount}"/>
+                        </p:column>
+                        <p:column headerText="Systems">
+                            <h:outputText value="#{request.systemCount}"/>
+                        </p:column>
+                        <p:column headerText="Address">
+                            <h:outputText value="#{request.address}"/>
+                        </p:column>
+                        <p:column headerText="Done">
+                            <h:outputText value="#{request.done}"/>
+                        </p:column>
+                    </p:dataTable>
+                </p:panel>
             </p:panel>
         </h:form>
     </h:body>

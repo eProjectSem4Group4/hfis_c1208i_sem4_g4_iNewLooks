@@ -67,6 +67,7 @@ public class HomePageManager implements Serializable {
     public final byte PAGE_USER_SENDREQUEST = 2;
     public final byte PAGE_ADMIN_VIEWALLUSER = 3;
     public final byte PAGE_ADMIN_ADDELEVATOR = 4;
+    public final byte PAGE_ADMIN_VIEWREQUEST = 5;
     private byte pageMode = PAGE_USER_DEFAULT;
 
     public void logout() {
@@ -94,7 +95,7 @@ public class HomePageManager implements Serializable {
             this.sendrequest_systemCount = 1;
             this.sendrequest_address = null;
         }
-        if (nValue != PAGE_ADMIN_ADDELEVATOR){
+        if (nValue != PAGE_ADMIN_ADDELEVATOR) {
             this.addelevator_name = null;
             this.addelevator_description = null;
             this.addelevator_baseprice = 0;
@@ -203,6 +204,8 @@ public class HomePageManager implements Serializable {
             request.setSystemCount(this.sendrequest_systemCount);
             request.setAddress(this.sendrequest_address);
             request.setTotalPrice(getTotalRequestPrice());
+            request.setDone(false);
+            request.setProcessing(false);
             getRequestController().createRequest(request);
             this.sendrequest_message = "Request sent";
         } catch (ClassNotFoundException | CustomException | SQLException ex) {
@@ -337,7 +340,7 @@ public class HomePageManager implements Serializable {
                 this.addelevator_message = "Elevator description's length must be lower than 3000 characters (" + this.addelevator_description.length() + " chars detected)";
                 return;
             }
-            if (this.addelevator_baseprice <= 0 || this.addelevator_floorprice <= 0){
+            if (this.addelevator_baseprice <= 0 || this.addelevator_floorprice <= 0) {
                 this.addelevator_message = "Elevator's price must be greater than zero!";
                 return;
             }
@@ -352,7 +355,7 @@ public class HomePageManager implements Serializable {
             this.addelevator_description = null;
         } catch (SQLException | ClassNotFoundException | CustomException ex) {
             Logger.getLogger(HomePageManager.class.getName()).log(Level.SEVERE, null, ex);
-            this.addelevator_message = "An error occured: "+ex.getMessage();
+            this.addelevator_message = "An error occured: " + ex.getMessage();
         }
     }
 
@@ -398,4 +401,83 @@ public class HomePageManager implements Serializable {
         this.addelevator_description = addelevator_description;
     }
     //END================= ADD ELEVATOR
+
+    //BEGIN================= VIEW REQUEST
+    public boolean isAdmin_ViewRequestMode() {
+        return this.pageMode == PAGE_ADMIN_VIEWREQUEST;
+    }
+
+    public void showPageAdminViewRequest() {
+        makeAdminPageShow(PAGE_ADMIN_VIEWREQUEST);
+    }
+    private Boolean viewrequest_requestdone;
+    private List<Request> viewrequest_requestList;
+    private Request viewrequest_selectedRequest;
+    private Account viewrequest_selectedRequestSender;
+    private String viewrequest_message;
+    private boolean viewrequest_showSelectedRequest = false;
+
+    public void viewRequest(Request request) {
+        try {
+            this.viewrequest_selectedRequest = request;
+            this.viewrequest_selectedRequestSender = getAccountController().getAccount(request.getUserId());
+            this.viewrequest_requestdone = request.isDone();
+        } catch (SQLException | ClassNotFoundException | CustomException ex) {
+            Logger.getLogger(HomePageManager.class.getName()).log(Level.SEVERE, null, ex);
+            this.viewrequest_message = "An error occured: " + ex.getMessage();
+        }
+    }
+
+    public String getViewrequest_message() {
+        String copy = this.viewrequest_message;
+        this.viewrequest_message = null;
+        return copy;
+    }
+
+    public void setViewrequest_message(String viewrequest_message) {
+        this.viewrequest_message = viewrequest_message;
+    }
+
+    public boolean isViewrequest_requestdone() {
+        return viewrequest_requestdone == null ? false : viewrequest_requestdone;
+    }
+
+    public void setViewrequest_requestdone(boolean viewrequest_requestdone) {
+        this.viewrequest_requestdone = viewrequest_requestdone;
+    }
+
+    public List<Request> getViewrequest_requestList() {
+        try {
+            this.viewrequest_requestList = getRequestController().getAllRequests();
+        } catch (SQLException | ClassNotFoundException | CustomException ex) {
+            Logger.getLogger(HomePageManager.class.getName()).log(Level.SEVERE, null, ex);
+            this.viewrequest_requestList = new ArrayList<Request>();
+        }
+        return this.viewrequest_requestList;
+    }
+
+    public Request getViewrequest_selectedRequest() {
+        return viewrequest_selectedRequest;
+    }
+
+    public void setViewrequest_selectedRequest(Request viewrequest_selectedRequest) {
+        this.viewrequest_selectedRequest = viewrequest_selectedRequest;
+    }
+
+    public Account getViewrequest_selectedRequestSender() {
+        return viewrequest_selectedRequestSender;
+    }
+
+    public void setViewrequest_selectedRequestSender(Account viewrequest_selectedRequestSender) {
+        this.viewrequest_selectedRequestSender = viewrequest_selectedRequestSender;
+    }
+
+    public boolean isViewrequest_showSelectedRequest() {
+        return viewrequest_showSelectedRequest;
+    }
+
+    public void setViewrequest_showSelectedRequest(boolean viewrequest_showSelectedRequest) {
+        this.viewrequest_showSelectedRequest = viewrequest_showSelectedRequest;
+    }
+    //END================= VIEW REQUEST
 }

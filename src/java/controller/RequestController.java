@@ -8,6 +8,7 @@ import entity.Request;
 import exception.CustomException;
 import java.io.Serializable;
 import java.sql.SQLException;
+import java.util.List;
 import model.RequestModel;
 
 /**
@@ -25,5 +26,9 @@ public class RequestController implements Serializable {
     
     public void createRequest(Request request) throws SQLException, ClassNotFoundException, CustomException{
         getRequestModel().createRequest(request);
+    }
+    
+    public List<Request> getAllRequests() throws SQLException, ClassNotFoundException, CustomException{
+        return getRequestModel().getAllRequests();
     }
 }

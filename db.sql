@@ -43,6 +43,8 @@ floorCount int,
 systemCount int,
 [address] nvarchar(3000),
 totalPrice money,
+done bit,
+processing bit,
 )
 GO
 
