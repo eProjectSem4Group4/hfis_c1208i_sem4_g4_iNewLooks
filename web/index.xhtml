@@ -2,98 +2,23 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
     <h:head>
         <title>iS&amp;ast</title>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <link href="css/style.css" rel="stylesheet" type="text/css" />
     </h:head>
     <h:body>
-        <!--ui:include src="include/header.xhtml"/-->
         <div id="wrapper">
             <div id="inner">
-                <div id="header">
-                    <h1><img src="images/logo.jpg" width="519" height="63" alt="Online Movie Store" /></h1>
-                    <div id="nav"> <a href="#">HOME</a> | <a href="#">view cart</a> | <a href="#">help</a> </div>
-                    <!-- end nav -->
-                    <a href="#"><img src="images/header_1.jpg" width="744" height="145" alt="Harry Potter cd" /></a> <a href="#"><img src="images/header_2.jpg" width="745" height="48" alt="" /></a> </div>
-                <!-- end header -->
-                <dl id="browse">
-                    <dt>What do we have?</dt>
-                    <dd class="first"><a href="#">Home page</a></dd>
-                    <dd><a href="#">Send a request</a></dd>
-                    <dd class="last"><a href="#">Report</a></dd>
-                    <dt>Admin</dt>
-                    <dd class="first"><a href="#">User list</a></dd>
-                    <dd class="last"><a href="#">Add project</a></dd>
-                </dl>
+                <ui:include src="include/header.xhtml"/>
                 <div id="body">
-                    <div class="inner">
-                        <div class="leftbox">
-                            <h3>Star Wars Trilogy (Widescreen Edition)</h3>
-                            <img src="images/photo_1.jpg" width="93" height="95" alt="photo 1" class="left" />
-                            <p><b>Price:</b> <b>$225.97</b> &amp; eligible for FREE Super Saver Shipping on orders over <b>$195</b>.</p>
-                            <p><b>Availability:</b> Usually ships within 24 hours</p>
-                            <p class="readmore"><a href="#">BUY <b>NOW</b></a></p>
-                            <div class="clear"></div>
-                        </div>
-                        <!-- end .leftbox -->
-                        <div class="rightbox">
-                            <h3>Batman - The Animated Series </h3>
-                            <img src="images/photo_4.jpg" width="107" height="91" alt="photo 4" class="left" />
-                            <p><b>Price:</b> <b>$125</b> &amp; eligible for FREE Super Saver Shipping on orders over <b>$105</b>.</p>
-                            <p><b>Availability:</b> Usually ships within 24 hours</p>
-                            <p class="readmore"><a href="#">BUY <b>NOW</b></a></p>
-                            <div class="clear"></div>
-                        </div>
-                        <!-- end .rightbox -->
-                        <div class="clear br"></div>
-                        <div class="leftbox">
-                            <h3>Harry Potter and the Prisoner of Azkaban </h3>
-                            <img src="images/photo_2.jpg" width="93" height="101" alt="photo 2" class="left" />
-                            <p><b>Price:</b> <b>$350</b> &amp; eligible for FREE Super Saver Shipping on orders over <b>$295</b>.</p>
-                            <p><b>Availability:</b> Usually ships within 24 hours</p>
-                            <p class="readmore"><a href="#">BUY <b>NOW</b></a></p>
-                            <div class="clear"></div>
-                        </div>
-                        <!-- end .leftbox -->
-                        <div class="rightbox">
-                            <h3>Blade - Trinity (New Platinum Series)</h3>
-                            <img src="images/photo_5.jpg" width="90" height="103" alt="photo 5" class="left" />
-                            <p><b>Price:</b> <b>$115</b> &amp; eligible for FREE Super Saver Shipping on orders over <b>$95</b>.</p>
-                            <p><b>Availability:</b> Usually ships within 24 hours</p>
-                            <p class="readmore"><a href="#">BUY <b>NOW</b></a></p>
-                            <div class="clear"></div>
-                        </div>
-                        <!-- end .rightbox -->
-                        <div class="clear br"></div>
-                        <div class="leftbox">
-                            <h3>Million Dollar Baby (Widescreen Edition)</h3>
-                            <img src="images/photo_3.jpg" width="106" height="100" alt="photo 3" class="left" />
-                            <p><b>Price:</b> <b>$105.97</b> &amp; eligible for FREE Super Saver Shipping on orders over <b>$99</b>.</p>
-                            <p><b>Availability:</b> Usually ships within 24 hours</p>
-                            <p class="readmore"><a href="#">BUY <b>NOW</b></a></p>
-                            <div class="clear"></div>
-                        </div>
-                        <!-- end .leftbox -->
-                        <div class="rightbox">
-                            <h3>The Matrix Reloaded (Full Screen Edition)</h3>
-                            <img src="images/photo_6.jpg" width="91" height="99" alt="photo 6" class="left" />
-                            <p><b>Price:</b> <b>$75</b> &amp; eligible for FREE Super Saver Shipping on orders over <b>$55</b>.</p>
-                            <p><b>Availability:</b> Usually ships within 24 hours</p>
-                            <p class="readmore"><a href="#">BUY <b>NOW</b></a></p>
-                            <div class="clear"></div>
-                        </div>
-                        <!-- end .rightbox -->
-                        <div class="clear"></div>
-                    </div>
-                    <!-- end .inner -->
+                    <ui:include src="include/admin.xhtml"/>
+                    <ui:include src="include/user.xhtml"/>
                 </div>
                 <!-- end body -->
-                <div class="clear"></div>
-                <div id="footer"> Web design by <a href="http://www.freewebsitetemplates.com">free website templates</a> &nbsp;
-                </div>
-                <!-- end footer -->
+                <ui:include src="include/footer.xhtml"/> 
             </div>
             <!-- end inner -->
         </div>

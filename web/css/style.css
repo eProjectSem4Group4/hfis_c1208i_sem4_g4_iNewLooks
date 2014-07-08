@@ -2,7 +2,7 @@ body {
         font-family: tahoma, helvetica, arial, sans-serif;
         font-size: 10px;
         text-align: center;
-        background: url(images/page_bg.jpg);
+        background: url(../images/page_bg.jpg);
     }
     
 html, body, #wrapper, h1 {
@@ -79,7 +79,7 @@ h3 {
 }
 
 #header {
-	background: url(images/header_bg.jpg) repeat-x;
+	background: url(../images/header_bg.jpg) repeat-x;
 	padding-top: 9px;
 	position: relative;
 }
@@ -115,7 +115,7 @@ h3 {
 }
 
 #browse dt {
-	background: #c80000 url(images/dt_bg.jpg) bottom repeat-x;
+	background: #c80000 url(../images/dt_bg.jpg) bottom repeat-x;
 	color: #fff;
 	margin: 2px 2px 1px 2px;
 	padding: 6px 0;
@@ -202,12 +202,12 @@ h3 {
 
 #body .leftbox {
 	float: left;
-	width: 250px;
+	width: 240px;
 }
 
 #body .rightbox {
 	float: right;
-	width: 252px;
+	width: 240px;
 	margin-right: 18px;
 	border-left: 1px solid #e5e5e5;
 }
@@ -245,7 +245,7 @@ h3 {
 }
 
 #footer {
-	background: #c80000 url(images/footer_bg.jpg) repeat-x;
+	background: #c80000 url(../images/footer_bg.jpg) repeat-x;
 	padding: 8px 8px 5px 8px;
 	position: relative;
 	text-align: center;

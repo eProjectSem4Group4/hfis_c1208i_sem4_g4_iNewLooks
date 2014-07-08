@@ -1,9 +1,119 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://xmlns.jcp.org/jsf/html">
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
     <h:body>
-        Header
+        <h:form id="frmUser">
+            <p:panel id="pnlLoginForm" visible="#{login.showLoginForm}">
+                <h:outputText value="Username"/>&nbsp;
+                <p:inputText id="txtLoginUsername" value="#{login.username}" maxlength="16" required="true" requiredMessage="Can not leave username empty"/>
+                &nbsp;&nbsp;
+                <h:outputText value="Password"/>&nbsp;
+                <p:inputText id="txtLoginPassword" value="#{login.password}" maxlength="32" type="password" required="true" requiredMessage="Can not leave password empty"/>
+                &nbsp;&nbsp;
+                <p:commandButton id="btnSubmit" value="Login" process="@this txtLoginUsername txtLoginPassword" update="pnlRegisterForm pnlNotLoggedIn pnlLoginForm pnlLoggedIn :frmBrowse:pnlBrowse_User :frmBrowse:pnlBrowse_Admin" actionListener="#{login.login()}"/>
+                &nbsp;&nbsp;
+                <p:commandLink id="btnCloseLoginForm" process="@this" update="pnlLoginForm" value="Not now" actionListener="#{login.makeLoginFormShow(false)}"/>
+                <font color="red"><br/><p:outputLabel value="#{login.message}" rendered="#{login.haveErrorMessage}"/></font>
+            </p:panel>
+            <p:panel id="pnlRegisterForm" visible="#{register.showRegisterForm and !login.loggedIn}">
+                <table>
+                    <tr>
+                        <td>Username</td>
+                        <td>
+                            <p:inputText id="txtRegister_username" maxlength="16" value="#{register.username}"/>
+                        </td>
+                        <td>&nbsp;&nbsp;&nbsp;</td>
+                        <td>Name</td>
+                        <td>
+                            <p:inputText id="txtRegister_name" maxlength="32" value="#{register.name}"/>
+                        </td>
+                        <td>&nbsp;&nbsp;&nbsp;</td>
+                        <td>Address</td>
+                        <td>
+                            <p:inputText id="txtRegister_address" maxlength="128" value="#{register.address}"/>
+                        </td>
+                        <td>&nbsp;&nbsp;&nbsp;</td>
+                        <td>Email</td>
+                        <td>
+                            <p:inputText id="txtRegister_email" maxlength="64" value="#{register.email}"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Password</td>
+                        <td>
+                            <p:inputText id="txtRegister_password" type="password" maxlength="32" value="#{register.password}"/>
+                        </td>
+                        <td>&nbsp;&nbsp;&nbsp;</td>
+                        <td>Confirm password</td>
+                        <td>
+                            <p:inputText id="txtRegister_confirmPassword" type="password" maxlength="32" value="#{register.confirmPassword}"/>
+                        </td>
+                        <td>&nbsp;&nbsp;&nbsp;</td>
+                        <td>Company</td>
+                        <td>
+                            <p:inputText id="txtRegister_company" maxlength="64" value="#{register.company}"/>
+                        </td>
+                    </tr>
+                </table>
+                <p:panel id="pnlRegisterMessage" visible="#{register.haveMessage}">
+                    <font color="red"><p:outputLabel value="#{register.message}"/></font>
+                </p:panel>
+                <p:commandButton value="Create account" 
+                                 process="@this txtRegister_username txtRegister_name txtRegister_address txtRegister_email txtRegister_password txtRegister_confirmPassword txtRegister_company"
+                                 update="pnlRegisterForm pnlRegisterMessage" 
+                                 actionListener="#{register.register()}"
+                                 />
+                &nbsp;or&nbsp;
+                <p:commandLink value="Hide this form" 
+                               process="@this" 
+                               update="pnlRegisterForm" 
+                               actionListener="#{register.makeRegisterFormShow(false)}"/>
+            </p:panel>
+            <div id="header">
+                <h1><img src="images/logo.jpg" width="519" height="63" alt="Online Movie Store" /></h1>
+                <p:panel id="pnlNotLoggedIn" visible="#{!login.loggedIn}" >
+                    <div id="nav">
+                        <p:commandLink value="Login" process="@this" update="pnlLoginForm" actionListener="#{login.makeLoginFormShow(true)}"/>
+                        | 
+                        <p:commandLink value="Register" process="@this" update="pnlRegisterForm" actionListener="#{register.makeRegisterFormShow(true)}"/>
+                    </div>
+                </p:panel>
+                <p:panel id="pnlLoggedIn" visible="#{login.loggedIn}" >
+                    <div id="nav">
+                        <p:outputLabel value="Hello #{login.username}"/> &nbsp;&nbsp;
+                        <p:commandLink value="Logout" process="@this" update="pnlNotLoggedIn pnlLoggedIn :frmBrowse:pnlBrowse_User :frmBrowse:pnlBrowse_Admin :frmAdminPage:pnlAdminPage :frmUserPage:pnlUserPage" actionListener="#{hpmanager.logout()}"/>
+                    </div>
+                </p:panel>
+
+                <!-- end nav -->
+                <a href="#"><img src="images/header_1.jpg" width="744" height="145" alt="Harry Potter cd" /></a> <a href="#"><img src="images/header_2.jpg" width="745" height="48" alt="" /></a> 
+            </div>
+        </h:form>
+        <!-- end header -->
+        <dl id="browse">
+            <h:form id="frmBrowse">
+                <p:panel id="pnlBrowse_User" >
+                    <dt>What do we have?</dt>
+                    <dd class="first"><a href="#">First</a></dd>
+                    <dd><p:commandLink 
+                            value="Report" process="@this" 
+                            update=":frmUser:pnlLoginForm :frmAdminPage:pnlAdminPage :frmUserPage:pnlUserPage" 
+                            actionListener="#{hpmanager.showPageUserReport()}"/>
+                    </dd>
+                    <dd class="last"><a href="#">Last</a></dd>
+                </p:panel>
+                <p:panel id="pnlBrowse_Admin" visible="#{login.admin}" >
+                    <dt>Admin panel</dt>
+                    <dd class="first"><a href="#">First</a></dd>
+                    <dd>
+                        <p:commandLink value="Admin page" process="@this" update=":frmUser:pnlLoginForm :frmAdminPage:pnlAdminPage :frmUserPage:pnlUserPage" actionListener="#{hpmanager.showPageAdminViewAllUser()}"/>
+                    </dd>
+                    <dd class="last"><a href="#">Last</a></dd>
+                </p:panel>
+            </h:form>
+        </dl>
     </h:body>
 </html>
 
