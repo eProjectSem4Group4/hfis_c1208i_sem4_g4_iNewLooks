@@ -96,7 +96,15 @@
             <h:form id="frmBrowse">
                 <p:panel id="pnlBrowse_User" >
                     <dt>What do we have?</dt>
-                    <dd class="first"><a href="#">First</a></dd>
+                    <dd class="first"> <p:commandLink 
+                            value="Home" process="@this" 
+                            update=":frmUser:pnlLoginForm :frmAdminPage:pnlAdminPage :frmUserPage:pnlUserPage" 
+                            actionListener="#{hpmanager.showPageUserDefaultMode()}"/>
+                    </dd>
+                    <dd><p:commandLink 
+                            value="Send a request" process="@this" 
+                            update=":frmUser:pnlLoginForm :frmAdminPage:pnlAdminPage :frmUserPage:pnlUserPage" 
+                            actionListener="#{hpmanager.showPageUserSendRequest()}"/></dd>
                     <dd><p:commandLink 
                             value="Report" process="@this" 
                             update=":frmUser:pnlLoginForm :frmAdminPage:pnlAdminPage :frmUserPage:pnlUserPage" 
@@ -106,9 +114,15 @@
                 </p:panel>
                 <p:panel id="pnlBrowse_Admin" visible="#{login.admin}" >
                     <dt>Admin panel</dt>
-                    <dd class="first"><a href="#">First</a></dd>
+                    <dd class="first">
+                        <p:commandLink value="All users" process="@this" 
+                                       update=":frmUser:pnlLoginForm :frmAdminPage:pnlAdminPage :frmUserPage:pnlUserPage" 
+                                       actionListener="#{hpmanager.showPageAdminViewAllUser()}"/>
+                    </dd>
                     <dd>
-                        <p:commandLink value="Admin page" process="@this" update=":frmUser:pnlLoginForm :frmAdminPage:pnlAdminPage :frmUserPage:pnlUserPage" actionListener="#{hpmanager.showPageAdminViewAllUser()}"/>
+                        <p:commandLink value="Add elevator" process="@this" 
+                                       update=":frmUser:pnlLoginForm :frmAdminPage:pnlAdminPage :frmUserPage:pnlUserPage" 
+                                       actionListener="#{hpmanager.showPageAdminAddElevator()}"/>
                     </dd>
                     <dd class="last"><a href="#">Last</a></dd>
                 </p:panel>

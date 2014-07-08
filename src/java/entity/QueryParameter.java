@@ -13,12 +13,7 @@ public class QueryParameter{
     private int position;
     private String value;
 
-    public QueryParameter(int position, String value) {
-        this.position = position;
-        this.value = value;
-    }
-    
-    public QueryParameter(int position, int value) {
+    public QueryParameter(int position, Object value) {
         this.position = position;
         this.value = String.valueOf(value);
     }

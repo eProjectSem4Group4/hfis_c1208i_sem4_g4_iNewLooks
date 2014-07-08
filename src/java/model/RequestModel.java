@@ -1,0 +1,42 @@
+/*
+ * To change this template, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package model;
+
+import entity.QueryParameter;
+import entity.Request;
+import exception.CustomException;
+import java.io.Serializable;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+/**
+ *
+ * @author thanb_000
+ */
+public class RequestModel extends DatabaseManagement implements Serializable {
+    public void createRequest(Request request) throws SQLException, ClassNotFoundException, CustomException{
+        try {
+            makeConnection();
+            doQuery("INSERT INTO Request(userId,elevatorId,floorCount,systemCount,[address],totalPrice) VALUES (?,?,?,?,?,?)",
+                    new QueryParameter[]{
+                new QueryParameter(1, request.getUserId()),
+                new QueryParameter(2, request.getElevatorId()),
+                new QueryParameter(3, request.getFloorCount()),
+                new QueryParameter(4, request.getSystemCount()),
+                new QueryParameter(5, request.getAddress()),
+                new QueryParameter(6, request.getTotalPrice())
+            });
+            closeConnection();
+        } catch (SQLException | ClassNotFoundException | CustomException ex) {
+            Logger.getLogger(RequestModel.class.getName()).log(Level.SEVERE, null, ex);
+            throw ex;
+        } catch (Exception ex) {
+            Logger.getLogger(RequestModel.class.getName()).log(Level.SEVERE, null, ex);
+            throw new CustomException("Unknown exception", ex);
+        }
+    }
+}

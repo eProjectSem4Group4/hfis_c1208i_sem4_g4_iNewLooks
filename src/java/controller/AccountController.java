@@ -8,6 +8,7 @@ import entity.Account;
 import exception.CustomException;
 import java.io.Serializable;
 import java.sql.SQLException;
+import java.util.List;
 import model.AccountModel;
 
 /**
@@ -29,5 +30,9 @@ public class AccountController implements Serializable{
     
     public Account getAccount(String username) throws SQLException, ClassNotFoundException, CustomException{
         return getAccountModel().getAccount(username);
+    }
+    
+    public List<Account> getAllAccounts() throws SQLException, ClassNotFoundException, CustomException{
+        return getAccountModel().getAllAccounts();
     }
 }

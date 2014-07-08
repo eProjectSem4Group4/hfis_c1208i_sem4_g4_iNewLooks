@@ -6,7 +6,71 @@
     <h:body>
         <h:form id="frmAdminPage">
             <p:panel id="pnlAdminPage" visible="#{hpmanager.showAdminPage}">
-                Hahahaha
+                <p:panel id="pnlAdmin_ViewAllUser" visible="#{hpmanager.admin_ViewAllUsersMode}">
+                    <h1>Show all users</h1>
+                    <p:dataTable value="#{hpmanager.accountList}" var="account" >
+                        <p:column headerText="id">
+                            <h:outputText value="#{account.id}"/>
+                        </p:column>
+                        <p:column headerText="username">
+                            <h:outputText value="#{account.username}"/>
+                        </p:column>
+                        <p:column headerText="name">
+                            <h:outputText value="#{account.name}"/>
+                        </p:column>
+                        <p:column headerText="email">
+                            <h:outputText value="#{account.email}"/>
+                        </p:column>
+                        <p:column headerText="address">
+                            <h:outputText value="#{account.address}"/>
+                        </p:column>
+                        <p:column headerText="company">
+                            <h:outputText value="#{account.company}"/>
+                        </p:column>
+                        <p:column headerText="isAdmin">
+                            <h:outputText value="#{account.admin}"/>
+                        </p:column>
+                    </p:dataTable>
+                </p:panel>
+                <p:panel id="pnlAdmin_AddRequest" visible="#{hpmanager.admin_AddElevatorMode}">
+                    <h1>Add elevator</h1>
+                    <table>
+                        <tr>
+                            <td>Elevator name:</td>
+                            <td>
+                                <p:inputText id="txt_addelevator_name" value="#{hpmanager.addelevator_name}" required="true" maxlength="128"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Installation price:</td>
+                            <td>
+                                <p:inputText id="txt_addelevator_baseprice" value="#{hpmanager.addelevator_baseprice}" required="true"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Price per each floor: </td>
+                            <td>
+                                <p:inputText id="txt_addelevator_floorprice" value="#{hpmanager.addelevator_floorprice}" required="true"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Description</td>
+                            <td>
+                                <p:inputText id="txt_addelevator_description" value="#{hpmanager.addelevator_description}" required="true" maxlength="3000"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td>
+                                <font color="red"><p:outputLabel id="lb_addelevator_message" value="#{hpmanager.addelevator_message}"/></font><br/><br/>
+                                <p:commandButton value="Add elevator" 
+                                                 actionListener="#{hpmanager.createElevator}"
+                                                 process="@this txt_addelevator_name txt_addelevator_baseprice txt_addelevator_floorprice txt_addelevator_description" 
+                                                 update="pnlAdmin_AddRequest lb_addelevator_message txt_addelevator_name txt_addelevator_description"/>
+                            </td>
+                        </tr>
+                    </table>
+                </p:panel>
             </p:panel>
         </h:form>
     </h:body>

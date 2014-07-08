@@ -2,32 +2,112 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:body>
         <h:form id="frmUserPage">
             <p:panel id="pnlUserPage" visible="#{hpmanager.showUserPage}">
                 <div class="inner">
-                    <div class="leftbox">
-                        <h3>Star Wars Trilogy (Widescreen Edition)</h3>
-                        <img src="images/photo_1.jpg" width="93" height="95" alt="photo 1" class="left" />
-                        <p><b>Price:</b> <b>$225.97</b> &amp; eligible for FREE Super Saver Shipping on orders over <b>$195</b>.</p>
-                        <p><b>Availability:</b> Usually ships within 24 hours</p>
-                        <p class="readmore"><a href="#">BUY <b>NOW</b></a></p>
+                    <p:panel visible="#{hpmanager.user_ViewPageDefaultMode}">
+                        <div class="leftbox">
+                            <h3>Star Wars Trilogy (Widescreen Edition)</h3>
+                            <img src="images/photo_1.jpg" width="93" height="95" alt="photo 1" class="left" />
+                            <p><b>Price:</b> <b>$225.97</b> &amp; eligible for FREE Super Saver Shipping on orders over <b>$195</b>.</p>
+                            <p><b>Availability:</b> Usually ships within 24 hours</p>
+                            <p class="readmore"><a href="#">BUY <b>NOW</b></a></p>
+                            <div class="clear"></div>
+                        </div>
+                        <!-- end .leftbox -->
+                        <div class="rightbox">
+                            <h3>Batman - The Animated Series </h3>
+                            <img src="images/photo_4.jpg" width="107" height="91" alt="photo 4" class="left" />
+                            <p><b>Price:</b> <b>$125</b> &amp; eligible for FREE Super Saver Shipping on orders over <b>$105</b>.</p>
+                            <p><b>Availability:</b> Usually ships within 24 hours</p>
+                            <p class="readmore"><a href="#">BUY <b>NOW</b></a></p>
+                            <div class="clear"></div>
+                        </div>
+                        <!-- end .rightbox -->
+                        <div class="clear br"></div>
+                        <!-- loop -->
                         <div class="clear"></div>
-                    </div>
-                    <!-- end .leftbox -->
-                    <div class="rightbox">
-                        <h3>Batman - The Animated Series </h3>
-                        <img src="images/photo_4.jpg" width="107" height="91" alt="photo 4" class="left" />
-                        <p><b>Price:</b> <b>$125</b> &amp; eligible for FREE Super Saver Shipping on orders over <b>$105</b>.</p>
-                        <p><b>Availability:</b> Usually ships within 24 hours</p>
-                        <p class="readmore"><a href="#">BUY <b>NOW</b></a></p>
-                        <div class="clear"></div>
-                    </div>
-                    <!-- end .rightbox -->
-                    <div class="clear br"></div>
-                    <!-- loop -->
-                    <div class="clear"></div>
+                    </p:panel>
+                    <p:panel id="pnlUser_SendRequest" visible="#{hpmanager.user_ViewSendRequestMode}">
+                        <table>
+                            <tr>
+                                <td>Elevator system height</td>
+                                <td>
+                                    <p:inputText id="txt_sendrequest_floorCount" value="#{hpmanager.sendrequest_floorCount}" maxlength="4" required="true" requiredMessage="You must let us know how many floor do you want"  immediate="true">
+                                        <p:ajax update="txt_sendrequest_chosedEBasePrice txt_sendrequest_chosedEFloorPrice txt_sendrequest_chosedEDescription txt_sendrequest_totalPrice"/>
+                                    </p:inputText> floor
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Elevator type</td>
+                                <td>
+                                    <p:selectOneMenu value="#{hpmanager.sendrequest_elevatorChosedId}" valueChangeListener="#{hpmanager.elevatorTypeChangeListener}" required="true" requiredMessage="You must select at least one elevator type">
+                                        <f:selectItem itemLabel="Select elevator" itemValue="0"/>
+                                        <f:selectItems value="#{hpmanager.elevators}" var="elevator" itemLabel="#{elevator.name}" itemValue="#{elevator.id}"/>
+                                        <p:ajax event="change" update="txt_sendrequest_chosedEBasePrice txt_sendrequest_chosedEFloorPrice txt_sendrequest_chosedEDescription txt_sendrequest_totalPrice"/>
+                                    </p:selectOneMenu>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Number of systems</td>
+                                <td>
+                                    <p:inputText id="txt_sendrequest_systemCount" value="#{hpmanager.sendrequest_systemCount}" maxlength="3" immediate="true">
+                                        <p:ajax update="txt_sendrequest_chosedEBasePrice txt_sendrequest_chosedEFloorPrice txt_sendrequest_chosedEDescription txt_sendrequest_totalPrice"/>
+                                    </p:inputText>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Installation address (include address name)</td>
+                                <td>
+                                    <p:inputText id="txt_sendrequest_address" value="#{hpmanager.sendrequest_address}" maxlength="3000" required="true" requiredMessage="You must enter address of installation place"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td>
+                                    <br/><p:commandButton value="Send request" 
+                                                     actionListener="#{hpmanager.sendRequest}"
+                                                     process="@this txt_sendrequest_address" 
+                                                     update="pnlUser_SendRequest lb_sendrequest_mesage"/>
+                                    <br/><font color="red"><p:outputLabel id="lb_sendrequest_mesage" value="#{hpmanager.sendrequest_message}"/></font>
+                                </td>
+                            </tr>
+                        </table>
+                        <br/>
+                        <br/>
+                        <p:panel id="pnlSendRequest_ElevatorInfo">
+                            Elevator information
+                            <table>
+                                <tr>
+                                    <td>Total price:</td>
+                                    <td>
+                                        <p:outputLabel id="txt_sendrequest_totalPrice" value="#{hpmanager.sendrequest_totalPrice}"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Installation price:</td>
+                                    <td>
+                                        <p:outputLabel id="txt_sendrequest_chosedEBasePrice" value="#{hpmanager.sendrequest_elevatorChosedBasePrice}"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Price per floor:</td>
+                                    <td>
+                                        <p:outputLabel id="txt_sendrequest_chosedEFloorPrice" value="#{hpmanager.sendrequest_elevatorChosedFloorPrice}"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Description:</td>
+                                    <td>
+                                        <p:outputLabel id="txt_sendrequest_chosedEDescription" value="#{hpmanager.sendrequest_elevatorChosedDescription}"/>
+                                    </td>
+                                </tr>
+                            </table>
+                        </p:panel>
+                    </p:panel>
                 </div>
                 <!-- end .inner -->
             </p:panel>
