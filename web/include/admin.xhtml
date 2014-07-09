@@ -2,13 +2,14 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
     <h:body>
         <h:form id="frmAdminPage">
             <p:panel id="pnlAdminPage" visible="#{hpmanager.showAdminPage}">
                 <p:panel id="pnlAdmin_ViewAllUser" visible="#{hpmanager.admin_ViewAllUsersMode}">
                     <h1>Show all users</h1>
-                    <p:dataTable value="#{hpmanager.accountList}" var="account" >
+                    <p:dataTable value="#{hpmanager.accountList}" var="account" styleClass="DataTable" >
                         <p:column headerText="id">
                             <h:outputText value="#{account.id}"/>
                         </p:column>
@@ -28,7 +29,7 @@
                             <h:outputText value="#{account.company}"/>
                         </p:column>
                         <p:column headerText="isAdmin">
-                            <h:outputText value="#{account.admin}"/>
+                            <h:outputText value="#{account.admin ? 'Yes' : 'No'}"/>
                         </p:column>
                     </p:dataTable>
                 </p:panel>
@@ -72,30 +73,107 @@
                     </table>
                 </p:panel>
                 <p:panel id="pnlAdmin_ViewRequests" visible="#{hpmanager.admin_ViewRequestMode}">
-                    <p:dataTable id="tblRequests" value="#{hpmanager.viewrequest_requestList}" var="request">
+                    <p:panel id="pnlAdmin_shSltedReq" visible="#{hpmanager.viewrequest_showSelectedRequest}">
+                        <h1><h:outputText value="Selected request"/><br/></h1>
+                        <c:set var="vr" value="#{hpmanager.viewrequest_selectedRequest}"/>
+                        <c:set var="vra" value="#{hpmanager.viewrequest_selectedRequestSender}"/>
+                        <table>
+                            <tr>
+                                <td>Request id</td>
+                                <td>
+                                    <h:outputText value="#{vr.id}"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Sender's username</td>
+                                <td>
+                                    <h:outputText value="#{vr.senderUsername}"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Sender's name</td>
+                                <td>
+                                    <h:outputText value="#{vra.name}"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Sender's email</td>
+                                <td>
+                                    <h:outputText value="#{vra.email}"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Sender's company</td>
+                                <td>
+                                    <h:outputText value="#{vra.company}"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Floor count</td>
+                                <td>
+                                    <h:outputText value="#{vr.floorCount}"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>System count</td>
+                                <td>
+                                    <h:outputText value="#{vr.systemCount}"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Address</td>
+                                <td>
+                                    <h:outputText value="#{vr.address}"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Total price</td>
+                                <td>
+                                    <h:outputText value="#{vr.totalPrice}"/>
+                                </td>
+                            </tr>
+                        </table>
+                        <br/>
+                        <p:selectBooleanCheckbox id="ckb_viewrequest_setProcessing" value="#{hpmanager.viewrequest_requestprocessing}" immediate="true">
+                            <p:ajax update="lbviewrequest_message ckb_viewrequest_setProcessing tblRequests"/>
+                        </p:selectBooleanCheckbox>&nbsp;Mark as in progress
+                        <br/>
+                        <p:selectBooleanCheckbox id="ckb_viewrequest_setDone" value="#{hpmanager.viewrequest_requestdone}" immediate="true">
+                            <p:ajax update="lbviewrequest_message ckb_viewrequest_setDone tblRequests"/>
+                        </p:selectBooleanCheckbox>&nbsp;Mark as done
+                    </p:panel>
+                    <font color="=red"><p:outputLabel id="lbviewrequest_message" value="#{hpmanager.viewrequest_message}"/></font>
+                    <h1>All requests</h1>
+                    <br/>
+                    <p:dataTable id="tblRequests" styleClass="DataTable" value="#{hpmanager.viewrequest_requestList}" var="vrs" emptyMessage="There's no request, sounds not good!">
                         <p:column headerText="id">
-                            <h:outputText value="#{request.id}"/>
+                            <center><h:outputText value="#{vrs.id}"/></center>
                         </p:column>
                         <p:column headerText="In progress">
-                            <h:outputText value="#{request.processing}"/>
+                            <center><h:outputText value="#{vrs.processing ? 'Yes' : 'No'}"/></center>
                         </p:column>
                         <p:column headerText="From account">
-                            <h:outputText value="#{request.userId}"/>
+                            <center><h:outputText value="#{vrs.senderUsername}"/></center>
                         </p:column>
                         <p:column headerText="Elevator">
-                            <h:outputText value="#{request.elevatorId}"/>
+                            <center><h:outputText value="#{vrs.elevatorName}"/></center>
                         </p:column>
                         <p:column headerText="Floors">
-                            <h:outputText value="#{request.floorCount}"/>
+                            <center><h:outputText value="#{vrs.floorCount}"/></center>
                         </p:column>
                         <p:column headerText="Systems">
-                            <h:outputText value="#{request.systemCount}"/>
+                            <center><h:outputText value="#{vrs.systemCount}"/></center>
                         </p:column>
-                        <p:column headerText="Address">
-                            <h:outputText value="#{request.address}"/>
+                        <p:column headerText="Address with 40 first chars only">
+                            <center><h:outputText value="#{vrs.shortAddress}"/></center>
                         </p:column>
                         <p:column headerText="Done">
-                            <h:outputText value="#{request.done}"/>
+                            <center><h:outputText value="#{vrs.done ? 'Yes' : 'No'}"/></center>
+                        </p:column>
+                        <p:column headerText="Edit">
+                            <center><p:commandLink value="Click" process="@this"
+                                                   update=":frmAdminPage:pnlAdmin_shSltedReq :frmAdminPage:lbviewrequest_message"
+                                                   actionListener="#{hpmanager.viewRequest(vrs)}"/></center>
                         </p:column>
                     </p:dataTable>
                 </p:panel>

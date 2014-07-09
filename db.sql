@@ -61,3 +61,9 @@ GO
 SELECT * FROM Account
 SELECT * FROM Elevator
 SELECT * FROM Request
+
+SELECT r.id, r.userId, r.elevatorId, r.floorCount, r.systemCount, r.[address], r.totalPrice, r.done, r.processing, a.username, e.name AS 'elevatorName'
+FROM Account a INNER JOIN Request r 
+	ON a.id = r.userId JOIN Elevator e
+	ON r.elevatorId = e.id
+	

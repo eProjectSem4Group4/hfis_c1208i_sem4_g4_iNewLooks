@@ -21,7 +21,8 @@ import java.util.logging.Logger;
  * @author thanb_000
  */
 public class RequestModel extends DatabaseManagement implements Serializable {
-    public void createRequest(Request request) throws SQLException, ClassNotFoundException, CustomException{
+
+    public void createRequest(Request request) throws SQLException, ClassNotFoundException, CustomException {
         try {
             makeConnection();
             doQuery("INSERT INTO Request(userId,elevatorId,floorCount,systemCount,[address],totalPrice,done,processing) VALUES (?,?,?,?,?,?,?,?)",
@@ -44,12 +45,16 @@ public class RequestModel extends DatabaseManagement implements Serializable {
             throw new CustomException("Unknown exception", ex);
         }
     }
-    
+
     public List<Request> getAllRequests() throws SQLException, ClassNotFoundException, CustomException {
         try {
             List<Request> result = new ArrayList<Request>();
             makeConnection();
-            ResultSet rs = getResultSet("SELECT * FROM Request", new QueryParameter[0]);
+            ResultSet rs = getResultSet(
+                    "SELECT r.id, r.userId, r.elevatorId, r.floorCount, r.systemCount, r.[address], r.totalPrice, r.done, r.processing, a.username, e.name AS 'elevatorName'\n"
+                    + "FROM Account a INNER JOIN Request r \n"
+                    + "	ON a.id = r.userId JOIN Elevator e\n"
+                    + "	ON r.elevatorId = e.id", new QueryParameter[0]);
             while (rs.next()) {
                 Request req = new Request();
                 req.setId(rs.getInt("id"));
@@ -61,6 +66,8 @@ public class RequestModel extends DatabaseManagement implements Serializable {
                 req.setTotalPrice(rs.getDouble("totalPrice"));
                 req.setDone(rs.getBoolean("done"));
                 req.setProcessing(rs.getBoolean("processing"));
+                req.setSenderUsername(rs.getString("username"));
+                req.setElevatorName(rs.getString("elevatorName"));
                 result.add(req);
             }
             closeConnection();
@@ -73,11 +80,29 @@ public class RequestModel extends DatabaseManagement implements Serializable {
             throw new CustomException("Unknown exception", ex);
         }
     }
-    
-    public void setRequestStatus(int requestId, boolean status) throws SQLException, ClassNotFoundException, CustomException{
+
+    public void setRequestStatus(int requestId, boolean status) throws SQLException, ClassNotFoundException, CustomException {
         try {
             makeConnection();
             doQuery("UPDATE Request SET processing = ? WHERE id = ?",
+                    new QueryParameter[]{
+                new QueryParameter(1, status),
+                new QueryParameter(2, requestId)
+            });
+            closeConnection();
+        } catch (SQLException | ClassNotFoundException | CustomException ex) {
+            Logger.getLogger(RequestModel.class.getName()).log(Level.SEVERE, null, ex);
+            throw ex;
+        } catch (Exception ex) {
+            Logger.getLogger(RequestModel.class.getName()).log(Level.SEVERE, null, ex);
+            throw new CustomException("Unknown exception", ex);
+        }
+    }
+
+    public void setRequestDone(int requestId, boolean status) throws SQLException, ClassNotFoundException, CustomException {
+        try {
+            makeConnection();
+            doQuery("UPDATE Request SET done = ? WHERE id = ?",
                     new QueryParameter[]{
                 new QueryParameter(1, status),
                 new QueryParameter(2, requestId)

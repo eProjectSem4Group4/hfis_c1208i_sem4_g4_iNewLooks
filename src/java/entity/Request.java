@@ -81,6 +81,10 @@ public class Request {
         return address;
     }
 
+    public String getShortAddress() {
+        return this.address.length() > 40 ? this.address.substring(0, 39) : this.address;
+    }
+
     public void setAddress(String address) {
         this.address = address;
     }
@@ -93,5 +97,23 @@ public class Request {
         this.totalPrice = totalPrice;
     }
     
+    private String senderUsername;
+    private String elevatorName;
+
+    public String getSenderUsername() {
+        return senderUsername;
+    }
+
+    public void setSenderUsername(String senderUsername) {
+        this.senderUsername = senderUsername;
+    }
+
+    public String getElevatorName() {
+        return elevatorName;
+    }
+
+    public void setElevatorName(String elevatorName) {
+        this.elevatorName = elevatorName;
+    }
     
 }

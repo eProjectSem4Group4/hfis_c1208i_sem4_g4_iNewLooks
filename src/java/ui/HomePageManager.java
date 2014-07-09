@@ -101,6 +101,10 @@ public class HomePageManager implements Serializable {
             this.addelevator_baseprice = 0;
             this.addelevator_floorprice = 0;
         }
+        if (nValue != PAGE_ADMIN_VIEWREQUEST) {
+            this.viewrequest_selectedRequest = null;
+            this.viewrequest_selectedRequestSender = null;
+        }
         this.pageMode = nValue;
     }
 
@@ -411,17 +415,18 @@ public class HomePageManager implements Serializable {
         makeAdminPageShow(PAGE_ADMIN_VIEWREQUEST);
     }
     private Boolean viewrequest_requestdone;
+    private Boolean viewrequest_requestprocessing;
     private List<Request> viewrequest_requestList;
     private Request viewrequest_selectedRequest;
     private Account viewrequest_selectedRequestSender;
     private String viewrequest_message;
-    private boolean viewrequest_showSelectedRequest = false;
 
     public void viewRequest(Request request) {
         try {
             this.viewrequest_selectedRequest = request;
             this.viewrequest_selectedRequestSender = getAccountController().getAccount(request.getUserId());
             this.viewrequest_requestdone = request.isDone();
+            this.viewrequest_requestprocessing = request.isProcessing();
         } catch (SQLException | ClassNotFoundException | CustomException ex) {
             Logger.getLogger(HomePageManager.class.getName()).log(Level.SEVERE, null, ex);
             this.viewrequest_message = "An error occured: " + ex.getMessage();
@@ -443,7 +448,35 @@ public class HomePageManager implements Serializable {
     }
 
     public void setViewrequest_requestdone(boolean viewrequest_requestdone) {
-        this.viewrequest_requestdone = viewrequest_requestdone;
+        try {
+            if (this.viewrequest_selectedRequest == null) {
+                this.viewrequest_message = "No request selected";
+                return;
+            }
+            getRequestController().setRequestDone(this.viewrequest_selectedRequest.getId(), viewrequest_requestdone);
+            this.viewrequest_requestdone = viewrequest_requestdone;
+        } catch (SQLException | ClassNotFoundException | CustomException ex) {
+            Logger.getLogger(HomePageManager.class.getName()).log(Level.SEVERE, null, ex);
+            this.viewrequest_message = "An error occured: " + ex.getMessage();
+        }
+    }
+
+    public Boolean getViewrequest_requestprocessing() {
+        return viewrequest_requestprocessing == null ? false : viewrequest_requestprocessing;
+    }
+
+    public void setViewrequest_requestprocessing(Boolean viewrequest_requestprocessing) {
+        try {
+            if (this.viewrequest_selectedRequest == null) {
+                this.viewrequest_message = "No request selected";
+                return;
+            }
+            getRequestController().setRequestStatus(this.viewrequest_selectedRequest.getId(), viewrequest_requestprocessing);
+            this.viewrequest_requestprocessing = viewrequest_requestprocessing;
+        } catch (SQLException | ClassNotFoundException | CustomException ex) {
+            Logger.getLogger(HomePageManager.class.getName()).log(Level.SEVERE, null, ex);
+            this.viewrequest_message = "An error occured: " + ex.getMessage();
+        }
     }
 
     public List<Request> getViewrequest_requestList() {
@@ -473,11 +506,7 @@ public class HomePageManager implements Serializable {
     }
 
     public boolean isViewrequest_showSelectedRequest() {
-        return viewrequest_showSelectedRequest;
-    }
-
-    public void setViewrequest_showSelectedRequest(boolean viewrequest_showSelectedRequest) {
-        this.viewrequest_showSelectedRequest = viewrequest_showSelectedRequest;
+        return this.viewrequest_selectedRequest != null;
     }
     //END================= VIEW REQUEST
 }
