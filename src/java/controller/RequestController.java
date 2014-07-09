@@ -29,6 +29,7 @@ public class RequestController implements Serializable {
     }
     
     public List<Request> getAllRequests() throws SQLException, ClassNotFoundException, CustomException{
+        //Comment
         return getRequestModel().getAllRequests();
     }
     
