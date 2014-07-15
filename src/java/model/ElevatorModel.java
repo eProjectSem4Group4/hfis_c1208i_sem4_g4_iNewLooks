@@ -33,6 +33,8 @@ public class ElevatorModel extends DatabaseManagement implements Serializable {
                 ele.setDescription(rs.getString("description"));
                 ele.setBasePrice(rs.getDouble("baseprice"));
                 ele.setFloorPrice(rs.getDouble("floorprice"));
+                ele.setMaxWeight(rs.getInt("maxWeight"));
+                ele.setMaxHuman(rs.getInt("maxHuman"));
                 result.add(ele);
             }
             closeConnection();

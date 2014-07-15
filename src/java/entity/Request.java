@@ -19,6 +19,11 @@ public class Request {
     private Boolean done;
     private Boolean processing;
 
+    public Request() {
+        this.done = false;
+        this.processing = false;
+    }
+    
     public boolean isProcessing() {
         return processing == null ? false: processing;
     }
@@ -66,6 +71,9 @@ public class Request {
     }
 
     public void setFloorCount(int floorCount) {
+        if (floorCount <= 0){
+            floorCount = 1;
+        }
         this.floorCount = floorCount;
     }
 
@@ -74,6 +82,9 @@ public class Request {
     }
 
     public void setSystemCount(int systemCount) {
+        if (systemCount <= 0){
+            systemCount = 1;
+        }
         this.systemCount = systemCount;
     }
 

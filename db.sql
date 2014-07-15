@@ -31,6 +31,8 @@ name nvarchar(128),
 baseprice money,
 floorprice money,
 [description] nvarchar(3000),
+maxWeight int,
+maxHuman int,
 )
 GO
 
@@ -53,9 +55,9 @@ INSERT INTO Account(username,pwd,name,email,[address],company,[admin]) VALUES
 ('a','a','Pham Viet Hung', 'email@gmail.com', '67LCU', 'None', 1)
 GO
 
-INSERT INTO Elevator(name, baseprice, floorprice, [description]) VALUES
-('E2014',39999,5000,'E2014 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque tristique risus eu hendrerit mattis. Maecenas varius nulla mauris, vel volutpat sem rhoncus sed. Etiam elementum auctor dui sit amet volutpat. Pellentesque consectetur felis lorem. Quisque ac gravida dolor. Aenean cursus lorem at libero facilisis, nec faucibus justo porttitor. Aenean id ipsum euismod, tristique neque vitae, egestas odio. Morbi et felis venenatis libero dignissim sagittis. Ut gravida lacus at justo egestas, eget ultricies justo consequat. Donec porttitor rutrum vestibulum. Donec non quam id tellus fringilla ultricies in in velit. Quisque sed aliquet tortor, ultrices ullamcorper augue. Praesent tempus magna nisl, in hendrerit velit scelerisque ac. In hac habitasse platea dictumst. Ut pharetra mattis velit in convallis.'),
-('E2013',29999,3500,'E2013 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque tristique risus eu hendrerit mattis. Maecenas varius nulla mauris, vel volutpat sem rhoncus sed. Etiam elementum auctor dui sit amet volutpat. Pellentesque consectetur felis lorem. Quisque ac gravida dolor. Aenean cursus lorem at libero facilisis, nec faucibus justo porttitor. Aenean id ipsum euismod, tristique neque vitae, egestas odio. Morbi et felis venenatis libero dignissim sagittis. Ut gravida lacus at justo egestas, eget ultricies justo consequat. Donec porttitor rutrum vestibulum. Donec non quam id tellus fringilla ultricies in in velit. Quisque sed aliquet tortor, ultrices ullamcorper augue. Praesent tempus magna nisl, in hendrerit velit scelerisque ac. In hac habitasse platea dictumst. Ut pharetra mattis velit in convallis.')
+INSERT INTO Elevator(name, baseprice, floorprice, [description], maxWeight, maxHuman) VALUES
+('E2014',39999,5000,'E2014 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque tristique risus eu hendrerit mattis. Maecenas varius nulla mauris, vel volutpat sem rhoncus sed. Etiam elementum auctor dui sit amet volutpat. Pellentesque consectetur felis lorem. Quisque ac gravida dolor. Aenean cursus lorem at libero facilisis, nec faucibus justo porttitor. Aenean id ipsum euismod, tristique neque vitae, egestas odio. Morbi et felis venenatis libero dignissim sagittis. Ut gravida lacus at justo egestas, eget ultricies justo consequat. Donec porttitor rutrum vestibulum. Donec non quam id tellus fringilla ultricies in in velit. Quisque sed aliquet tortor, ultrices ullamcorper augue. Praesent tempus magna nisl, in hendrerit velit scelerisque ac. In hac habitasse platea dictumst. Ut pharetra mattis velit in convallis.',1000,11),
+('E2013',29999,3500,'E2013 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque tristique risus eu hendrerit mattis. Maecenas varius nulla mauris, vel volutpat sem rhoncus sed. Etiam elementum auctor dui sit amet volutpat. Pellentesque consectetur felis lorem. Quisque ac gravida dolor. Aenean cursus lorem at libero facilisis, nec faucibus justo porttitor. Aenean id ipsum euismod, tristique neque vitae, egestas odio. Morbi et felis venenatis libero dignissim sagittis. Ut gravida lacus at justo egestas, eget ultricies justo consequat. Donec porttitor rutrum vestibulum. Donec non quam id tellus fringilla ultricies in in velit. Quisque sed aliquet tortor, ultrices ullamcorper augue. Praesent tempus magna nisl, in hendrerit velit scelerisque ac. In hac habitasse platea dictumst. Ut pharetra mattis velit in convallis.',500,6)
 GO
 
 SELECT * FROM Account
