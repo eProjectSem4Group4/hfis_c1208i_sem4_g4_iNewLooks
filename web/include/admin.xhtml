@@ -3,7 +3,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:body>
         <h:form id="frmAdminPage">
             <p:panel id="pnlAdminPage" visible="#{hpmanager.showAdminPage}">
@@ -175,6 +176,73 @@
                                                    update=":frmAdminPage:pnlAdmin_shSltedReq :frmAdminPage:lbviewrequest_message"
                                                    actionListener="#{hpmanager.viewRequest(vrs)}"/></center>
                         </p:column>
+                    </p:dataTable>
+                </p:panel>
+
+                <p:panel id="pnlAdmin_ViewAllFeedback" visible="#{hpmanager.admin_ViewFeedbackMode}">
+                    <p:selectBooleanCheckbox id="ckb_viewfeedback_NotReadOnly" value="#{hpmanager.viewfeedback_bNotReadOnly}" immediate="true">
+                        <p:ajax update="ckb_viewfeedback_NotReadOnly tblFeedbacks"/>
+                    </p:selectBooleanCheckbox> Chỉ xem những yêu cầu chưa đọc
+                    <p:dataTable id="tblFeedbacks" paginator="true" paginatorPosition="bottom" 
+                                 value="#{hpmanager.feedbackList}" var="fb">
+                        <p:ajax event="rowSelect" immediate="true" />
+                        <p:ajax global="false" process="@this" event="rowToggle"/>
+                        <f:facet name="header">  
+                            <center>Tất cả feedback</center>
+                        </f:facet>
+                        <p:column style="width:3%">
+                            <p:rowToggler />
+                        </p:column>
+                        <p:column headerText="id">
+                            <h:outputLabel value="#{fb.id}"/>
+                        </p:column>
+                        <p:column headerText="Trạng thái">
+                            <h:outputLabel value="#{fb.read ? 'Đã đọc' : 'Chưa đọc'}"/>
+                        </p:column>
+                        <p:column headerText="Tên người gửi">
+                            <h:outputLabel value="#{fb.senderName}"/>
+                        </p:column>
+                        <p:column headerText="Email">
+                            <h:outputLabel value="#{fb.senderEmail}"/>
+                        </p:column>
+                        <p:column headerText="Mô tả sơ qua">
+                            <h:outputLabel value="#{fb.description}"/>
+                        </p:column>
+                        <p:column headerText="Đánh giá mức độ">
+                            <h:outputLabel value="#{fb.rate}"/>
+                        </p:column>
+                        <p:rowExpansion>
+                            <p:panelGrid columns="2" styleClass="row-expansion">
+                                <h:outputText value="ID" />  
+                                <h:outputText value="#{fb.id}"  />
+
+                                <h:outputText value="Người gửi" />  
+                                <h:outputText value="#{fb.senderName} (id: #{fb.userId})"  />
+
+                                <h:outputText value="Email" />  
+                                <h:outputText value="#{fb.senderEmail}"  />
+
+                                <h:outputText value="Mô tả sơ qua" />  
+                                <h:outputText value="#{fb.description}"  />
+
+                                <h:outputText value="Đánh giá mức độ" />  
+                                <h:outputText value="#{fb.rate}"  />
+
+                                <h:outputText value="Vấn đề gặp phải" />  
+                                <h:outputText value="#{fb.problem}"  />
+
+                                <h:outputText value="Đóng góp ý kiến" />  
+                                <h:outputText value="#{fb.comment}"  />
+
+                                <h:outputText value="Đóng góp ý kiến" />  
+                                <h:outputText value="#{fb.comment}"  />
+
+                                <h:outputText value="Đã đọc" />  
+                                <p:selectBooleanCheckbox id="ckb_viewfeedback_MarkAsRead" value="#{fb.read}" immediate="true">
+                                    <p:ajax listener="#{hpmanager.onChangeReadState(fb)}" />
+                                </p:selectBooleanCheckbox>
+                            </p:panelGrid>
+                        </p:rowExpansion>
                     </p:dataTable>
                 </p:panel>
             </p:panel>

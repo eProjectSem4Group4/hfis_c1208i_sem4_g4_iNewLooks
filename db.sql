@@ -50,6 +50,19 @@ processing bit,
 )
 GO
 
+CREATE TABLE Feedback
+(
+id int IDENTITY(1,1),
+userId int FOREIGN KEY REFERENCES Account(id),
+senderName nvarchar(128),
+senderEmail varchar(64),
+[description] nvarchar(1000),
+rate int,
+problem nvarchar(3000),
+comment nvarchar(3000),
+[read] bit,
+)
+
 INSERT INTO Account(username,pwd,name,email,[address],company,[admin]) VALUES
 ('admin','1','Pham Viet Hung', 'email@gmail.com', '67LCU', 'None', 1),
 ('a','a','Pham Viet Hung', 'email@gmail.com', '67LCU', 'None', 1)
@@ -57,7 +70,7 @@ GO
 
 INSERT INTO Elevator(name, baseprice, floorprice, [description], maxWeight, maxHuman) VALUES
 ('E2014',39999,5000,'E2014 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque tristique risus eu hendrerit mattis. Maecenas varius nulla mauris, vel volutpat sem rhoncus sed. Etiam elementum auctor dui sit amet volutpat. Pellentesque consectetur felis lorem. Quisque ac gravida dolor. Aenean cursus lorem at libero facilisis, nec faucibus justo porttitor. Aenean id ipsum euismod, tristique neque vitae, egestas odio. Morbi et felis venenatis libero dignissim sagittis. Ut gravida lacus at justo egestas, eget ultricies justo consequat. Donec porttitor rutrum vestibulum. Donec non quam id tellus fringilla ultricies in in velit. Quisque sed aliquet tortor, ultrices ullamcorper augue. Praesent tempus magna nisl, in hendrerit velit scelerisque ac. In hac habitasse platea dictumst. Ut pharetra mattis velit in convallis.',1000,11),
-('E2013',29999,3500,'E2013 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque tristique risus eu hendrerit mattis. Maecenas varius nulla mauris, vel volutpat sem rhoncus sed. Etiam elementum auctor dui sit amet volutpat. Pellentesque consectetur felis lorem. Quisque ac gravida dolor. Aenean cursus lorem at libero facilisis, nec faucibus justo porttitor. Aenean id ipsum euismod, tristique neque vitae, egestas odio. Morbi et felis venenatis libero dignissim sagittis. Ut gravida lacus at justo egestas, eget ultricies justo consequat. Donec porttitor rutrum vestibulum. Donec non quam id tellus fringilla ultricies in in velit. Quisque sed aliquet tortor, ultrices ullamcorper augue. Praesent tempus magna nisl, in hendrerit velit scelerisque ac. In hac habitasse platea dictumst. Ut pharetra mattis velit in convallis.',500,6)
+('E2013 child',49999,3500,'E2013 for child Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque tristique risus eu hendrerit mattis. Maecenas varius nulla mauris, vel volutpat sem rhoncus sed. Etiam elementum auctor dui sit amet volutpat. Pellentesque consectetur felis lorem. Quisque ac gravida dolor. Aenean cursus lorem at libero facilisis, nec faucibus justo porttitor. Aenean id ipsum euismod, tristique neque vitae, egestas odio. Morbi et felis venenatis libero dignissim sagittis. Ut gravida lacus at justo egestas, eget ultricies justo consequat. Donec porttitor rutrum vestibulum. Donec non quam id tellus fringilla ultricies in in velit. Quisque sed aliquet tortor, ultrices ullamcorper augue. Praesent tempus magna nisl, in hendrerit velit scelerisque ac. In hac habitasse platea dictumst. Ut pharetra mattis velit in convallis.',500,12)
 GO
 
 SELECT * FROM Account

@@ -9,17 +9,18 @@ package entity;
  * @author thanb_000
  */
 public class Elevator {
+    
     //<editor-fold desc="Filter">
-
-    public final byte NO_FILTER = 0;
-    public final byte FILTER_BY_BASEPRICE = 1;
-    public final byte FILTER_BY_FLOORPRICE = 2;
-    public final byte FILTER_BY_MAXWEIGHT = 3;
-    public final byte FILTER_BY_MAXHUMAN = 4;
+    private final byte NO_FILTER = 0;
+    private final byte FILTER_BY_BASEPRICE = 1;
+    private final byte FILTER_BY_FLOORPRICE = 2;
+    private final byte FILTER_BY_MAXWEIGHT = 3;
+    private final byte FILTER_BY_MAXHUMAN = 4;
+    private final String WEIGHT_TYPE = "kg";
+    private final String MONEY_TYPE = "$";
     private byte filter = NO_FILTER;
-    public final String WEIGHT_TYPE = "kg";
-    public final String MONEY_TYPE = "$";
     //</editor-fold>
+    
     private int id;
     private String name;
     private double basePrice;
@@ -38,9 +39,7 @@ public class Elevator {
 
     public String getName() {
         String additionalData = "";
-        if (this.filter == NO_FILTER) {
-            additionalData = "";
-        } else if (this.filter == FILTER_BY_BASEPRICE) {
+        if (this.filter == FILTER_BY_BASEPRICE) {
             additionalData = this.getBasePrice() + " " + MONEY_TYPE;
         } else if (this.filter == FILTER_BY_FLOORPRICE) {
             additionalData = this.getFloorPrice() + " " + MONEY_TYPE;
@@ -48,6 +47,8 @@ public class Elevator {
             additionalData = this.getMaxWeight() + " " + WEIGHT_TYPE;
         } else if (this.filter == FILTER_BY_MAXHUMAN) {
             additionalData = this.getMaxHuman() + " person";
+        } else{
+            additionalData = "";
         }
         return name + (additionalData.length() > 0 ? (" (" + additionalData + ")") : "");
     }
@@ -100,5 +101,17 @@ public class Elevator {
         this.filter = filter;
     }
     
-    
+    public boolean isGreater(Elevator eleB){
+        if (this.filter == FILTER_BY_BASEPRICE) {
+            return this.basePrice > eleB.getBasePrice();
+        } else if (this.filter == FILTER_BY_FLOORPRICE) {
+            return this.floorPrice > eleB.getFloorPrice();
+        } else if (this.filter == FILTER_BY_MAXWEIGHT) {
+            return this.maxWeight > eleB.getMaxWeight();
+        } else if (this.filter == FILTER_BY_MAXHUMAN) {
+            return this.maxHuman > eleB.getMaxHuman();
+        } else{
+            return true;
+        }
+    }
 }

@@ -6,9 +6,12 @@ package ui;
 
 import controller.AccountController;
 import controller.ElevatorController;
+import controller.FeedbackController;
 import controller.RequestController;
 import entity.Account;
 import entity.Elevator;
+import entity.Feedback;
+import entity.Filter;
 import entity.Request;
 import exception.CustomException;
 import java.io.Serializable;
@@ -40,6 +43,7 @@ public class HomePageManager implements Serializable {
     private AccountController accountController;
     private ElevatorController elevatorController;
     private RequestController requestController;
+    private FeedbackController feedbackController;
 
     public AccountController getAccountController() {
         if (accountController == null) {
@@ -61,6 +65,13 @@ public class HomePageManager implements Serializable {
         }
         return requestController;
     }
+
+    public FeedbackController getFeedbackController() {
+        if (feedbackController == null)
+            feedbackController = new FeedbackController();
+        return feedbackController;
+    }
+    
     //</editor-fold>
     //<editor-fold desc="View state">
     private boolean showAdminPage = false;
@@ -68,9 +79,12 @@ public class HomePageManager implements Serializable {
     public final byte PAGE_USER_DEFAULT = 0;
     public final byte PAGE_USER_REPORT = 1;
     public final byte PAGE_USER_SENDREQUEST = 2;
+    public final byte PAGE_USER_SENDFEEDBACK = 6;
     public final byte PAGE_ADMIN_VIEWALLUSER = 3;
     public final byte PAGE_ADMIN_ADDELEVATOR = 4;
     public final byte PAGE_ADMIN_VIEWREQUEST = 5;
+    public final byte PAGE_ADMIN_VIEWFEEDBACK = 7;
+    // last = 7
     private byte pageMode = PAGE_USER_DEFAULT;
 
     private void changeValuePageMode(byte nValue) {
@@ -93,6 +107,9 @@ public class HomePageManager implements Serializable {
         if (nValue != PAGE_ADMIN_VIEWREQUEST) {
             this.viewrequest_selectedRequest = null;
             this.viewrequest_selectedRequestSender = null;
+        }
+        if (nValue != PAGE_USER_SENDFEEDBACK) {
+            this.mfbFeedback = null;
         }
         this.pageMode = nValue;
     }
@@ -167,17 +184,19 @@ public class HomePageManager implements Serializable {
     public void showPageUserSendRequest() {
         makeUserPageShow(PAGE_USER_SENDREQUEST);
     }
-    private List<Elevator> elevators;
+    private List<Elevator> elevators = null;
     private Request sendrequest_Elevator;
     private Elevator sendrequest_ElevatorChosed;
     private String sendrequest_message;
 
     public List<Elevator> getElevators() {
-        try {
-            this.elevators = getElevatorController().getAllElevators();
-        } catch (SQLException | ClassNotFoundException | CustomException ex) {
-            Logger.getLogger(HomePageManager.class.getName()).log(Level.SEVERE, null, ex);
-            this.elevators = new ArrayList<Elevator>();
+        if (this.elevators == null || this.elevators.isEmpty()) {
+            try {
+                this.elevators = getElevatorController().getAllElevators();
+            } catch (SQLException | ClassNotFoundException | CustomException ex) {
+                Logger.getLogger(HomePageManager.class.getName()).log(Level.SEVERE, null, ex);
+                this.elevators = new ArrayList<Elevator>();
+            }
         }
         return this.elevators;
     }
@@ -215,7 +234,7 @@ public class HomePageManager implements Serializable {
     public void elevatorTypeChangeListener(ValueChangeEvent event) {
         try {
             Integer id = (Integer) event.getNewValue();
-            for (Elevator e : elevators) {
+            for (Elevator e : getElevators()) {
                 if (e.getId() == id) {
                     getSendrequest_ElevatorChosed().setBasePrice(e.getBasePrice());
                     getSendrequest_ElevatorChosed().setFloorPrice(e.getFloorPrice());
@@ -270,6 +289,72 @@ public class HomePageManager implements Serializable {
 
     private double getTotalRequestPrice() {
         return (getSendrequest_ElevatorChosed().getBasePrice() + getSendrequest_ElevatorChosed().getFloorPrice() * getSendrequest_Elevator().getFloorCount()) * getSendrequest_Elevator().getSystemCount();
+    }
+    private final byte NO_FILTER = 0;
+    private final byte FILTER_BY_BASEPRICE = 1;
+    private final byte FILTER_BY_FLOORPRICE = 2;
+    private final byte FILTER_BY_MAXWEIGHT = 3;
+    private final byte FILTER_BY_MAXHUMAN = 4;
+    private List<Filter> sendrequest_filterList = null;
+    private byte sendrequest_filter = NO_FILTER;
+
+    public List<Filter> getSendrequest_filterList() {
+        if (this.sendrequest_filterList == null) {
+            this.sendrequest_filterList = new ArrayList<Filter>();
+            this.sendrequest_filterList.add(new Filter(NO_FILTER, "No additional detail"));
+            this.sendrequest_filterList.add(new Filter(FILTER_BY_MAXWEIGHT, "Show carry weight"));
+            this.sendrequest_filterList.add(new Filter(FILTER_BY_MAXHUMAN, "Show carry human"));
+            this.sendrequest_filterList.add(new Filter(FILTER_BY_BASEPRICE, "Show base price"));
+            this.sendrequest_filterList.add(new Filter(FILTER_BY_FLOORPRICE, "Show floor price"));
+        }
+        return this.sendrequest_filterList;
+    }
+
+    public byte getSendrequest_filter() {
+        return sendrequest_filter;
+    }
+
+    public void setSendrequest_filter(byte sendrequest_filter) {
+        this.sendrequest_filter = sendrequest_filter;
+        getElevators();
+        for (Elevator e : elevators) {
+            e.setFilter(sendrequest_filter);
+        }
+    }
+
+    public void filterTypeChangeListener(ValueChangeEvent event) {
+        try {
+            getElevators();
+            int elevatorsCount = elevators.size();
+            if (elevatorsCount < 2) {
+                return;
+            }
+            boolean bNotSorted = true;
+            while (bNotSorted) {
+                for (int i = 0; i < (elevatorsCount - 1); i++) {
+                    Elevator e1 = elevators.get(i);
+                    Elevator e2 = elevators.get(i + 1);
+                    if (i == (elevatorsCount - 2)) { // end
+                        if (!e1.isGreater(e2)) {
+                            elevators.set(i, e2);
+                            elevators.set(i + 1, e1);
+                        } else {
+                            bNotSorted = false;
+                        }
+                    } else {
+                        if (!e1.isGreater(e2)) {
+                            elevators.set(i, e2);
+                            elevators.set(i + 1, e1);
+                            break;
+                        }
+                    }
+                }
+                if (!bNotSorted) {
+                    break;
+                }
+            }
+        } catch (Exception ex) {
+        }
     }
     //END================= SEND REQUEST
     //</editor-fold>
@@ -438,5 +523,119 @@ public class HomePageManager implements Serializable {
         return this.viewrequest_selectedRequest != null;
     }
     //END================= VIEW REQUEST
+    //</editor-fold>
+
+    //<editor-fold desc="SEND FEEDBACK">
+    public boolean isUser_ViewSendFeedbackMode() {
+        return this.pageMode == PAGE_USER_SENDFEEDBACK;
+    }
+
+    public void showPageUserSendFeedback() {
+        makeUserPageShow(PAGE_USER_SENDFEEDBACK);
+    }
+    private Feedback mfbFeedback;
+
+    public Feedback getMfbFeedback() {
+        if (this.mfbFeedback == null) {
+            this.mfbFeedback = new Feedback();
+            if (login.isLoggedIn()) {
+                this.mfbFeedback.setUserId(login.getUser().getId());
+                this.mfbFeedback.setSenderName(login.getUser().getName());
+                this.mfbFeedback.setSenderEmail(login.getUser().getEmail());
+            }
+        }
+        return this.mfbFeedback;
+    }
+
+    public void setMfbFeedback(Feedback mfbFeedback) {
+        this.mfbFeedback = mfbFeedback;
+    }
+    
+    private String sendfeedback_message;
+
+    public String getSendfeedback_message() {
+        String copy = this.sendfeedback_message;
+        this.sendfeedback_message = null;
+        return copy;
+    }
+
+    public void setSendfeedback_message(String sendfeedback_message) {
+        this.sendfeedback_message = sendfeedback_message;
+    }
+    
+    public void sendfeedback_submit(){
+        if (getMfbFeedback().getSenderName().isEmpty() || getMfbFeedback().getSenderName().length() > 128){
+            this.sendfeedback_message = "Tên người gửi không được để trống và phải ít hơn 128 ký tự";
+            return;
+        }
+        if (!this.getMfbFeedback().getSenderEmail().matches("^[a-zA-Z0-9_@\\.]{1,64}") || !this.getMfbFeedback().getSenderEmail().contains("@"))
+        {
+            this.sendfeedback_message = "Sai định dạng email";
+            return;
+        }
+        if (getMfbFeedback().getDescription().isEmpty() || getMfbFeedback().getDescription().length() > 1000){
+            this.sendfeedback_message = "Mô tả vấn đề không được để trống và phải ít hơn 1000 ký tự";
+            return;
+        }
+        if (getMfbFeedback().getProblem().length() > 3000){
+            this.sendfeedback_message = "Mục vấn đề phải ít hơn 3000 ký tự";
+            return;
+        }
+        if (getMfbFeedback().getComment().isEmpty() || getMfbFeedback().getComment().length() > 3000){
+            this.sendfeedback_message = "Mục nội dung cần cải thiện (góp ý) không được để trống và phải ít hơn 3000 ký tự";
+            return;
+        }
+        this.getMfbFeedback().setUserId(login.getUser().getId());
+        try {
+            getFeedbackController().createFeedback(getMfbFeedback());
+            setMfbFeedback(null);
+            this.sendfeedback_message = "Cám ơn về phản hồi của bạn!";
+        } catch (SQLException | ClassNotFoundException | CustomException ex) {
+            Logger.getLogger(HomePageManager.class.getName()).log(Level.SEVERE, null, ex);
+            this.sendfeedback_message = "An error occured: " + ex;
+        }
+    }
+    
+    
+    //</editor-fold>
+    
+    //<editor-fold desc="VIEW FEEDBACK">
+    public boolean isAdmin_ViewFeedbackMode() {
+        return this.pageMode == PAGE_ADMIN_VIEWFEEDBACK;
+    }
+
+    public void showPageAdminViewFeedback() {
+        makeAdminPageShow(PAGE_ADMIN_VIEWFEEDBACK);
+    }
+    
+    private Boolean viewfeedback_bNotReadOnly;
+
+    public Boolean getViewfeedback_bNotReadOnly() {
+        if (viewfeedback_bNotReadOnly == null)
+            viewfeedback_bNotReadOnly = false;
+        return viewfeedback_bNotReadOnly;
+    }
+
+    public void setViewfeedback_bNotReadOnly(Boolean viewfeedback_bNotReadOnly) {
+        this.viewfeedback_bNotReadOnly = viewfeedback_bNotReadOnly;
+    }
+    
+    public List<Feedback> getFeedbackList(){
+        try {
+            List<Feedback> fbl = getFeedbackController().getAll(viewfeedback_bNotReadOnly);
+            return fbl;
+        } catch (SQLException | ClassNotFoundException | CustomException ex) {
+            return new ArrayList<Feedback>();
+        }
+    }
+    
+    public void onChangeReadState(Feedback fb){
+        System.out.println("==EVENT== " +fb.getRead());
+        try {
+            getFeedbackController().changeReadState(fb.getId(), !fb.getRead());
+        } catch (SQLException | ClassNotFoundException | CustomException ex) {
+            Logger.getLogger(HomePageManager.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
     //</editor-fold>
 }
