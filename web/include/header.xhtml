@@ -6,7 +6,56 @@
     <h:body>
         <h:form id="frmUser">
             <p:panel id="pnlLoginForm" visible="#{login.showLoginForm}">
-                <h:outputText value="Username"/>&nbsp;
+                <div class="xenForm eAuth" style="display: block;">
+                     <div id="loginBar" style="z-index: 9999;">
+                     <div class="pageWidth" >
+                        <div class="pageContent">
+                            <div class="_swOuter" style="overflow: hidden;">
+                                <div class="_swInner" style="margin: 0px auto auto;">
+                                    <ul id="eAuthUnit">
+                                    </ul>
+                                    <div class="ctrlWrapper">
+                                        <dl class="ctrlUnit">
+                                            <dt><label for="LoginControl">Tên tài khoản hoặc địa chỉ Email:</label></dt>
+                                            <dd><input type="text" name="login" id="LoginControl" class="textCtrl" tabindex="101"/></dd>
+                                        </dl>
+                                        <dl class="ctrlUnit">
+                                            <dt>
+                                                <label for="ctrl_password">Bạn đã có tài khoản rồi?</label>
+                                            </dt>
+                                            <dd>
+                                                <ul>
+                                                    <li><label for="ctrl_not_registered"><input type="radio" name="register" value="1" id="ctrl_not_registered" tabindex="105"/>
+                                                            Tích vào đây để đăng ký</label></li>
+                                                    <li><label for="ctrl_registered"><input type="radio" name="register" value="0" id="ctrl_registered" tabindex="105" checked="checked" class="Disabler"/>
+                                                            Vâng, Mật khẩu của tôi là:</label></li>
+                                                    <li id="ctrl_registered_Disabler">
+                                                        <input type="password" name="password" class="textCtrl" id="ctrl_password" tabindex="102"/>
+                                                        <div class="lostPassword"><a href="lost-password/" class="OverlayTrigger OverlayCloser" tabindex="106">Bạn đã quên mật khẩu?</a></div>
+                                                    </li>
+                                                </ul>
+                                            </dd>
+                                        </dl>
+                                        <dl class="ctrlUnit submitUnit">
+                                            <dt></dt>
+                                            <dd>
+                                                <input type="submit" class="button primary" value="Đăng nhập" tabindex="104" data-loginphrase="Đăng nhập" data-signupphrase="Đăng ký"/>
+                                                <label for="ctrl_remember" class="rememberPassword"><input type="checkbox" name="remember" value="1" id="ctrl_remember" tabindex="103"/> Duy trì trạng thái đăng nhập</label>
+                                            </dd>
+                                        </dl>
+                                    </div>
+                                    <input type="hidden" name="cookie_check" value="1"/>
+                                    <input type="hidden" name="redirect" value="/forums/"/>
+                                    <input type="hidden" name="_xfToken" value=""/>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                </div>
+
+                <!--<h:outputText value="Username"/>&nbsp;
                 <p:inputText id="txtLoginUsername" value="#{login.username}" maxlength="16" required="true" requiredMessage="Can not leave username empty"/>
                 &nbsp;&nbsp;
                 <h:outputText value="Password"/>&nbsp;
@@ -16,6 +65,7 @@
                 &nbsp;&nbsp;
                 <p:commandLink id="btnCloseLoginForm" process="@this" update="pnlLoginForm" value="Not now" actionListener="#{login.makeLoginFormShow(false)}"/>
                 <font color="red"><br/><p:outputLabel value="#{login.message}" rendered="#{login.haveErrorMessage}"/></font>
+                -->
             </p:panel>
             <p:panel id="pnlRegisterForm" visible="#{register.showRegisterForm and !login.loggedIn}">
                 <table>
@@ -133,8 +183,8 @@
                                        actionListener="#{hpmanager.showPageAdminViewFeedback()}"/>
                     </dd>
                     <dd class="last"><p:commandLink value="Add elevator" process="@this" 
-                                       update=":frmUser:pnlLoginForm :frmAdminPage:pnlAdminPage :frmUserPage:pnlUserPage" 
-                                       actionListener="#{hpmanager.showPageAdminAddElevator()}"/></dd>
+                                                    update=":frmUser:pnlLoginForm :frmAdminPage:pnlAdminPage :frmUserPage:pnlUserPage" 
+                                                    actionListener="#{hpmanager.showPageAdminAddElevator()}"/></dd>
                 </p:panel>
             </h:form>
         </dl>
