@@ -82,3 +82,4 @@ FROM Account a INNER JOIN Request r
 	ON a.id = r.userId JOIN Elevator e
 	ON r.elevatorId = e.id
 	
+SELECT * FROM Feedback

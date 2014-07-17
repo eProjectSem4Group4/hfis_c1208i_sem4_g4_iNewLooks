@@ -25,7 +25,7 @@ public class DatabaseManagement {
 
     protected Connection connect;
     PreparedStatement ps;
-    String connectionString = "jdbc:sqlserver://HUNGPV\\SQLEXPRESS2013:1314;databaseName=iNewLookS";
+    String connectionString = "jdbc:sqlserver://THANHPV\\PHANTHANH:52036;databaseName=iNewLookS";
 
     public DatabaseManagement() {
     }
@@ -33,7 +33,7 @@ public class DatabaseManagement {
     public void makeConnection() throws SQLException, ClassNotFoundException, CustomException {
         try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-            connect = DriverManager.getConnection(connectionString, "sa", "Blackadn123@");
+            connect = DriverManager.getConnection(connectionString, "sa", "phanthanh987");
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(DatabaseManagement.class.getName()).log(Level.SEVERE, null, ex);
             throw ex;
