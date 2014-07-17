@@ -13,7 +13,7 @@ import model.RequestModel;
 
 /**
  *
- * @author thanb_000
+ * @author Phan Thanh
  */
 public class RequestController implements Serializable {
     private RequestModel requestModel;

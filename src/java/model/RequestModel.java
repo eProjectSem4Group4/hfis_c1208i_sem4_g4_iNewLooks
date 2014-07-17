@@ -18,7 +18,7 @@ import java.util.logging.Logger;
 
 /**
  *
- * @author thanb_000
+ * @author Phan Thanh
  */
 public class RequestModel extends DatabaseManagement implements Serializable {
 

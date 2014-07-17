@@ -9,7 +9,7 @@ import java.util.List;
 
 /**
  *
- * @author thanb_000
+ * @author Phan Thanh
  */
 public class Filter {
 

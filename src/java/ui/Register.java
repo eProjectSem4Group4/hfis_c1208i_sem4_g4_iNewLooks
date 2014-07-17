@@ -16,7 +16,7 @@ import model.AccountModel;
 
 /**
  *
- * @author thanb_000
+ * @author Phan Thanh
  */
 @ManagedBean(name="register")
 @SessionScoped

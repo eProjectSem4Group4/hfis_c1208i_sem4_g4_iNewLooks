@@ -6,7 +6,7 @@ package entity;
 
 /**
  *
- * @author thanb_000
+ * @author Phan Thanh
  */
 public class Account {
     private int id;

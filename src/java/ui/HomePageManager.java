@@ -27,7 +27,7 @@ import javax.faces.event.ValueChangeEvent;
 
 /**
  *
- * @author thanb_000
+ * @author Phan Thanh
  */
 @ManagedBean(name = "hpmanager")
 @SessionScoped

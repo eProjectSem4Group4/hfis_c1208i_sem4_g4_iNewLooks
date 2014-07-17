@@ -6,71 +6,7 @@
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
     <h:body>
         <h:form id="frmUser">
-            <p:panel id="pnlRegisterForm" visible="#{register.showRegisterForm and !login.loggedIn}">
-                <div id="wrapper">
-                    <div id="inner" >
-                        <ui:include src="include/header.xhtml"/>
-                        <div id="body">
-                            <div class="xenForm AutoValidator" data-fieldvalidatorurl="register/validate-field" data-normalsubmit="1">
-                                <div class="titleBar">
-                                    <h1>Register</h1>
-                                </div>
-                                <dl class="ctrlUnit">
-                                    <dt><label for="ctrl_username">USername :</label></dt>
-                                    <dd>
-                                        <p:inputText id="txtRegister_username" maxlength="16" value="#{register.username}"/>
-                                        <p class="explain">Đây là tên hiển thị ở mỗi bài viết của bạn. Bạn có thể dùng bất cứ tên nào mình muốn. Một khi đã đặt thì không thể đổi.</p>
-                                    </dd>
-                                </dl>
-                                <dl class="ctrlUnit">
-                                    <dt><label for="ctrl_email">Email :</label></dt>
-                                    <dd><p:inputText id="txtRegister_email" maxlength="64" value="#{register.email}"/></dd>
-                                </dl>
-                                <dl class="ctrlUnit">
-                                    <dt><label for="ctrl_password">Password :</label></dt>
-                                    <dd><p:inputText id="txtRegister_password" type="password" maxlength="32" valueegister.password}"/></dd>
-                                </dl>
-                                <dl class="ctrlUnit">
-                                    <dt><label for="ctrl_confirm_password">Re-password:</label></dt>
-                                    <dd>
-                                        <p:inputText id="txtRegister_confirmPassword" type="password" maxlength="32" value="#{register.confirmPassword}"/>
-                                        <p class="explain">Xin mời nhập mật khẩu ở cả hai ô.</p>
-                                    </dd>
-                                </dl>
-                                <dl class="ctrlUnit">
-                                    <dt><label for="ctrl_password">Name:</label></dt>
-                                    <dd><p:inputText id="txtRegister_name" maxlength="32" value="#{register.name}"/></dd>
-                                </dl>
-                                <dl class="ctrlUnit">
-                                    <dt><label for="ctrl_password">Address:</label></dt>
-                                    <dd><p:inputText id="txtRegister_address" maxlength="128" value="#{register.address}"/></dd>
-                                </dl>
-                                <dl class="ctrlUnit">
-                                    <dt><label for="ctrl_password">Company:</label></dt>
-                                    <dd><p:inputText id="txtRegister_company" maxlength="64" value="#{register.company}"/></dd>
-                                </dl>
-                                <p:panel id="pnlRegisterMessage" visible="#{register.haveMessage}">
-                                    <font color="red"><p:outputLabel value="#{register.message}"/></font>
-                                </p:panel>
-                                <p:commandButton value="Create account" 
-                                                 process="@this txtRegister_username txtRegister_name txtRegister_address txtRegister_email txtRegister_password txtRegister_confirmPassword txtRegister_company"
-                                                 update="pnlRegisterForm pnlRegisterMessage" 
-                                                 actionListener="#{register.register()}"
-                                                 />
-                                &nbsp;or&nbsp;
-                                <p:commandLink value="Hide this form" 
-                                               process="@this" 
-                                               update="pnlRegisterForm" 
-                                               actionListener="#{register.makeRegisterFormShow(false)}"/>
-                                </p:panel>
-                            </div>
-                            <!-- end body -->
-                            <ui:include src="include/footer.xhtml"/> 
-                        </div>
-                    </div>
-                    <!-- end inner -->
-                </div>
-            </p:panel>
+            
         </h:form>
         <!-- end wrapper -->
     </h:body>

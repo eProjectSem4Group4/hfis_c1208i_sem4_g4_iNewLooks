@@ -13,7 +13,7 @@ import model.AccountModel;
 
 /**
  *
- * @author thanb_000
+ * @author Phan Thanh
  */
 public class AccountController implements Serializable{
     private AccountModel accountModel;

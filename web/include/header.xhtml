@@ -7,110 +7,113 @@
         <h:form id="frmUser">
             <p:panel id="pnlLoginForm" visible="#{login.showLoginForm}">
                 <div class="xenForm eAuth" style="display: block;">
-                     <div id="loginBar" style="z-index: 9999;">
-                     <div class="pageWidth" >
-                        <div class="pageContent">
-                            <div class="_swOuter" style="overflow: hidden;">
-                                <div class="_swInner" style="margin: 0px auto auto;">
-                                    <ul id="eAuthUnit">
-                                    </ul>
-                                    <div class="ctrlWrapper">
-                                        <dl class="ctrlUnit">
-                                            <dt><label for="LoginControl">Tên tài khoản hoặc địa chỉ Email:</label></dt>
-                                            <dd><p:inputText id="txtLoginUsername" value="#{login.username}" maxlength="16" required="true" requiredMessage="Can not leave username empty"/></dd>
-                                        </dl>
-                                        <dl class="ctrlUnit">
-                                            <dt>
-                                                <label for="ctrl_password">Bạn đã có tài khoản rồi?</label>
-                                            </dt>
-                                            <dd>
-                                                <ul>
-                                                    <li><label for="ctrl_not_registered"><input type="radio" name="register" value="1" id="ctrl_not_registered" tabindex="105"/>
-                                                            Tích vào đây để đăng ký</label></li>
-                                                    <li><label for="ctrl_registered"><input type="radio" name="register" value="0" id="ctrl_registered" tabindex="105" checked="checked" class="Disabler"/>
-                                                            Vâng, Mật khẩu của tôi là:</label></li>
-                                                    <li id="ctrl_registered_Disabler">
-                                                        <p:inputText id="txtLoginPassword" value="#{login.password}" maxlength="32" type="password" required="true" requiredMessage="Can not leave password empty"/>
-                                                        <div class="lostPassword"><a href="lost-password/" class="OverlayTrigger OverlayCloser" tabindex="106">Bạn đã quên mật khẩu?</a></div>
-                                                    </li>
-                                                </ul>
-                                            </dd>
-                                        </dl>
-                                        <dl class="ctrlUnit submitUnit">
-                                            <dt></dt>
-                                            <dd>
-                                                <p:commandButton id="btnSubmit" value="Login" process="@this txtLoginUsername txtLoginPassword" update="pnlRegisterForm pnlNotLoggedIn pnlLoginForm pnlLoggedIn :frmBrowse:pnlBrowse_User :frmBrowse:pnlBrowse_Admin" actionListener="#{login.login()}"/>
-                &nbsp;&nbsp;
-                <p:commandLink id="btnCloseLoginForm" process="@this" update="pnlLoginForm" value="Not now" actionListener="#{login.makeLoginFormShow(false)}"/>
-                <font color="red"><br/><p:outputLabel value="#{login.message}" rendered="#{login.haveErrorMessage}"/></font>
-                                                <label for="ctrl_remember" class="rememberPassword"><input type="checkbox" name="remember" value="1" id="ctrl_remember" tabindex="103"/> Duy trì trạng thái đăng nhập</label>
-                                            </dd>
-                                        </dl>
-                                    </div>
-                                    <input type="hidden" name="cookie_check" value="1"/>
-                                    <input type="hidden" name="redirect" value="/forums/"/>
-                                    <input type="hidden" name="_xfToken" value=""/>
+                    <div id="loginBar" style="z-index: 9999;">
+                        <div class="pageWidth" >
+                            <div class="pageContent">
+                                <div class="_swOuter" style="overflow: hidden;">
+                                    <div class="_swInner" style="margin: 0px auto auto;">
+                                        <ul id="eAuthUnit">
+                                        </ul>
+                                        <div class="ctrlWrapper">
+                                            <dl class="ctrlUnit">
+                                                <dt><label for="LoginControl">Tên tài khoản hoặc địa chỉ Email:</label></dt>
+                                                <dd><p:inputText id="txtLoginUsername" value="#{login.username}" maxlength="16" required="true" requiredMessage="Can not leave username empty"/></dd>
+                                            </dl>
+                                            <dl class="ctrlUnit">
+                                                <dt>
+                                                    <label for="ctrl_password">Bạn đã có tài khoản rồi?</label>
+                                                </dt>
+                                                <dd>
+                                                    <ul>
+                                                        <li><label for="ctrl_not_registered"><input type="radio" name="register" value="1" id="ctrl_not_registered" tabindex="105"/>
+                                                                Tích vào đây để đăng ký</label></li>
+                                                        <li><label for="ctrl_registered"><input type="radio" name="register" value="0" id="ctrl_registered" tabindex="105" checked="checked" class="Disabler"/>
+                                                                Vâng, Mật khẩu của tôi là:</label></li>
+                                                        <li id="ctrl_registered_Disabler">
+                                                            <p:inputText id="txtLoginPassword" value="#{login.password}" maxlength="32" type="password" required="true" requiredMessage="Can not leave password empty"/>
+                                                            <div class="lostPassword"><a href="lost-password/" class="OverlayTrigger OverlayCloser" tabindex="106">Bạn đã quên mật khẩu?</a></div>
+                                                        </li>
+                                                    </ul>
+                                                </dd>
+                                            </dl>
+                                            <dl class="ctrlUnit submitUnit">
+                                                <dt></dt>
+                                                <dd>
+                                                    <p:commandButton id="btnSubmit" value="Login" process="@this txtLoginUsername txtLoginPassword" update="pnlRegisterForm pnlNotLoggedIn pnlLoginForm pnlLoggedIn :frmBrowse:pnlBrowse_User :frmBrowse:pnlBrowse_Admin" actionListener="#{login.login()}"/>
+                                                    &nbsp;&nbsp;
+                                                    <p:commandLink id="btnCloseLoginForm" process="@this" update="pnlLoginForm" value="Not now" actionListener="#{login.makeLoginFormShow(false)}"/>
+                                                    <font color="red"><br/><p:outputLabel value="#{login.message}" rendered="#{login.haveErrorMessage}"/></font>
+                                                    <label for="ctrl_remember" class="rememberPassword"><input type="checkbox" name="remember" value="1" id="ctrl_remember" tabindex="103"/> Duy trì trạng thái đăng nhập</label>
+                                                </dd>
+                                            </dl>
+                                        </div>
+                                        <input type="hidden" name="cookie_check" value="1"/>
+                                        <input type="hidden" name="redirect" value="/forums/"/>
+                                        <input type="hidden" name="_xfToken" value=""/>
 
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                </div>
             </p:panel>
             <p:panel id="pnlRegisterForm" visible="#{register.showRegisterForm and !login.loggedIn}">
-                <table>
-                    <tr>
-                        <td>Username</td>
-                        <td>
+
+                <div class="xenForm AutoValidator" data-fieldvalidatorurl="register/validate-field" data-normalsubmit="1">
+                    <div class="titleBar">
+                        <h1>Register</h1>
+                    </div>
+                    <dl class="ctrlUnit">
+                        <dt><label for="ctrl_username">USername :</label></dt>
+                        <dd>
                             <p:inputText id="txtRegister_username" maxlength="16" value="#{register.username}"/>
-                        </td>
-                        <td>&nbsp;&nbsp;&nbsp;</td>
-                        <td>Name</td>
-                        <td>
-                            <p:inputText id="txtRegister_name" maxlength="32" value="#{register.name}"/>
-                        </td>
-                        <td>&nbsp;&nbsp;&nbsp;</td>
-                        <td>Address</td>
-                        <td>
-                            <p:inputText id="txtRegister_address" maxlength="128" value="#{register.address}"/>
-                        </td>
-                        <td>&nbsp;&nbsp;&nbsp;</td>
-                        <td>Email</td>
-                        <td>
-                            <p:inputText id="txtRegister_email" maxlength="64" value="#{register.email}"/>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Password</td>
-                        <td>
-                            <p:inputText id="txtRegister_password" type="password" maxlength="32" value="#{register.password}"/>
-                        </td>
-                        <td>&nbsp;&nbsp;&nbsp;</td>
-                        <td>Confirm password</td>
-                        <td>
+                            <p class="explain">Đây là tên hiển thị ở mỗi bài viết của bạn. Bạn có thể dùng bất cứ tên nào mình muốn. Một khi đã đặt thì không thể đổi.</p>
+                        </dd>
+                    </dl>
+                    <dl class="ctrlUnit">
+                        <dt><label for="ctrl_email">Email :</label></dt>
+                        <dd><p:inputText id="txtRegister_email" maxlength="64" value="#{register.email}"/></dd>
+                    </dl>
+                    <dl class="ctrlUnit">
+                        <dt><label for="ctrl_password">Password :</label></dt>
+                        <dd><p:inputText id="txtRegister_password" type="password" maxlength="32" value="#{register.password}"/></dd>
+                    </dl>
+                    <dl class="ctrlUnit">
+                        <dt><label for="ctrl_confirm_password">Re-password:</label></dt>
+                        <dd>
                             <p:inputText id="txtRegister_confirmPassword" type="password" maxlength="32" value="#{register.confirmPassword}"/>
-                        </td>
-                        <td>&nbsp;&nbsp;&nbsp;</td>
-                        <td>Company</td>
-                        <td>
-                            <p:inputText id="txtRegister_company" maxlength="64" value="#{register.company}"/>
-                        </td>
-                    </tr>
-                </table>
-                <p:panel id="pnlRegisterMessage" visible="#{register.haveMessage}">
-                    <font color="red"><p:outputLabel value="#{register.message}"/></font>
-                </p:panel>
-                <p:commandButton value="Create account" 
-                                 process="@this txtRegister_username txtRegister_name txtRegister_address txtRegister_email txtRegister_password txtRegister_confirmPassword txtRegister_company"
-                                 update="pnlRegisterForm pnlRegisterMessage" 
-                                 actionListener="#{register.register()}"
-                                 />
-                &nbsp;or&nbsp;
-                <p:commandLink value="Hide this form" 
-                               process="@this" 
-                               update="pnlRegisterForm" 
-                               actionListener="#{register.makeRegisterFormShow(false)}"/>
+                            <p class="explain">Xin mời nhập mật khẩu ở cả hai ô.</p>
+                        </dd>
+                    </dl>
+                    <dl class="ctrlUnit">
+                        <dt><label for="ctrl_password">Name:</label></dt>
+                        <dd><p:inputText id="txtRegister_name" maxlength="32" value="#{register.name}"/></dd>
+                    </dl>
+                    <dl class="ctrlUnit">
+                        <dt><label for="ctrl_password">Address:</label></dt>
+                        <dd><p:inputText id="txtRegister_address" maxlength="128" value="#{register.address}"/></dd>
+                    </dl>
+                    <dl class="ctrlUnit">
+                        <dt><label for="ctrl_password">Company:</label></dt>
+                        <dd><p:inputText id="txtRegister_company" maxlength="64" value="#{register.company}"/></dd>
+                    </dl>
+                    <p:panel id="pnlRegisterMessage" visible="#{register.haveMessage}">
+                        <font color="red"><p:outputLabel value="#{register.message}"/></font>
+                    </p:panel>
+                    <p:commandButton value="Create account" 
+                                     process="@this txtRegister_username txtRegister_name txtRegister_address txtRegister_email txtRegister_password txtRegister_confirmPassword txtRegister_company"
+                                     update="pnlRegisterForm pnlRegisterMessage" 
+                                     actionListener="#{register.register()}"
+                                     />
+                    &nbsp;or&nbsp;
+                    <p:commandLink value="Hide this form" 
+                                   process="@this" 
+                                   update="pnlRegisterForm" 
+                                   actionListener="#{register.makeRegisterFormShow(false)}"/>
+                </div>
+                <!-- end body -->
+
             </p:panel>
             <div id="header">
                 <h1><img src="images/logo.jpg" width="519" height="63" alt="Online Movie Store" /></h1>

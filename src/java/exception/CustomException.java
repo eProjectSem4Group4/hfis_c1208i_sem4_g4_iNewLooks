@@ -6,7 +6,7 @@ package exception;
 
 /**
  *
- * @author thanb_000
+ * @author Phan Thanh
  */
 public class CustomException extends Exception{
     public CustomException(String message){
