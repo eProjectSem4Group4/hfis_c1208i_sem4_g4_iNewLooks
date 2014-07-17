@@ -17,7 +17,7 @@
                                     <div class="ctrlWrapper">
                                         <dl class="ctrlUnit">
                                             <dt><label for="LoginControl">Tên tài khoản hoặc địa chỉ Email:</label></dt>
-                                            <dd><input type="text" name="login" id="LoginControl" class="textCtrl" tabindex="101"/></dd>
+                                            <dd><p:inputText id="txtLoginUsername" value="#{login.username}" maxlength="16" required="true" requiredMessage="Can not leave username empty"/></dd>
                                         </dl>
                                         <dl class="ctrlUnit">
                                             <dt>
@@ -30,7 +30,7 @@
                                                     <li><label for="ctrl_registered"><input type="radio" name="register" value="0" id="ctrl_registered" tabindex="105" checked="checked" class="Disabler"/>
                                                             Vâng, Mật khẩu của tôi là:</label></li>
                                                     <li id="ctrl_registered_Disabler">
-                                                        <input type="password" name="password" class="textCtrl" id="ctrl_password" tabindex="102"/>
+                                                        <p:inputText id="txtLoginPassword" value="#{login.password}" maxlength="32" type="password" required="true" requiredMessage="Can not leave password empty"/>
                                                         <div class="lostPassword"><a href="lost-password/" class="OverlayTrigger OverlayCloser" tabindex="106">Bạn đã quên mật khẩu?</a></div>
                                                     </li>
                                                 </ul>
@@ -39,7 +39,10 @@
                                         <dl class="ctrlUnit submitUnit">
                                             <dt></dt>
                                             <dd>
-                                                <input type="submit" class="button primary" value="Đăng nhập" tabindex="104" data-loginphrase="Đăng nhập" data-signupphrase="Đăng ký"/>
+                                                <p:commandButton id="btnSubmit" value="Login" process="@this txtLoginUsername txtLoginPassword" update="pnlRegisterForm pnlNotLoggedIn pnlLoginForm pnlLoggedIn :frmBrowse:pnlBrowse_User :frmBrowse:pnlBrowse_Admin" actionListener="#{login.login()}"/>
+                &nbsp;&nbsp;
+                <p:commandLink id="btnCloseLoginForm" process="@this" update="pnlLoginForm" value="Not now" actionListener="#{login.makeLoginFormShow(false)}"/>
+                <font color="red"><br/><p:outputLabel value="#{login.message}" rendered="#{login.haveErrorMessage}"/></font>
                                                 <label for="ctrl_remember" class="rememberPassword"><input type="checkbox" name="remember" value="1" id="ctrl_remember" tabindex="103"/> Duy trì trạng thái đăng nhập</label>
                                             </dd>
                                         </dl>
@@ -54,18 +57,6 @@
                     </div>
                 </div>
                 </div>
-
-                <!--<h:outputText value="Username"/>&nbsp;
-                <p:inputText id="txtLoginUsername" value="#{login.username}" maxlength="16" required="true" requiredMessage="Can not leave username empty"/>
-                &nbsp;&nbsp;
-                <h:outputText value="Password"/>&nbsp;
-                <p:inputText id="txtLoginPassword" value="#{login.password}" maxlength="32" type="password" required="true" requiredMessage="Can not leave password empty"/>
-                &nbsp;&nbsp;
-                <p:commandButton id="btnSubmit" value="Login" process="@this txtLoginUsername txtLoginPassword" update="pnlRegisterForm pnlNotLoggedIn pnlLoginForm pnlLoggedIn :frmBrowse:pnlBrowse_User :frmBrowse:pnlBrowse_Admin" actionListener="#{login.login()}"/>
-                &nbsp;&nbsp;
-                <p:commandLink id="btnCloseLoginForm" process="@this" update="pnlLoginForm" value="Not now" actionListener="#{login.makeLoginFormShow(false)}"/>
-                <font color="red"><br/><p:outputLabel value="#{login.message}" rendered="#{login.haveErrorMessage}"/></font>
-                -->
             </p:panel>
             <p:panel id="pnlRegisterForm" visible="#{register.showRegisterForm and !login.loggedIn}">
                 <table>
