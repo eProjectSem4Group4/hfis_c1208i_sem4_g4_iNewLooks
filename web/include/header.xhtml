@@ -65,7 +65,7 @@
                         <h2 style="color: red;">Register</h2>
                     </div>
                     <dl class="ctrlUnit">
-                        <dt><label for="ctrl_username">USername :</label></dt>
+                        <dt><label for="ctrl_username">Username :</label></dt>
                         <dd>
                             <p:inputText id="txtRegister_username" maxlength="16" value="#{register.username}"/>
                             <p class="explain">Đây là tên hiển thị ở mỗi bài viết của bạn. Bạn có thể dùng bất cứ tên nào mình muốn. Một khi đã đặt thì không thể đổi.</p>
@@ -128,7 +128,7 @@
                 </p:panel>
                 <p:panel id="pnlLoggedIn" visible="#{login.loggedIn}" >
                     <div id="nav">
-                        <p:outputLabel value="Hello #{login.username}"/> &nbsp;&nbsp;
+                        <p:outputLabel value="Hello, #{login.username}"/> &nbsp;||&nbsp;
                         <p:commandLink value="Logout" process="@this" update="pnlNotLoggedIn pnlLoggedIn :frmBrowse:pnlBrowse_User :frmBrowse:pnlBrowse_Admin :frmAdminPage:pnlAdminPage :frmUserPage:pnlUserPage" actionListener="#{hpmanager.logout()}"/>
                     </div>
                 </p:panel>
