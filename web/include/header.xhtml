@@ -62,7 +62,7 @@
 
                 <div class="xenForm AutoValidator" data-fieldvalidatorurl="register/validate-field" data-normalsubmit="1">
                     <div class="titleBar">
-                        <h1>Register</h1>
+                        <h2 style="color: red;">Register</h2>
                     </div>
                     <dl class="ctrlUnit">
                         <dt><label for="ctrl_username">USername :</label></dt>
@@ -101,16 +101,18 @@
                     <p:panel id="pnlRegisterMessage" visible="#{register.haveMessage}">
                         <font color="red"><p:outputLabel value="#{register.message}"/></font>
                     </p:panel>
-                    <p:commandButton value="Create account" 
-                                     process="@this txtRegister_username txtRegister_name txtRegister_address txtRegister_email txtRegister_password txtRegister_confirmPassword txtRegister_company"
-                                     update="pnlRegisterForm pnlRegisterMessage" 
-                                     actionListener="#{register.register()}"
-                                     />
-                    &nbsp;or&nbsp;
-                    <p:commandLink value="Hide this form" 
-                                   process="@this" 
-                                   update="pnlRegisterForm" 
-                                   actionListener="#{register.makeRegisterFormShow(false)}"/>
+                    <dl align="right">
+                        <p:commandButton value="Create account" 
+                                         process="@this txtRegister_username txtRegister_name txtRegister_address txtRegister_email txtRegister_password txtRegister_confirmPassword txtRegister_company"
+                                         update="pnlRegisterForm pnlRegisterMessage" 
+                                         actionListener="#{register.register()}"
+                                         />
+                        &nbsp;or&nbsp;
+                        <p:commandLink value="Hide this form" 
+                                       process="@this" 
+                                       update="pnlRegisterForm" 
+                                       actionListener="#{register.makeRegisterFormShow(false)}"/>
+                    </dl>
                 </div>
                 <!-- end body -->
 
