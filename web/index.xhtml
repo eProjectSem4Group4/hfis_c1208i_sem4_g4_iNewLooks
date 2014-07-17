@@ -1,170 +1,24 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:p="http://primefaces.org/ui"
-      xmlns:h="http://java.sun.com/jsf/html">
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
     <h:head>
         <title>iS&amp;ast</title>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <link href="css/style.css" rel="stylesheet" type="text/css" />
     </h:head>
     <h:body>
-        <!--ui:include src="include/header.xhtml"/-->
         <div id="wrapper">
             <div id="inner">
-                <h:form id="frmUser">
-                    <p:panel id="pnlLoginForm" visible="#{login.showLoginForm}">
-                        <h:outputText value="Username"/>
-                        <p:inputText id="txtLoginUsername" value="#{login.username}" maxlength="16" required="true" requiredMessage="Can not leave username empty"/>
-                        &nbsp;&nbsp;
-                        <h:outputText value="Password"/>
-                        <p:inputText id="txtLoginPassword" value="#{login.password}" maxlength="32" type="password" required="true" requiredMessage="Can not leave password empty"/>
-                        &nbsp;&nbsp;
-                        <p:commandButton id="btnSubmit" value="Login" process="@this txtLoginUsername txtLoginPassword" update="pnlRegisterForm pnlNotLoggedIn pnlLoginForm pnlLoggedIn :frmBrowse:pnlBrowse" actionListener="#{login.login()}"/>
-                        &nbsp;&nbsp;
-                        <p:commandLink id="btnCloseLoginForm" process="@this" update="pnlLoginForm" value="Not now" actionListener="#{login.makeLoginFormShow(false)}"/>
-                        <font color="red"><p:outputLabel value="#{login.message}" rendered="#{login.haveErrorMessage}"/></font>
-                    </p:panel>
-                    <p:panel id="pnlRegisterForm" visible="#{register.showRegisterForm and !login.loggedIn}">
-                        <table>
-                            <tr>
-                                <td>Username</td>
-                                <td>
-                                    <p:inputText id="txtRegister_username" maxlength="16" value="#{register.username}"/>
-                                </td>
-                                <td>&nbsp;&nbsp;&nbsp;</td>
-                                <td>Name</td>
-                                <td>
-                                    <p:inputText id="txtRegister_name" maxlength="32" value="#{register.name}"/>
-                                </td>
-                                <td>&nbsp;&nbsp;&nbsp;</td>
-                                <td>Address</td>
-                                <td>
-                                    <p:inputText id="txtRegister_address" maxlength="128" value="#{register.address}"/>
-                                </td>
-                                <td>&nbsp;&nbsp;&nbsp;</td>
-                                <td>Email</td>
-                                <td>
-                                    <p:inputText id="txtRegister_email" maxlength="64" value="#{register.email}"/>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>Password</td>
-                                <td>
-                                    <p:inputText id="txtRegister_password" type="password" maxlength="32" value="#{register.password}"/>
-                                </td>
-                                <td>&nbsp;&nbsp;&nbsp;</td>
-                                <td>Confirm password</td>
-                                <td>
-                                    <p:inputText id="txtRegister_confirmPassword" type="password" maxlength="32" value="#{register.confirmPassword}"/>
-                                </td>
-                                <td>&nbsp;&nbsp;&nbsp;</td>
-                                <td>Company</td>
-                                <td>
-                                    <p:inputText id="txtRegister_company" maxlength="64" value="#{register.company}"/>
-                                </td>
-                            </tr>
-                        </table>
-                        <p:panel id="pnlRegisterMessage" visible="#{register.haveMessage}">
-                            <font color="red"><p:outputLabel value="#{register.message}"/></font>
-                        </p:panel>
-                        <p:commandButton value="Create account" 
-                                         process="@this txtRegister_username txtRegister_name txtRegister_address txtRegister_email txtRegister_password txtRegister_confirmPassword txtRegister_company"
-                                         update="pnlRegisterForm pnlRegisterMessage" 
-                                         actionListener="#{register.register()}"
-                                         />
-                        &nbsp;or&nbsp;
-                        <p:commandLink value="Hide this form" 
-                                       process="@this" 
-                                       update="pnlRegisterForm" 
-                                       actionListener="#{register.makeRegisterFormShow(false)}"/>
-                    </p:panel>
-                    <div id="header">
-                        <h1><img src="images/xr_logo2.jpg" width="519" height="63"/> <img src="images/xr_tele2.jpg" width="519" height="63"/></h1>
-                        <p:panel id="pnlNotLoggedIn" visible="#{!login.loggedIn}" >
-                            <div id="nav">
-                                <p:commandLink value="Login" process="@this" update="pnlLoginForm" actionListener="#{login.makeLoginFormShow(true)}"/>
-                                | 
-                                <p:commandLink value="Register" process="@this" update="pnlRegisterForm" actionListener="#{register.makeRegisterFormShow(true)}"/>
-                            </div>
-                        </p:panel>
-                        <p:panel id="pnlLoggedIn" visible="#{login.loggedIn}" >
-                            <div id="nav">
-                                <p:outputLabel value="Hello #{login.username}"/> &nbsp;&nbsp;
-                                <p:commandLink value="Logout" process="@this" update="pnlNotLoggedIn pnlLoggedIn :frmBrowse:pnlBrowse" actionListener="#{login.logout()}"/>
-                            </div>
-                        </p:panel>
-
-                        <!-- end nav -->
-                        <div class="menu" style="text-align: center;color: white">
-                            <ul>
-                                <li style="width: 100px;"><a href="index.aspx">Home</a></li>
-                                <li style="width: 120px;"><a href="product01.aspx">Product</a></li>
-                                <li style="width: 142px;"><a href="cases.aspx">Success Cases</a></li>
-                                <li style="width: 135px;"><a href="order.aspx">Online Order</a></li>
-                                <li style="width: 144px;"><a href="about.aspx">Contact Us</a></li>
-                            </ul>
-                        </div>
-                        <div>
-                            <img src="images/banner.jpg" width="970"/>
-                        </div>
-                    </div>
-                </h:form>
-                <!-- end header -->
-                <dl id="browse">
-                    <h:form id="frmBrowse">
-                        <dt>What do we have?</dt>
-                        <p:panel id="pnlBrowse" >
-                            <dd class="first"><a href="#">First</a></dd>
-                            <dd>
-                                <p:commandLink value="Admin page" process="@this" rendered="#{login.admin}"/>
-                            </dd>
-                            <dd>
-                                <p:commandLink value="Report" process="@this" rendered="#{!login.admin}"/>
-                            </dd>
-                            <dd class="last"><a href="#">Last</a></dd>
-                        </p:panel>
-                    </h:form>
-                </dl>
+                <ui:include src="include/header.xhtml"/>
                 <div id="body">
-                    <div class="inner">
-                        <div class="right1">
-                            <div class="right">
-                                <div class="product">
-                                    <ul>
-                                        <li style="float: left;width: 144px;margin-left: 15px"><a href="#"><img src="images/QQ图片20131029110335.jpg" width="123" height="177" border="0"/></a><span>Passenger lift (Mirror stainless steeel)</span></li>
-                                       <li style="float: left;width: 144px;margin-left: 15px"><a href="product_detail01.aspx?ProductID=49"><img src="images/Car HSEQ-1113.jpg" width="123" height="177" border="0"/></a><span>Passenger lift (luxurious decoration XR-P41)</span></li>
-
-                                      <li style="float: left;width: 144px;margin-left: 15px"><a href="product_detail01.aspx?ProductID=50"><img src="images/木纹轿厢.jpg" width="123" height="177" border="0"/></a><span>Passenger lift (Wood grain &amp; Titanium)</span></li>
-
-                                        <li style="float: left;width: 144px;margin-left: 15px"><a href="product_detail01.aspx?ProductID=51"><img src="images/乘客电梯1.jpg" width="123" height="177" border="0"/></a><span>Passenger lift (luxurious decoration)</span></li>
-
-                                        <li style="float: left;width: 144px;margin-left: 15px"><a href="product_detail01.aspx?ProductID=53"><img src="images/Passenger lift yellow stainless steel.jpg" width="123" height="177" border="0"/></a><span>Passenger lift (Yellow wood grain)</span></li>
-
-                                        <li style="float: left;width: 144px;margin-left: 15px"><a href="product_detail01.aspx?ProductID=2"><img src="images/Passenger lift 2.jpg" width="123" height="177" border="0"/></a><span>Passenger lift  (Standard)</span></li>
-
-                                        <li style="float: left;width: 144px;margin-left: 15px"><a href="product_detail01.aspx?ProductID=46"><img src="images/Passenger elevator 12.jpg" width="123" height="177" border="0"/></a><span>Passenger lift (Hairline stainless steel)</span></li>
-
-                                        <li style="float: left;width: 144px;margin-left: 15px"><a href="product_detail01.aspx?ProductID=56"><img src="images/XR-P04.jpg" width="123" height="177" border="0"/></a><span>Passenger lift(Mirror&amp;Etching XR-P04)</span></li>
-
-                                        <li style="float: left;width: 144px;margin-left: 15px"><a href="product_detail01.aspx?ProductID=79"><img src="images/XR-P27.jpg" width="123" height="177" border="0"/></a><span>Passenger lift(Mirror&amp;Etching XR-P27)</span></li>
-
-                                        <li style="float: left;width: 144px;margin-left: 15px"><a href="product_detail01.aspx?ProductID=84"><img src="images/XR-P32.jpg" width="123" height="177" border="0"/></a><span>Passenger lift(Titanium&amp;Etching XR-P32)</span></li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="clear br"></div>
-                        <!-- loop -->
-                        <div class="clear"></div>
-                    </div>
-                    <!-- end .inner -->
+                    <ui:include src="include/admin.xhtml"/>
+                    <ui:include src="include/user.xhtml"/>
                 </div>
                 <!-- end body -->
-                <div class="clear"></div>
-                <div id="footer"> Web design by <a href="http://www.freewebsitetemplates.com">free website templates</a> &nbsp;
-                </div>
-                <!-- end footer -->
+                <ui:include src="include/footer.xhtml"/> 
             </div>
             <!-- end inner -->
         </div>
