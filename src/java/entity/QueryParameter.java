@@ -6,7 +6,7 @@ package entity;
 
 /**
  *
- * @author Lab
+ * @author dongnp_c00702
  */
 
 public class QueryParameter{
