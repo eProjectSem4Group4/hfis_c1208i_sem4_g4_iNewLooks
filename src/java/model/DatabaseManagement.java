@@ -65,7 +65,7 @@ public class DatabaseManagement {
         try {
             ps = connect.prepareStatement(query);
             for (QueryParameter param : params) {
-                ps.setString(param.getPosition(), param.getValue());
+                ps.setObject(param.getPosition(), param.getValue());
             }
         } catch (SQLException ex) {
             Logger.getLogger(DatabaseManagement.class.getName()).log(Level.SEVERE, null, ex);
@@ -80,7 +80,7 @@ public class DatabaseManagement {
         try {
             ps = connect.prepareStatement(query);
             for (QueryParameter param : params) {
-                ps.setString(param.getPosition(), param.getValue());
+                ps.setObject(param.getPosition(), param.getValue());
             }
             ps.execute();
         } catch (SQLException ex) {
@@ -96,7 +96,7 @@ public class DatabaseManagement {
         try {
             ps = connect.prepareStatement(query);
             for (QueryParameter param : params) {
-                ps.setString(param.getPosition(), param.getValue());
+                ps.setObject(param.getPosition(), param.getValue());
             }
             return ps.executeQuery();
         } catch (SQLException ex) {

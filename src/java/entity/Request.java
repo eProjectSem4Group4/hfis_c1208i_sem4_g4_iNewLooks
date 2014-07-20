@@ -4,6 +4,8 @@
  */
 package entity;
 
+import java.sql.Date;
+
 /**
  *
  * @author thanb_000
@@ -18,11 +20,31 @@ public class Request {
     private int elevatorId;
     private Boolean done;
     private Boolean processing;
+    private Date postDate;
+    private Date finishDate;
 
     public Request() {
         this.done = false;
         this.processing = false;
     }
+
+    public Date getPostDate() {
+        return postDate;
+    }
+
+    public void setPostDate(Date postDate) {
+        this.postDate = postDate;
+    }
+
+    public Date getFinishDate() {
+        return finishDate;
+    }
+
+    public void setFinishDate(Date finishDate) {
+        this.finishDate = finishDate;
+    }
+    
+    
     
     public boolean isProcessing() {
         return processing == null ? false: processing;

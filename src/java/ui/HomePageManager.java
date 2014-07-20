@@ -67,11 +67,11 @@ public class HomePageManager implements Serializable {
     }
 
     public FeedbackController getFeedbackController() {
-        if (feedbackController == null)
+        if (feedbackController == null) {
             feedbackController = new FeedbackController();
+        }
         return feedbackController;
     }
-    
     //</editor-fold>
     //<editor-fold desc="View state">
     private boolean showAdminPage = false;
@@ -195,7 +195,6 @@ public class HomePageManager implements Serializable {
     public void setElevatorsFilter(List<Elevator> elevatorsFilter) {
         this.elevatorsFilter = elevatorsFilter;
     }
-    
     private Request sendrequest_Elevator;
     private Elevator sendrequest_ElevatorChosed;
     private String sendrequest_message;
@@ -243,27 +242,8 @@ public class HomePageManager implements Serializable {
     }
 
     public void elevatorTypeChangeListener(ValueChangeEvent event) {
-        try {
             Integer id = (Integer) event.getNewValue();
-            for (Elevator e : getElevators()) {
-                if (e.getId() == id) {
-                    getSendrequest_ElevatorChosed().setBasePrice(e.getBasePrice());
-                    getSendrequest_ElevatorChosed().setFloorPrice(e.getFloorPrice());
-                    getSendrequest_ElevatorChosed().setDescription(e.getDescription());
-                    getSendrequest_ElevatorChosed().setMaxWeight(e.getMaxWeight());
-                    getSendrequest_ElevatorChosed().setMaxHuman(e.getMaxHuman());
-                    getSendrequest_Elevator().setTotalPrice(getTotalRequestPrice());
-                    return;
-                }
-            }
-        } catch (Exception ex) {
-        }
-        getSendrequest_ElevatorChosed().setBasePrice(0);
-        getSendrequest_ElevatorChosed().setFloorPrice(0);
-        getSendrequest_ElevatorChosed().setDescription(null);
-        getSendrequest_ElevatorChosed().setMaxWeight(0);
-        getSendrequest_ElevatorChosed().setMaxHuman(0);
-        getSendrequest_Elevator().setTotalPrice(0);
+            changeSelectedElevatorInfor(id);
     }
 
     public Elevator getSendrequest_ElevatorChosed() {
@@ -331,6 +311,34 @@ public class HomePageManager implements Serializable {
         for (Elevator e : elevators) {
             e.setFilter(sendrequest_filter);
         }
+    }
+
+    public void selectElevator(int eleId) {
+        this.sendrequest_ElevatorChosed.setId(eleId);
+        changeSelectedElevatorInfor(eleId);
+    }
+
+    public void changeSelectedElevatorInfor(Integer iNewId) {
+        try{
+            for (Elevator e : getElevators()) {
+                if (e.getId() == iNewId) {
+                    getSendrequest_ElevatorChosed().setBasePrice(e.getBasePrice());
+                    getSendrequest_ElevatorChosed().setFloorPrice(e.getFloorPrice());
+                    getSendrequest_ElevatorChosed().setDescription(e.getDescription());
+                    getSendrequest_ElevatorChosed().setMaxWeight(e.getMaxWeight());
+                    getSendrequest_ElevatorChosed().setMaxHuman(e.getMaxHuman());
+                    getSendrequest_Elevator().setTotalPrice(getTotalRequestPrice());
+                    return;
+                }
+            }
+        } catch (Exception ex) {
+        }
+        getSendrequest_ElevatorChosed().setBasePrice(0);
+        getSendrequest_ElevatorChosed().setFloorPrice(0);
+        getSendrequest_ElevatorChosed().setDescription(null);
+        getSendrequest_ElevatorChosed().setMaxWeight(0);
+        getSendrequest_ElevatorChosed().setMaxHuman(0);
+        getSendrequest_Elevator().setTotalPrice(0);
     }
 
     public void filterTypeChangeListener(ValueChangeEvent event) {
@@ -563,7 +571,6 @@ public class HomePageManager implements Serializable {
     public void setMfbFeedback(Feedback mfbFeedback) {
         this.mfbFeedback = mfbFeedback;
     }
-    
     private String sendfeedback_message;
 
     public String getSendfeedback_message() {
@@ -575,26 +582,25 @@ public class HomePageManager implements Serializable {
     public void setSendfeedback_message(String sendfeedback_message) {
         this.sendfeedback_message = sendfeedback_message;
     }
-    
-    public void sendfeedback_submit(){
-        if (getMfbFeedback().getSenderName().isEmpty() || getMfbFeedback().getSenderName().length() > 128){
+
+    public void sendfeedback_submit() {
+        if (getMfbFeedback().getSenderName().isEmpty() || getMfbFeedback().getSenderName().length() > 128) {
             this.sendfeedback_message = "Tên người gửi không được để trống và phải ít hơn 128 ký tự";
             return;
         }
-        if (!this.getMfbFeedback().getSenderEmail().matches("^[a-zA-Z0-9_@\\.]{1,64}") || !this.getMfbFeedback().getSenderEmail().contains("@"))
-        {
+        if (!this.getMfbFeedback().getSenderEmail().matches("^[a-zA-Z0-9_@\\.]{1,64}") || !this.getMfbFeedback().getSenderEmail().contains("@")) {
             this.sendfeedback_message = "Sai định dạng email";
             return;
         }
-        if (getMfbFeedback().getDescription().isEmpty() || getMfbFeedback().getDescription().length() > 1000){
+        if (getMfbFeedback().getDescription().isEmpty() || getMfbFeedback().getDescription().length() > 1000) {
             this.sendfeedback_message = "Mô tả vấn đề không được để trống và phải ít hơn 1000 ký tự";
             return;
         }
-        if (getMfbFeedback().getProblem().length() > 3000){
+        if (getMfbFeedback().getProblem().length() > 3000) {
             this.sendfeedback_message = "Mục vấn đề phải ít hơn 3000 ký tự";
             return;
         }
-        if (getMfbFeedback().getComment().isEmpty() || getMfbFeedback().getComment().length() > 3000){
+        if (getMfbFeedback().getComment().isEmpty() || getMfbFeedback().getComment().length() > 3000) {
             this.sendfeedback_message = "Mục nội dung cần cải thiện (góp ý) không được để trống và phải ít hơn 3000 ký tự";
             return;
         }
@@ -608,10 +614,8 @@ public class HomePageManager implements Serializable {
             this.sendfeedback_message = "An error occured: " + ex;
         }
     }
-    
-    
+
     //</editor-fold>
-    
     //<editor-fold desc="VIEW FEEDBACK">
     public boolean isAdmin_ViewFeedbackMode() {
         return this.pageMode == PAGE_ADMIN_VIEWFEEDBACK;
@@ -620,20 +624,20 @@ public class HomePageManager implements Serializable {
     public void showPageAdminViewFeedback() {
         makeAdminPageShow(PAGE_ADMIN_VIEWFEEDBACK);
     }
-    
     private Boolean viewfeedback_bNotReadOnly;
 
     public Boolean getViewfeedback_bNotReadOnly() {
-        if (viewfeedback_bNotReadOnly == null)
+        if (viewfeedback_bNotReadOnly == null) {
             viewfeedback_bNotReadOnly = false;
+        }
         return viewfeedback_bNotReadOnly;
     }
 
     public void setViewfeedback_bNotReadOnly(Boolean viewfeedback_bNotReadOnly) {
         this.viewfeedback_bNotReadOnly = viewfeedback_bNotReadOnly;
     }
-    
-    public List<Feedback> getFeedbackList(){
+
+    public List<Feedback> getFeedbackList() {
         try {
             List<Feedback> fbl = getFeedbackController().getAll(viewfeedback_bNotReadOnly);
             return fbl;
@@ -641,9 +645,9 @@ public class HomePageManager implements Serializable {
             return new ArrayList<Feedback>();
         }
     }
-    
-    public void onChangeReadState(Feedback fb){
-        System.out.println("==EVENT== " +fb.getRead());
+
+    public void onChangeReadState(Feedback fb) {
+        System.out.println("==EVENT== " + fb.getRead());
         try {
             getFeedbackController().changeReadState(fb.getId(), !fb.getRead());
         } catch (SQLException | ClassNotFoundException | CustomException ex) {

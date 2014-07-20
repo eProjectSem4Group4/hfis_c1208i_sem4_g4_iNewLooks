@@ -99,17 +99,15 @@
                                 </tr>
                             </table>
                         </p:panel>
-                        <p:dataTable id="tblElevator" value="#{hpmanager.elevators}" var="ele"
+                        <p:dataTable value="#{hpmanager.elevators}" var="ele" tableStyle=""
                                      filteredValue="#{hpmanager.elevatorsFilter}">
                             <p:ajax global="false" process="@this" event="rowToggle"/>
                             <p:column style="width:3%">
-                                <p:rowToggler />
+                                <p:commandLink value="Select" process="@this" actionListener="#{hpmanager.selectElevator(ele.id)}" update=":frmUserPage:cbbElevatorType :frmUserPage:pnlSendRequest_ElevatorInfo"/>
+                                <p:rowToggler  />
                             </p:column>
                             <p:column headerText="Name" filterMatchMode="contains" filterBy="#{ele.name}" sortBy="#{ele.name}" >
                                 <h:outputText value="#{ele.name}"/>
-                            </p:column>
-                            <p:column headerText="Floor price" filterMatchMode="contains" filterBy="#{ele.floorPrice}" sortBy="#{ele.floorPrice}" >
-                                <h:outputText value="#{ele.floorPrice}"/>
                             </p:column>
                             <p:column headerText="Max human carry" resizable="true" filterMatchMode="contains" filterBy="#{ele.maxHuman}" sortBy="#{ele.maxHuman}" >
                                 <h:outputText value="#{ele.maxHuman}"/>
@@ -131,6 +129,8 @@
                                     <h:outputText value="#{ele.maxHuman}"/>
                                     <h:outputText value="Made in" />
                                     <h:outputText value="#{ele.country}"/>
+                                    <h:outputText value="Description" />
+                                    <h:outputText value="#{ele.description}"/>
                                 </p:panelGrid>
                             </p:rowExpansion>
                         </p:dataTable>

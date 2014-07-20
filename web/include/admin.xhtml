@@ -156,11 +156,14 @@
                         <p:column headerText="id">
                             <center><h:outputText value="#{vrs.id}"/></center>
                         </p:column>
-                        <p:column headerText="In progress">
-                            <center><h:outputText value="#{vrs.processing ? 'Yes' : 'No'}"/></center>
-                        </p:column>
                         <p:column headerText="From account">
                             <center><h:outputText value="#{vrs.senderUsername}"/></center>
+                        </p:column>
+                        <p:column headerText="Send date">
+                            <center><h:outputText value="#{vrs.postDate}"/></center>
+                        </p:column>
+                        <p:column headerText="Finished date">
+                            <center><h:outputText value="#{vrs.processing ? vrs.finishDate : 'On progress'}"/></center>
                         </p:column>
                         <p:column headerText="Elevator">
                             <center><h:outputText value="#{vrs.elevatorName}"/></center>
