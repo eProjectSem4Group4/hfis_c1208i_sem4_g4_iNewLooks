@@ -17,7 +17,7 @@ import javax.faces.bean.SessionScoped;
 
 /**
  *
- * @author thanb_000
+ * @author dongnp_c00702
  */
 @ManagedBean(name = "login")
 @SessionScoped
