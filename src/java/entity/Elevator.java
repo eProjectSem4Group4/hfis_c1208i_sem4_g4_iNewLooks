@@ -28,6 +28,7 @@ public class Elevator {
     private String description;
     private int maxWeight;
     private int maxHuman;
+    private String country;
 
     public int getId() {
         return id;
@@ -96,6 +97,16 @@ public class Elevator {
     public void setMaxHuman(int maxHuman) {
         this.maxHuman = maxHuman;
     }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+    
+    
 
     public void setFilter(byte filter) {
         this.filter = filter;

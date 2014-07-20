@@ -73,9 +73,9 @@
                                 <td></td>
                                 <td>
                                     <br/><p:commandButton value="Send request" 
-                                                     actionListener="#{hpmanager.sendRequest}"
-                                                     process="@this txt_sendrequest_address" 
-                                                     update="pnlUser_SendRequest lb_sendrequest_mesage"/>
+                                                          actionListener="#{hpmanager.sendRequest}"
+                                                          process="@this txt_sendrequest_address" 
+                                                          update="pnlUser_SendRequest lb_sendrequest_mesage"/>
                                     <br/><font color="red"><p:outputLabel id="lb_sendrequest_mesage" value="#{hpmanager.sendrequest_message}"/></font>
                                 </td>
                             </tr>
@@ -92,24 +92,6 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td>Installation price:</td>
-                                    <td>
-                                        <p:outputLabel id="txt_sendrequest_chosedEBasePrice" value="#{hpmanager.sendrequest_ElevatorChosed.basePrice}"/>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>Price per floor:</td>
-                                    <td>
-                                        <p:outputLabel id="txt_sendrequest_chosedEFloorPrice" value="#{hpmanager.sendrequest_ElevatorChosed.floorPrice}"/>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td valign="top">Max carry</td>
-                                    <td>
-                                        <p:outputLabel id="txt_sendrequest_chosedEMaxCarry" value="#{hpmanager.sendrequest_ElevatorChosed.maxWeight} kg or #{hpmanager.sendrequest_ElevatorChosed.maxHuman} person"/>
-                                    </td>
-                                </tr>
-                                <tr>
                                     <td valign="top">Description:</td>
                                     <td>
                                         <p:outputLabel id="txt_sendrequest_chosedEDescription" value="#{hpmanager.sendrequest_ElevatorChosed.description}"/>
@@ -117,6 +99,25 @@
                                 </tr>
                             </table>
                         </p:panel>
+
+                        <p:dataTable id="tblElevator" value="#{hpmanager.elevators}" var="ele"
+                                     filteredValue="#{hpmanager.elevatorsFilter}">
+                            <p:ajax global="false" process="@this" event="rowToggle"/>
+                            <p:column style="width:3%">
+                                <p:rowToggler />
+                            </p:column>
+                            <p:column headerText="Name" filterMatchMode="contains" filterBy="#{ele.name}" sortBy="#{ele.name}" >
+                                <h:outputText value="#{ele.name}"/>
+                            </p:column>
+                            <p:rowExpansion>
+                                <p:panelGrid columns="2" styleClass="row-expansion">
+                                    <h:outputText value="Product name:"/>
+                                    <h:outputText value="#{ele.name}"/>
+                                    <h:outputText value="Product name:"/>
+                                    <h:outputText value="#{ele.name}"/>
+                                </p:panelGrid>
+                            </p:rowExpansion>
+                        </p:dataTable>
                     </p:panel>
                     <p:panel id="pnlUser_SendFeedback" visible="#{hpmanager.user_ViewSendFeedbackMode}">
                         <table>

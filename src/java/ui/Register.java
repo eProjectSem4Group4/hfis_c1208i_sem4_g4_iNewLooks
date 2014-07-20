@@ -6,6 +6,7 @@ package ui;
 
 import entity.Account;
 import exception.CustomException;
+import java.io.Serializable;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -20,7 +21,7 @@ import model.AccountModel;
  */
 @ManagedBean(name="register")
 @SessionScoped
-public class Register {
+public class Register implements Serializable{
     private String username;
     private String password;
     private String confirmPassword;

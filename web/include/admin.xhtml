@@ -62,13 +62,19 @@
                             </td>
                         </tr>
                         <tr>
+                            <td>Product of (country)</td>
+                            <td>
+                                <p:inputText id="txt_addelevator_country" value="#{hpmanager.addElevator.country}" required="true" maxlength="3000"/>
+                            </td>
+                        </tr>
+                        <tr>
                             <td></td>
                             <td>
                                 <font color="red"><p:outputLabel id="lb_addelevator_message" value="#{hpmanager.addelevator_message}"/></font><br/><br/>
                                 <p:commandButton value="Add elevator" 
                                                  actionListener="#{hpmanager.createElevator}"
-                                                 process="@this txt_addelevator_name txt_addelevator_baseprice txt_addelevator_floorprice txt_addelevator_description" 
-                                                 update="pnlAdmin_AddRequest lb_addelevator_message txt_addelevator_name txt_addelevator_description"/>
+                                                 process="@this txt_addelevator_name txt_addelevator_baseprice txt_addelevator_floorprice txt_addelevator_description txt_addelevator_country" 
+                                                 update="pnlAdmin_AddRequest lb_addelevator_message txt_addelevator_name txt_addelevator_description txt_addelevator_country"/>
                             </td>
                         </tr>
                     </table>

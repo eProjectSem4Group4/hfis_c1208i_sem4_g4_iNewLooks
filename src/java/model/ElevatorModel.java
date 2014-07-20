@@ -35,6 +35,7 @@ public class ElevatorModel extends DatabaseManagement implements Serializable {
                 ele.setFloorPrice(rs.getDouble("floorprice"));
                 ele.setMaxWeight(rs.getInt("maxWeight"));
                 ele.setMaxHuman(rs.getInt("maxHuman"));
+                ele.setCountry(rs.getString("country"));
                 result.add(ele);
             }
             closeConnection();
@@ -70,12 +71,13 @@ public class ElevatorModel extends DatabaseManagement implements Serializable {
     public void createElevator(Elevator ele) throws SQLException, ClassNotFoundException, CustomException{
         try {
             makeConnection();
-            doQuery("INSERT INTO Elevator(name,baseprice,floorprice,[description]) VALUES (?,?,?,?)",
+            doQuery("INSERT INTO Elevator(name,baseprice,floorprice,[description],country) VALUES (?,?,?,?,?)",
                     new QueryParameter[]{
                 new QueryParameter(1, ele.getName()),
                 new QueryParameter(2, ele.getBasePrice()),
                 new QueryParameter(3, ele.getFloorPrice()),
-                new QueryParameter(4, ele.getDescription())
+                new QueryParameter(4, ele.getDescription()),
+                new QueryParameter(5, ele.getCountry())
             });
             closeConnection();
         } catch (SQLException | ClassNotFoundException | CustomException ex) {

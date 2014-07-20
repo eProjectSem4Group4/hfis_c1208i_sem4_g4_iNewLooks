@@ -101,6 +101,7 @@ public class HomePageManager implements Serializable {
         if (nValue != PAGE_ADMIN_ADDELEVATOR) {
             this.getAddElevator().setName(null);
             this.getAddElevator().setDescription(null);
+            this.getAddElevator().setCountry(null);
             this.getAddElevator().setBasePrice(0);
             this.getAddElevator().setFloorPrice(0);
         }
@@ -185,6 +186,16 @@ public class HomePageManager implements Serializable {
         makeUserPageShow(PAGE_USER_SENDREQUEST);
     }
     private List<Elevator> elevators = null;
+    private List<Elevator> elevatorsFilter;
+
+    public List<Elevator> getElevatorsFilter() {
+        return elevatorsFilter;
+    }
+
+    public void setElevatorsFilter(List<Elevator> elevatorsFilter) {
+        this.elevatorsFilter = elevatorsFilter;
+    }
+    
     private Request sendrequest_Elevator;
     private Elevator sendrequest_ElevatorChosed;
     private String sendrequest_message;
@@ -401,6 +412,7 @@ public class HomePageManager implements Serializable {
             this.addelevator_message = "Elevator added!";
             this.addElevator.setName(null);
             this.addElevator.setDescription(null);
+            this.addElevator.setCountry(null);
         } catch (SQLException | ClassNotFoundException | CustomException ex) {
             Logger.getLogger(HomePageManager.class.getName()).log(Level.SEVERE, null, ex);
             this.addelevator_message = "An error occured: " + ex.getMessage();
