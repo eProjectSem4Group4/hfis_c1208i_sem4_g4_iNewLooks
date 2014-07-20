@@ -6,7 +6,7 @@ package entity;
 
 /**
  *
- * @author thanb_000
+ * @author dongnp_c00702
  */
 public class Task {
     private int id;
