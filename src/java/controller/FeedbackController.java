@@ -13,7 +13,7 @@ import model.FeedbackModel;
 
 /**
  *
- * @author thanb_000
+ * @author dongnpc00702
  */
 public class FeedbackController implements Serializable {
 

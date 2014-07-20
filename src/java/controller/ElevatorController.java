@@ -13,7 +13,7 @@ import model.ElevatorModel;
 
 /**
  *
- * @author thanb_000
+ * @author dongnpc00702
  */
 public class ElevatorController implements Serializable{
     private ElevatorModel elevatorModel;
