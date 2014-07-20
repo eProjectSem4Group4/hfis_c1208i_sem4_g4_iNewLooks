@@ -62,13 +62,19 @@
                             </td>
                         </tr>
                         <tr>
+                            <td>Made in </td>
+                            <td>
+                                <p:inputText id="txt_addelevator_country" value="#{hpmanager.addElevator.country}" required="true" maxlength="3000"/>
+                            </td>
+                        </tr>
+                        <tr>
                             <td></td>
                             <td>
                                 <font color="red"><p:outputLabel id="lb_addelevator_message" value="#{hpmanager.addelevator_message}"/></font><br/><br/>
                                 <p:commandButton value="Add elevator" 
                                                  actionListener="#{hpmanager.createElevator}"
-                                                 process="@this txt_addelevator_name txt_addelevator_baseprice txt_addelevator_floorprice txt_addelevator_description" 
-                                                 update="pnlAdmin_AddRequest lb_addelevator_message txt_addelevator_name txt_addelevator_description"/>
+                                                 process="@this txt_addelevator_name txt_addelevator_baseprice txt_addelevator_floorprice txt_addelevator_description txt_addelevator_country" 
+                                                 update="pnlAdmin_AddRequest lb_addelevator_message txt_addelevator_name txt_addelevator_description txt_addelevator_country"/>
                             </td>
                         </tr>
                     </table>
@@ -76,9 +82,20 @@
                 <p:panel id="pnlAdmin_ViewRequests" visible="#{hpmanager.admin_ViewRequestMode}">
                     <p:panel id="pnlAdmin_shSltedReq" visible="#{hpmanager.viewrequest_showSelectedRequest}">
                         <h1><h:outputText value="Selected request"/><br/></h1>
+                        <br/>
                         <c:set var="vr" value="#{hpmanager.viewrequest_selectedRequest}"/>
                         <c:set var="vra" value="#{hpmanager.viewrequest_selectedRequestSender}"/>
                         <table>
+                            <tr>
+                                <td>
+                                    <h:outputText value="From #{vr.postDate} - "/>
+                                </td>
+                                <td>
+                                    <h:outputText value="Not started" rendered="#{!vr.processing}"/>
+                                    <h:outputText value="#{vr.finishDate}" rendered="#{vr.done}"/>
+                                    <h:outputText value="Not finish (#{vr.completedPercent} %)" rendered="#{!vr.done and vr.processing}"/>
+                                </td>
+                            </tr>
                             <tr>
                                 <td>Request id</td>
                                 <td>
@@ -136,40 +153,51 @@
                         </table>
                         <br/>
                         <p:selectBooleanCheckbox id="ckb_viewrequest_setProcessing" value="#{hpmanager.viewrequest_requestprocessing}" immediate="true">
-                            <p:ajax update="lbviewrequest_message ckb_viewrequest_setProcessing tblRequests"/>
+                            <p:ajax update="lbviewrequest_message tblRequests pnlAdmin_shSltedReq"/>
                         </p:selectBooleanCheckbox>&nbsp;Mark as in progress
                         <br/>
-                        <p:selectBooleanCheckbox id="ckb_viewrequest_setDone" value="#{hpmanager.viewrequest_requestdone}" immediate="true">
-                            <p:ajax update="lbviewrequest_message ckb_viewrequest_setDone tblRequests"/>
-                        </p:selectBooleanCheckbox>&nbsp;Mark as done
+                        <p:panelGrid columns="2">
+                            <h:outputText value="Add a task"/>
+                            <p:inputText id="txtNewTask" value="#{hpmanager.viewrequest_NewTask.toDo}"/>
+                            <p:column/>
+                            <p:column>
+                                <p:commandButton value="Add" action="#{hpmanager.submitNewTask()}" process="@this txtNewTask" update="lbviewrequest_message tblRequests pnlAdmin_ViewRequests"/>
+                            </p:column>
+                        </p:panelGrid>
+                        <p:dataTable id="tblTask" styleClass="DataTable"
+                                     value="#{vr.taskList}" var="task" emptyMessage="No task was added for this request">
+                            <p:column headerText="Is done">
+                                <p:selectBooleanCheckbox disabled="true" value="#{task.done}"/>
+                                &nbsp;&nbsp;<p:commandLink value="Change" action="#{hpmanager.updateTask(task)}" process="@this" update=":frmAdminPage:lbviewrequest_message :frmAdminPage:tblRequests :frmAdminPage:pnlAdmin_ViewRequests" />
+                            </p:column>
+                            <p:column headerText="Task">
+                                <p:outputLabel value="#{task.toDo}"/>
+                            </p:column>
+                            <p:column>
+                                <p:commandLink value="Delete" action="#{hpmanager.deleteTask(task)}" process="@this" update=":frmAdminPage:lbviewrequest_message :frmAdminPage:tblRequests :frmAdminPage:pnlAdmin_ViewRequests" />
+                            </p:column>
+                        </p:dataTable>
                     </p:panel>
                     <font color="=red"><p:outputLabel id="lbviewrequest_message" value="#{hpmanager.viewrequest_message}"/></font>
                     <h1>All requests</h1>
                     <br/>
-                    <p:dataTable id="tblRequests" styleClass="DataTable" value="#{hpmanager.viewrequest_requestList}" var="vrs" emptyMessage="There's no request, sounds not good!">
-                        <p:column headerText="id">
+                    <p:dataTable id="tblRequests" styleClass="DataTable" value="#{hpmanager.viewrequest_requestList}" var="vrs" emptyMessage="There's no request, sounds not good!"
+                                 filteredValue="#{hpmanager.viewrequest_filterRequest}">
+                        <p:column headerText="id" filterMatchMode="contains" filterBy="#{vrs.id}" sortBy="#{vrs.id}">
                             <center><h:outputText value="#{vrs.id}"/></center>
                         </p:column>
-                        <p:column headerText="In progress">
-                            <center><h:outputText value="#{vrs.processing ? 'Yes' : 'No'}"/></center>
+                        <p:column headerText="Finished date" filterMatchMode="contains" filterBy="#{vrs.completedPercent}" sortBy="#{vrs.completedPercent}">
+                            <center>
+                                <h:outputText value="Not started" rendered="#{!vrs.processing}"/>
+                                <h:outputText value="#{vrs.finishDate}" rendered="#{vrs.done}"/>
+                                <h:outputText value="Not finish (#{vrs.completedPercent}%)" rendered="#{!vrs.done and vrs.processing}"/>
+                            </center>
                         </p:column>
-                        <p:column headerText="From account">
-                            <center><h:outputText value="#{vrs.senderUsername}"/></center>
-                        </p:column>
-                        <p:column headerText="Elevator">
+                        <p:column headerText="Elevator" filterMatchMode="contains" filterBy="#{vrs.elevatorName}" sortBy="#{vrs.elevatorName}">
                             <center><h:outputText value="#{vrs.elevatorName}"/></center>
                         </p:column>
-                        <p:column headerText="Floors">
-                            <center><h:outputText value="#{vrs.floorCount}"/></center>
-                        </p:column>
-                        <p:column headerText="Systems">
-                            <center><h:outputText value="#{vrs.systemCount}"/></center>
-                        </p:column>
-                        <p:column headerText="Address with 40 first chars only">
-                            <center><h:outputText value="#{vrs.shortAddress}"/></center>
-                        </p:column>
-                        <p:column headerText="Done">
-                            <center><h:outputText value="#{vrs.done ? 'Yes' : 'No'}"/></center>
+                        <p:column headerText="Price" filterMatchMode="contains" sortBy="#{vrs.totalPrice}">
+                            <center><h:outputText value="#{vrs.totalPrice}"/></center>
                         </p:column>
                         <p:column headerText="Edit">
                             <center><p:commandLink value="Click" process="@this"

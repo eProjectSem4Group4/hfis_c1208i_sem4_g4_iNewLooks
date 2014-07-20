@@ -266,9 +266,13 @@ h3 {
 	padding: 8px 0 5px 0;
 }
 
-.DataTable table > thead > tr > th,
+    .DataTable table > thead > tr > th,
     .DataTable table > tbody,
     .DataTable table > tbody > tr,
     .DataTable table > tbody > tr > td {
         border: none !important;
+    }
+    
+    .cbbMenu{
+        width: 100%;
     }

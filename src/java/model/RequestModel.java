@@ -9,6 +9,7 @@ import entity.QueryParameter;
 import entity.Request;
 import exception.CustomException;
 import java.io.Serializable;
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -25,7 +26,8 @@ public class RequestModel extends DatabaseManagement implements Serializable {
     public void createRequest(Request request) throws SQLException, ClassNotFoundException, CustomException {
         try {
             makeConnection();
-            doQuery("INSERT INTO Request(userId,elevatorId,floorCount,systemCount,[address],totalPrice,done,processing) VALUES (?,?,?,?,?,?,?,?)",
+            System.out.println("ELEVATORID= "+request.getElevatorId());
+            doQuery("INSERT INTO Request(userId,elevatorId,floorCount,systemCount,[address],totalPrice,done,processing,postDate,finishDate) VALUES (?,?,?,?,?,?,?,?,?,?)",
                     new QueryParameter[]{
                 new QueryParameter(1, request.getUserId()),
                 new QueryParameter(2, request.getElevatorId()),
@@ -34,7 +36,9 @@ public class RequestModel extends DatabaseManagement implements Serializable {
                 new QueryParameter(5, request.getAddress()),
                 new QueryParameter(6, request.getTotalPrice()),
                 new QueryParameter(7, request.isDone() ? "1" : "0"),
-                new QueryParameter(8, request.isProcessing() ? "1" : "0")
+                new QueryParameter(8, request.isProcessing() ? "1" : "0"),
+                new QueryParameter(9, new java.sql.Date(java.util.Calendar.getInstance().getTime().getTime())),
+                new QueryParameter(10, new java.sql.Date(java.util.Calendar.getInstance().getTime().getTime()))
             });
             closeConnection();
         } catch (SQLException | ClassNotFoundException | CustomException ex) {
@@ -51,7 +55,7 @@ public class RequestModel extends DatabaseManagement implements Serializable {
             List<Request> result = new ArrayList<Request>();
             makeConnection();
             ResultSet rs = getResultSet(
-                    "SELECT r.id, r.userId, r.elevatorId, r.floorCount, r.systemCount, r.[address], r.totalPrice, r.done, r.processing, a.username, e.name AS 'elevatorName'\n"
+                    "SELECT r.id, r.userId, r.elevatorId, r.floorCount, r.systemCount, r.[address], r.totalPrice, r.done, r.processing, r.postDate, r.finishDate, a.username, e.name AS 'elevatorName'\n"
                     + "FROM Account a INNER JOIN Request r \n"
                     + "	ON a.id = r.userId JOIN Elevator e\n"
                     + "	ON r.elevatorId = e.id", new QueryParameter[0]);
@@ -68,6 +72,8 @@ public class RequestModel extends DatabaseManagement implements Serializable {
                 req.setProcessing(rs.getBoolean("processing"));
                 req.setSenderUsername(rs.getString("username"));
                 req.setElevatorName(rs.getString("elevatorName"));
+                req.setPostDate(rs.getDate("postDate"));
+                req.setFinishDate(rs.getDate("finishDate"));
                 result.add(req);
             }
             closeConnection();

@@ -11,7 +11,7 @@ package entity;
 
 public class QueryParameter{
     private int position;
-    private String value;
+    private Object value;
 
     public QueryParameter(int position, Object value) {
         this.position = position;
@@ -26,11 +26,11 @@ public class QueryParameter{
         this.position = position;
     }
 
-    public String getValue() {
+    public Object getValue() {
         return value;
     }
 
-    public void setValue(String value) {
+    public void setValue(Object value) {
         this.value = value;
     }
     
