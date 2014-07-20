@@ -18,7 +18,7 @@ import java.util.logging.Logger;
 
 /**
  *
- * @author thanb_000
+ * @author dongnp_c00702
  */
 public class ElevatorModel extends DatabaseManagement implements Serializable {
     public List<Elevator> getAllElevators() throws SQLException, ClassNotFoundException, CustomException {

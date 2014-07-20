@@ -19,7 +19,7 @@ import org.omg.CORBA.portable.ApplicationException;
 
 /**
  *
- * @author Lab
+ * @author dongnp_c00702
  */
 public class DatabaseManagement {
 
