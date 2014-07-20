@@ -29,7 +29,7 @@ import model.TaskModel;
 
 /**
  *
- * @author thanb_000
+ * @author dongnp_c00702
  */
 @ManagedBean(name = "hpmanager")
 @SessionScoped
