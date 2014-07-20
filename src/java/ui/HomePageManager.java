@@ -413,6 +413,7 @@ public class HomePageManager implements Serializable {
             this.addElevator.setName(null);
             this.addElevator.setDescription(null);
             this.addElevator.setCountry(null);
+            this.elevators = getElevatorController().getAllElevators();
         } catch (SQLException | ClassNotFoundException | CustomException ex) {
             Logger.getLogger(HomePageManager.class.getName()).log(Level.SEVERE, null, ex);
             this.addelevator_message = "An error occured: " + ex.getMessage();

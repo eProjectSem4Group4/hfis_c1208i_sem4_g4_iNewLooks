@@ -99,7 +99,6 @@
                                 </tr>
                             </table>
                         </p:panel>
-
                         <p:dataTable id="tblElevator" value="#{hpmanager.elevators}" var="ele"
                                      filteredValue="#{hpmanager.elevatorsFilter}">
                             <p:ajax global="false" process="@this" event="rowToggle"/>
@@ -109,12 +108,29 @@
                             <p:column headerText="Name" filterMatchMode="contains" filterBy="#{ele.name}" sortBy="#{ele.name}" >
                                 <h:outputText value="#{ele.name}"/>
                             </p:column>
+                            <p:column headerText="Floor price" filterMatchMode="contains" filterBy="#{ele.floorPrice}" sortBy="#{ele.floorPrice}" >
+                                <h:outputText value="#{ele.floorPrice}"/>
+                            </p:column>
+                            <p:column headerText="Max human carry" resizable="true" filterMatchMode="contains" filterBy="#{ele.maxHuman}" sortBy="#{ele.maxHuman}" >
+                                <h:outputText value="#{ele.maxHuman}"/>
+                            </p:column>
+                            <p:column headerText="Made in" filterMatchMode="contains" filterBy="#{ele.country}" sortBy="#{ele.country}" >
+                                <h:outputText value="#{ele.country}"/>
+                            </p:column>
                             <p:rowExpansion>
                                 <p:panelGrid columns="2" styleClass="row-expansion">
                                     <h:outputText value="Product name:"/>
                                     <h:outputText value="#{ele.name}"/>
-                                    <h:outputText value="Product name:"/>
-                                    <h:outputText value="#{ele.name}"/>
+                                    <h:outputText value="Base price"/>
+                                    <h:outputText value="#{ele.basePrice}"/>
+                                    <h:outputText value="Floor price"  />
+                                    <h:outputText value="#{ele.floorPrice}"/>
+                                    <h:outputText value="Max weight" />
+                                    <h:outputText value="#{ele.maxWeight}"/>
+                                    <h:outputText value="Max human carry" />
+                                    <h:outputText value="#{ele.maxHuman}"/>
+                                    <h:outputText value="Made in" />
+                                    <h:outputText value="#{ele.country}"/>
                                 </p:panelGrid>
                             </p:rowExpansion>
                         </p:dataTable>
