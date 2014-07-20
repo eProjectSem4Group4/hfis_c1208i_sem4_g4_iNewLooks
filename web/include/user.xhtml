@@ -36,33 +36,37 @@
                             <tr>
                                 <td>Elevator system height</td>
                                 <td>
-                                    <p:inputText id="txt_sendrequest_floorCount" value="#{hpmanager.sendrequest_floorCount}" maxlength="4" required="true" requiredMessage="You must let us know how many floor do you want"  immediate="true">
-                                        <p:ajax update="txt_sendrequest_chosedEBasePrice txt_sendrequest_chosedEFloorPrice txt_sendrequest_chosedEDescription txt_sendrequest_totalPrice"/>
+                                    <p:inputText id="txt_sendrequest_floorCount" value="#{hpmanager.sendrequest_Elevator.floorCount}" maxlength="4" required="true" requiredMessage="You must let us know how many floor do you want"  immediate="true">
+                                        <p:ajax update="pnlSendRequest_ElevatorInfo"/>
                                     </p:inputText> floor
                                 </td>
                             </tr>
                             <tr>
                                 <td>Elevator type</td>
                                 <td>
-                                    <p:selectOneMenu value="#{hpmanager.sendrequest_elevatorChosedId}" valueChangeListener="#{hpmanager.elevatorTypeChangeListener}" required="true" requiredMessage="You must select at least one elevator type">
+                                    <p:selectOneMenu id="cbbElevatorType" styleClass="cbbMenu" value="#{hpmanager.sendrequest_ElevatorChosed.id}" valueChangeListener="#{hpmanager.elevatorTypeChangeListener}" required="true" requiredMessage="You must select at least one elevator type">
                                         <f:selectItem itemLabel="Select elevator" itemValue="0"/>
                                         <f:selectItems value="#{hpmanager.elevators}" var="elevator" itemLabel="#{elevator.name}" itemValue="#{elevator.id}"/>
-                                        <p:ajax event="change" update="txt_sendrequest_chosedEBasePrice txt_sendrequest_chosedEFloorPrice txt_sendrequest_chosedEDescription txt_sendrequest_totalPrice"/>
+                                        <p:ajax event="change" update="pnlSendRequest_ElevatorInfo"/>
+                                    </p:selectOneMenu>&nbps;
+                                    <p:selectOneMenu  id="cbbFilterType" styleClass="cbbMenu" value="#{hpmanager.sendrequest_filter}" valueChangeListener="#{hpmanager.filterTypeChangeListener}">
+                                        <f:selectItems value="#{hpmanager.sendrequest_filterList}" var="filter" itemLabel="#{filter.name}" itemValue="#{filter.id}"/>
+                                        <p:ajax event="change" update="cbbElevatorType"/>
                                     </p:selectOneMenu>
                                 </td>
                             </tr>
                             <tr>
                                 <td>Number of systems</td>
                                 <td>
-                                    <p:inputText id="txt_sendrequest_systemCount" value="#{hpmanager.sendrequest_systemCount}" maxlength="3" immediate="true">
-                                        <p:ajax update="txt_sendrequest_chosedEBasePrice txt_sendrequest_chosedEFloorPrice txt_sendrequest_chosedEDescription txt_sendrequest_totalPrice"/>
+                                    <p:inputText id="txt_sendrequest_systemCount" value="#{hpmanager.sendrequest_Elevator.systemCount}" maxlength="3" immediate="true">
+                                        <p:ajax update="pnlSendRequest_ElevatorInfo"/>
                                     </p:inputText>
                                 </td>
                             </tr>
                             <tr>
                                 <td>Installation address (include address name)</td>
                                 <td>
-                                    <p:inputText id="txt_sendrequest_address" value="#{hpmanager.sendrequest_address}" maxlength="3000" required="true" requiredMessage="You must enter address of installation place"/>
+                                    <p:inputText id="txt_sendrequest_address" value="#{hpmanager.sendrequest_Elevator.address}" maxlength="3000" required="true" requiredMessage="You must enter address of installation place"/>
                                 </td>
                             </tr>
                             <tr>
@@ -84,29 +88,89 @@
                                 <tr>
                                     <td>Total price:</td>
                                     <td>
-                                        <p:outputLabel id="txt_sendrequest_totalPrice" value="#{hpmanager.sendrequest_totalPrice}"/>
+                                        <p:outputLabel id="txt_sendrequest_totalPrice" value="#{hpmanager.sendrequest_Elevator.totalPrice}"/>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>Installation price:</td>
                                     <td>
-                                        <p:outputLabel id="txt_sendrequest_chosedEBasePrice" value="#{hpmanager.sendrequest_elevatorChosedBasePrice}"/>
+                                        <p:outputLabel id="txt_sendrequest_chosedEBasePrice" value="#{hpmanager.sendrequest_ElevatorChosed.basePrice}"/>
                                     </td>
                                 </tr>
                                 <tr>
                                     <td>Price per floor:</td>
                                     <td>
-                                        <p:outputLabel id="txt_sendrequest_chosedEFloorPrice" value="#{hpmanager.sendrequest_elevatorChosedFloorPrice}"/>
+                                        <p:outputLabel id="txt_sendrequest_chosedEFloorPrice" value="#{hpmanager.sendrequest_ElevatorChosed.floorPrice}"/>
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td>Description:</td>
+                                    <td valign="top">Max carry</td>
                                     <td>
-                                        <p:outputLabel id="txt_sendrequest_chosedEDescription" value="#{hpmanager.sendrequest_elevatorChosedDescription}"/>
+                                        <p:outputLabel id="txt_sendrequest_chosedEMaxCarry" value="#{hpmanager.sendrequest_ElevatorChosed.maxWeight} kg or #{hpmanager.sendrequest_ElevatorChosed.maxHuman} person"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td valign="top">Description:</td>
+                                    <td>
+                                        <p:outputLabel id="txt_sendrequest_chosedEDescription" value="#{hpmanager.sendrequest_ElevatorChosed.description}"/>
                                     </td>
                                 </tr>
                             </table>
                         </p:panel>
+                    </p:panel>
+                    <p:panel id="pnlUser_SendFeedback" visible="#{hpmanager.user_ViewSendFeedbackMode}">
+                        <table>
+                            <tr>
+                                <td>Tên của bạn</td>
+                                <td>
+                                    <p:inputText id="txt_sendfeedback_senderName" value="#{hpmanager.mfbFeedback.senderName}" required="true"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Email</td>
+                                <td>
+                                    <p:inputText id="txt_sendfeedback_senderEmail" value="#{hpmanager.mfbFeedback.senderEmail}" required="true"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Mô tả sơ qua</td>
+                                <td>
+                                    <p:inputText id="txt_sendfeedback_description" value="#{hpmanager.mfbFeedback.description}" required="true"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Đánh giá mức độ</td>
+                                <td>
+                                    <p:selectOneMenu id="cbb_sendfeedback_rate" value="#{hpmanager.mfbFeedback.rate}" >
+                                        <f:selectItem itemLabel="Normal" itemValue="1"/>
+                                        <f:selectItem itemLabel="Good" itemValue="2"/>
+                                        <f:selectItem itemLabel="Pass" itemValue="3"/>
+                                        <f:selectItem itemLabel="Bad" itemValue="4"/>
+                                    </p:selectOneMenu>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Vấn đề gặp phải (nếu có)</td>
+                                <td>
+                                    <p:inputText id="txt_sendfeedback_problem" value="#{hpmanager.mfbFeedback.problem}"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Nội dung cần cải thiện (góp ý)</td>
+                                <td>
+                                    <p:inputText id="txt_sendfeedback_comment" value="#{hpmanager.mfbFeedback.comment}" required="true"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td>
+                                    <p:commandButton value="Send" action="#{hpmanager.sendfeedback_submit()}"
+                                                     process="@this txt_sendfeedback_senderName txt_sendfeedback_senderEmail txt_sendfeedback_description cbb_sendfeedback_rate txt_sendfeedback_problem txt_sendfeedback_comment"
+                                                     update="pnlUser_SendFeedback lb_sendfeedback_mesage"/>
+                                    <br/><font color="red"><p:outputLabel id="lb_sendfeedback_mesage" value="#{hpmanager.sendfeedback_message}"/></font>
+                                </td>
+                            </tr>
+                        </table>
                     </p:panel>
                 </div>
                 <!-- end .inner -->
