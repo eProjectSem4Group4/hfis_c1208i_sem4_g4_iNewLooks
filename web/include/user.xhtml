@@ -99,7 +99,7 @@
                                 </tr>
                             </table>
                         </p:panel>
-                        <p:dataTable value="#{hpmanager.elevators}" var="ele" tableStyle=""
+                        <p:dataTable value="#{hpmanager.elevators}" var="ele" styleClass="DataTable"
                                      filteredValue="#{hpmanager.elevatorsFilter}">
                             <p:ajax global="false" process="@this" event="rowToggle"/>
                             <p:column style="width:3%">

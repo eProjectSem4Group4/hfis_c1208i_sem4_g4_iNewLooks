@@ -24,6 +24,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 import javax.faces.event.ValueChangeEvent;
+import model.TaskModel;
 
 /**
  *
@@ -39,6 +40,14 @@ public class HomePageManager implements Serializable {
 
     public void setLogin(Login login) {
         this.login = login;
+    }
+    private TaskModel taskModel;
+
+    public TaskModel getTaskModel() {
+        if (taskModel == null) {
+            taskModel = new TaskModel();
+        }
+        return taskModel;
     }
     private AccountController accountController;
     private ElevatorController elevatorController;
@@ -230,6 +239,7 @@ public class HomePageManager implements Serializable {
                 return;
             }
             getSendrequest_Elevator().setUserId(login.getUser().getId());
+            getSendrequest_Elevator().setElevatorId(this.sendrequest_ElevatorChosed.getId());
             getSendrequest_Elevator().setTotalPrice(getTotalRequestPrice());
             getSendrequest_Elevator().setDone(false);
             getSendrequest_Elevator().setProcessing(false);
@@ -242,8 +252,8 @@ public class HomePageManager implements Serializable {
     }
 
     public void elevatorTypeChangeListener(ValueChangeEvent event) {
-            Integer id = (Integer) event.getNewValue();
-            changeSelectedElevatorInfor(id);
+        Integer id = (Integer) event.getNewValue();
+        changeSelectedElevatorInfor(id);
     }
 
     public Elevator getSendrequest_ElevatorChosed() {
@@ -319,7 +329,7 @@ public class HomePageManager implements Serializable {
     }
 
     public void changeSelectedElevatorInfor(Integer iNewId) {
-        try{
+        try {
             for (Elevator e : getElevators()) {
                 if (e.getId() == iNewId) {
                     getSendrequest_ElevatorChosed().setBasePrice(e.getBasePrice());
@@ -517,6 +527,12 @@ public class HomePageManager implements Serializable {
     public List<Request> getViewrequest_requestList() {
         try {
             this.viewrequest_requestList = getRequestController().getAllRequests();
+            for (Request r : viewrequest_requestList) {
+                try {
+                    r.setTaskList(getTaskModel().getAllTask(pageMode));
+                } catch (Exception ex) {
+                }
+            }
         } catch (SQLException | ClassNotFoundException | CustomException ex) {
             Logger.getLogger(HomePageManager.class.getName()).log(Level.SEVERE, null, ex);
             this.viewrequest_requestList = new ArrayList<Request>();
