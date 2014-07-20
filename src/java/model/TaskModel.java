@@ -28,10 +28,11 @@ public class TaskModel extends DatabaseManagement implements Serializable {
             ResultSet rs = getResultSet(
                     "SELECT * FROM Task WHERE requestId = ? ", new QueryParameter[]{new QueryParameter(1, requestId)});
             while (rs.next()) {
-                Task taskList = new Task();
-                taskList.setId(rs.getInt("id"));
-                taskList.setToDo(rs.getString("toDo"));
-                taskList.setDone(rs.getBoolean("done"));
+                Task task = new Task();
+                task.setId(rs.getInt("id"));
+                task.setToDo(rs.getString("toDo"));
+                task.setDone(rs.getBoolean("done"));
+                result.add(task);
             }
             closeConnection();
             return result;
@@ -48,6 +49,10 @@ public class TaskModel extends DatabaseManagement implements Serializable {
         try {
             makeConnection();
             doQuery("DELETE FROM Task WHERE id = ? ", new QueryParameter[]{new QueryParameter(1, task.getId())});
+            doQuery("IF NOT EXISTS (SELECT * FROM Task WHERE requestId = ? AND done = 0) UPDATE Request SET finishDate = ? WHERE id = ?", new QueryParameter[]{
+                            new QueryParameter(1, task.getRquestId()),
+                            new QueryParameter(2, new java.sql.Date(java.util.Calendar.getInstance().getTime().getTime())),
+                            new QueryParameter(3, task.getRquestId())});
             closeConnection();
         } catch (SQLException | ClassNotFoundException | CustomException ex) {
             Logger.getLogger(TaskModel.class.getName()).log(Level.SEVERE, null, ex);
@@ -61,10 +66,14 @@ public class TaskModel extends DatabaseManagement implements Serializable {
     public void updateTask(Task task) throws SQLException, ClassNotFoundException, CustomException {
         try {
             makeConnection();
-            doQuery("UPDATE Task SET toDo = ? AND done = ? WHERE id = ? ", new QueryParameter[]{
+            doQuery("UPDATE Task SET toDo = ?, done = ? WHERE id = ? ", new QueryParameter[]{
                 new QueryParameter(1, task.getToDo()),
                 new QueryParameter(2, task.isDone() ? "1" : "0"),
                 new QueryParameter(3, task.getId())});
+            doQuery("IF NOT EXISTS (SELECT * FROM Task WHERE requestId = ? AND done = 0) UPDATE Request SET finishDate = ? WHERE id = ?", new QueryParameter[]{
+                            new QueryParameter(1, task.getRquestId()),
+                            new QueryParameter(2, new java.sql.Date(java.util.Calendar.getInstance().getTime().getTime())),
+                            new QueryParameter(3, task.getRquestId())});
             closeConnection();
         } catch (SQLException | ClassNotFoundException | CustomException ex) {
             Logger.getLogger(TaskModel.class.getName()).log(Level.SEVERE, null, ex);
@@ -82,6 +91,10 @@ public class TaskModel extends DatabaseManagement implements Serializable {
                 new QueryParameter(1, task.getRquestId()),
                 new QueryParameter(2, task.getToDo()),
                 new QueryParameter(3, task.isDone() ? "1" : "0")});
+            doQuery("IF NOT EXISTS (SELECT * FROM Task WHERE requestId = ? AND done = 0) UPDATE Request SET finishDate = ? WHERE id = ?", new QueryParameter[]{
+                            new QueryParameter(1, task.getRquestId()),
+                            new QueryParameter(2, new java.sql.Date(java.util.Calendar.getInstance().getTime().getTime())),
+                            new QueryParameter(3, task.getRquestId())});
             closeConnection();
         } catch (SQLException | ClassNotFoundException | CustomException ex) {
             Logger.getLogger(TaskModel.class.getName()).log(Level.SEVERE, null, ex);

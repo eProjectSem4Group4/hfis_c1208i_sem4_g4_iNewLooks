@@ -27,7 +27,7 @@ public class RequestModel extends DatabaseManagement implements Serializable {
         try {
             makeConnection();
             System.out.println("ELEVATORID= "+request.getElevatorId());
-            doQuery("INSERT INTO Request(userId,elevatorId,floorCount,systemCount,[address],totalPrice,done,processing,postDate) VALUES (?,?,?,?,?,?,?,?,?)",
+            doQuery("INSERT INTO Request(userId,elevatorId,floorCount,systemCount,[address],totalPrice,done,processing,postDate,finishDate) VALUES (?,?,?,?,?,?,?,?,?,?)",
                     new QueryParameter[]{
                 new QueryParameter(1, request.getUserId()),
                 new QueryParameter(2, request.getElevatorId()),
@@ -37,7 +37,8 @@ public class RequestModel extends DatabaseManagement implements Serializable {
                 new QueryParameter(6, request.getTotalPrice()),
                 new QueryParameter(7, request.isDone() ? "1" : "0"),
                 new QueryParameter(8, request.isProcessing() ? "1" : "0"),
-                new QueryParameter(9, new java.sql.Date(java.util.Calendar.getInstance().getTime().getTime()))
+                new QueryParameter(9, new java.sql.Date(java.util.Calendar.getInstance().getTime().getTime())),
+                new QueryParameter(10, new java.sql.Date(java.util.Calendar.getInstance().getTime().getTime()))
             });
             closeConnection();
         } catch (SQLException | ClassNotFoundException | CustomException ex) {

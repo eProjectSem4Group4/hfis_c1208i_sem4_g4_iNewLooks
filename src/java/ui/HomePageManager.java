@@ -13,6 +13,7 @@ import entity.Elevator;
 import entity.Feedback;
 import entity.Filter;
 import entity.Request;
+import entity.Task;
 import exception.CustomException;
 import java.io.Serializable;
 import java.sql.SQLException;
@@ -529,7 +530,7 @@ public class HomePageManager implements Serializable {
             this.viewrequest_requestList = getRequestController().getAllRequests();
             for (Request r : viewrequest_requestList) {
                 try {
-                    r.setTaskList(getTaskModel().getAllTask(pageMode));
+                    r.setTaskList(getTaskModel().getAllTask(r.getId()));
                 } catch (Exception ex) {
                 }
             }
@@ -559,6 +560,66 @@ public class HomePageManager implements Serializable {
     public boolean isViewrequest_showSelectedRequest() {
         return this.viewrequest_selectedRequest != null;
     }
+    private Task viewrequest_NewTask;
+
+    public Task getViewrequest_NewTask() {
+        if (viewrequest_NewTask == null) {
+            viewrequest_NewTask = new Task();
+        }
+        return viewrequest_NewTask;
+    }
+
+    public void setViewrequest_NewTask(Task viewrequest_NewTask) {
+        this.viewrequest_NewTask = viewrequest_NewTask;
+    }
+
+    public void submitNewTask() {
+        try {
+            viewrequest_NewTask.setRquestId(viewrequest_selectedRequest.getId());
+            viewrequest_NewTask.setDone(false);
+            if (viewrequest_NewTask.getToDo() == null || viewrequest_NewTask.getToDo().isEmpty()) {
+                return;
+            }
+            getTaskModel().createTask(viewrequest_NewTask);
+            viewrequest_NewTask.setToDo("");
+            viewrequest_selectedRequest = null;
+        } catch (SQLException | ClassNotFoundException | CustomException ex) {
+            Logger.getLogger(HomePageManager.class.getName()).log(Level.SEVERE, null, ex);
+            viewrequest_message = "An error occured";
+        }
+    }
+
+    public void updateTask(Task task) {
+        try {
+            task.setDone(!task.isDone());
+            getTaskModel().updateTask(task);
+            viewrequest_selectedRequest = null;
+        } catch (SQLException | ClassNotFoundException | CustomException ex) {
+            Logger.getLogger(HomePageManager.class.getName()).log(Level.SEVERE, null, ex);
+            viewrequest_message = "An error occured";
+        }
+    }
+
+    public void deleteTask(Task task) {
+        try {
+            getTaskModel().deleteTask(task);
+            viewrequest_selectedRequest = null;
+        } catch (SQLException | ClassNotFoundException | CustomException ex) {
+            Logger.getLogger(HomePageManager.class.getName()).log(Level.SEVERE, null, ex);
+            viewrequest_message = "An error occured";
+        }
+    }
+    
+    private List<Request> viewrequest_filterRequest;
+
+    public List<Request> getViewrequest_filterRequest() {
+        return viewrequest_filterRequest;
+    }
+
+    public void setViewrequest_filterRequest(List<Request> viewrequest_filterRequest) {
+        this.viewrequest_filterRequest = viewrequest_filterRequest;
+    }
+    
     //END================= VIEW REQUEST
     //</editor-fold>
 

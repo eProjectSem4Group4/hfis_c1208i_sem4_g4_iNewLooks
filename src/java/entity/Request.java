@@ -35,7 +35,11 @@ public class Request {
         for (Task t : taskList) {
             c += (t.isDone() ? 1 : 0);
         }
-        return (byte) Math.floor(c / taskList.size());
+        return (byte) Math.floor(c*100 / taskList.size());
+    }
+    
+    public byte getTaskCount(){
+        return (byte)taskList.size();
     }
 
     public List<Task> getTaskList() {
@@ -84,7 +88,7 @@ public class Request {
     }
 
     public boolean isDone() {
-        return done == null ? false : done;
+        return getCompletedPercent() == 100;
     }
 
     public void setDone(boolean done) {
