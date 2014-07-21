@@ -15,7 +15,7 @@ public class QueryParameter{
 
     public QueryParameter(int position, Object value) {
         this.position = position;
-        this.value = String.valueOf(value);
+        this.value = value;
     }
 
     public int getPosition() {

@@ -92,7 +92,7 @@
                                 </td>
                                 <td>
                                     <h:outputText value="Not started" rendered="#{!vr.processing}"/>
-                                    <h:outputText value="#{vr.finishDate}" rendered="#{vr.done}"/>
+                                    <h:outputText value="#{vr.finishDate}" rendered="#{vr.done and vr.processing}"/>
                                     <h:outputText value="Not finish (#{vr.completedPercent} %)" rendered="#{!vr.done and vr.processing}"/>
                                 </td>
                             </tr>
@@ -189,7 +189,7 @@
                         <p:column headerText="Finished date" filterMatchMode="contains" filterBy="#{vrs.completedPercent}" sortBy="#{vrs.completedPercent}">
                             <center>
                                 <h:outputText value="Not started" rendered="#{!vrs.processing}"/>
-                                <h:outputText value="#{vrs.finishDate}" rendered="#{vrs.done}"/>
+                                <h:outputText value="#{vrs.finishDate}" rendered="#{vrs.done and vrs.processing}"/>
                                 <h:outputText value="Not finish (#{vrs.completedPercent}%)" rendered="#{!vrs.done and vrs.processing}"/>
                             </center>
                         </p:column>

@@ -15,6 +15,7 @@ import entity.Filter;
 import entity.Request;
 import entity.Task;
 import exception.CustomException;
+import java.io.IOException;
 import java.io.Serializable;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -24,6 +25,8 @@ import java.util.logging.Logger;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.ExternalContext;
+import javax.faces.context.FacesContext;
 import javax.faces.event.ValueChangeEvent;
 import model.TaskModel;
 
@@ -519,6 +522,7 @@ public class HomePageManager implements Serializable {
             }
             getRequestController().setRequestStatus(this.viewrequest_selectedRequest.getId(), viewrequest_requestprocessing);
             this.viewrequest_requestprocessing = viewrequest_requestprocessing;
+            this.viewrequest_message = "Updated";
         } catch (SQLException | ClassNotFoundException | CustomException ex) {
             Logger.getLogger(HomePageManager.class.getName()).log(Level.SEVERE, null, ex);
             this.viewrequest_message = "An error occured: " + ex.getMessage();
@@ -526,6 +530,7 @@ public class HomePageManager implements Serializable {
     }
 
     public List<Request> getViewrequest_requestList() {
+        System.out.println("===GET RQ L");
         try {
             this.viewrequest_requestList = getRequestController().getAllRequests();
             for (Request r : viewrequest_requestList) {
@@ -601,15 +606,21 @@ public class HomePageManager implements Serializable {
     }
 
     public void deleteTask(Task task) {
+        String url = ("");
+        FacesContext fc = FacesContext.getCurrentInstance();
+        ExternalContext ec = fc.getExternalContext();
         try {
             getTaskModel().deleteTask(task);
             viewrequest_selectedRequest = null;
+            ec.redirect(url);
         } catch (SQLException | ClassNotFoundException | CustomException ex) {
             Logger.getLogger(HomePageManager.class.getName()).log(Level.SEVERE, null, ex);
             viewrequest_message = "An error occured";
+        } catch (IOException ex) {
+            Logger.getLogger(HomePageManager.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     private List<Request> viewrequest_filterRequest;
 
     public List<Request> getViewrequest_filterRequest() {
@@ -619,10 +630,9 @@ public class HomePageManager implements Serializable {
     public void setViewrequest_filterRequest(List<Request> viewrequest_filterRequest) {
         this.viewrequest_filterRequest = viewrequest_filterRequest;
     }
-    
+
     //END================= VIEW REQUEST
     //</editor-fold>
-
     //<editor-fold desc="SEND FEEDBACK">
     public boolean isUser_ViewSendFeedbackMode() {
         return this.pageMode == PAGE_USER_SENDFEEDBACK;
