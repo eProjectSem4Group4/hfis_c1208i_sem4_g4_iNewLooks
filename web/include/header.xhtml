@@ -5,7 +5,7 @@
       xmlns:p="http://primefaces.org/ui">
     <h:body>
         <h:form id="frmUser">
-            <p:panel id="pnlLoginForm" visible="#{login.showLoginForm}">
+            <p:panel id="pnlLoginForm" visible="#{login.showLoginForm}" style="background-color: rgb(34, 225, 241);">
                 <div class="xenForm eAuth" style="display: block;">
                     <div id="loginBar" style="z-index: 9999;">
                         <div class="pageWidth" >
@@ -14,10 +14,15 @@
                                     <div class="_swInner" style="margin: 0px auto auto;">
                                         <ul id="eAuthUnit">
                                         </ul>
-                                        <div class="ctrlWrapper">
+                                        <div class="ctrlWrapper" >
                                             <dl class="ctrlUnit">
                                                 <dt><label for="LoginControl">Tên tài khoản hoặc địa chỉ Email:</label></dt>
-                                                <dd><p:inputText id="txtLoginUsername" value="#{login.username}" maxlength="16" required="true" requiredMessage="Can not leave username empty"/></dd>
+                                                <dd><p:inputText id="txtLoginUsername" style="width:253px;
+height:18px;
+background-color:#fff;
+color:#999999;
+border:1px #DFDFDF solid;
+float:left;" value="#{login.username}" maxlength="16" required="true" requiredMessage="Can not leave username empty"/></dd>
                                             </dl>
                                             <dl class="ctrlUnit">
                                                 <dt>
@@ -30,8 +35,13 @@
                                                         <li><label for="ctrl_registered"><input type="radio" name="register" value="0" id="ctrl_registered" tabindex="105" checked="checked" class="Disabler"/>
                                                                 Vâng, Mật khẩu của tôi là:</label></li>
                                                         <li id="ctrl_registered_Disabler">
-                                                            <p:inputText id="txtLoginPassword" value="#{login.password}" maxlength="32" type="password" required="true" requiredMessage="Can not leave password empty"/>
-                                                            <div class="lostPassword"><a href="lost-password/" class="OverlayTrigger OverlayCloser" tabindex="106">Bạn đã quên mật khẩu?</a></div>
+                                                            <p:inputText id="txtLoginPassword" style="width:253px;
+height:18px;
+background-color:#fff;
+color:#999999;
+border:1px #DFDFDF solid;
+float:left;" value="#{login.password}" maxlength="32" type="password" required="true" requiredMessage="Can not leave password empty"/>
+                                                            <div class="lostPassword"></div>
                                                         </li>
                                                     </ul>
                                                 </dd>
@@ -39,9 +49,9 @@
                                             <dl class="ctrlUnit submitUnit">
                                                 <dt></dt>
                                                 <dd>
-                                                    <p:commandButton id="btnSubmit" value="Login" process="@this txtLoginUsername txtLoginPassword" update="pnlRegisterForm pnlNotLoggedIn pnlLoginForm pnlLoggedIn :frmBrowse:pnlBrowse_User :frmBrowse:pnlBrowse_Admin" actionListener="#{login.login()}"/>
+                                                    <p:commandButton id="btnSubmit" style="border: none" value="Login" process="@this txtLoginUsername txtLoginPassword" update="pnlRegisterForm pnlNotLoggedIn pnlLoginForm pnlLoggedIn :frmBrowse:pnlBrowse_User :frmBrowse:pnlBrowse_Admin" actionListener="#{login.login()}"/>
                                                     &nbsp;&nbsp;
-                                                    <p:commandLink id="btnCloseLoginForm" process="@this" update="pnlLoginForm" value="Not now" actionListener="#{login.makeLoginFormShow(false)}"/>
+                                                    <p:commandLink id="btnCloseLoginForm" process="@this" update="pnlLoginForm" value="Not Now" actionListener="#{login.makeLoginFormShow(false)}"/>
                                                     <font color="red"><br/><p:outputLabel value="#{login.message}" rendered="#{login.haveErrorMessage}"/></font>
                                                     <label for="ctrl_remember" class="rememberPassword"><input type="checkbox" name="remember" value="1" id="ctrl_remember" tabindex="103"/> Duy trì trạng thái đăng nhập</label>
                                                 </dd>
@@ -58,7 +68,7 @@
                     </div>
                 </div>
             </p:panel>
-            <p:panel id="pnlRegisterForm" visible="#{register.showRegisterForm and !login.loggedIn}">
+            <p:panel style="background-color: rgb(34, 225, 241);" id="pnlRegisterForm" visible="#{register.showRegisterForm and !login.loggedIn}">
 
                 <div class="xenForm AutoValidator" data-fieldvalidatorurl="register/validate-field" data-normalsubmit="1">
                     <div class="titleBar">
