@@ -151,7 +151,7 @@
                     <dd><p:commandLink 
                             value="Send a request" process="@this" 
                             update=":frmUser:pnlLoginForm :frmAdminPage:pnlAdminPage :frmUserPage:pnlUserPage" 
-                            actionListener="#{hpmanager.showPageUserSendRequest()}"/></dd>
+                            actionListener="#{hpmanager.showPageUserSendRequest()}" rendered="#{!login.admin}"/></dd>
                     <dd><p:commandLink 
                             value="Feedback" process="@this" 
                             update=":frmUser:pnlLoginForm :frmAdminPage:pnlAdminPage :frmUserPage:pnlUserPage" 
@@ -160,7 +160,7 @@
                     <dd class="last"><p:commandLink 
                             value="Report" process="@this" 
                             update=":frmUser:pnlLoginForm :frmAdminPage:pnlAdminPage :frmUserPage:pnlUserPage" 
-                            actionListener="#{hpmanager.showPageUserReport()}"/></dd>
+                            actionListener="#{hpmanager.showPageUserReport()}" rendered="#{!login.admin}"/></dd>
                 </p:panel>
                 <p:panel id="pnlBrowse_Admin" visible="#{login.admin}" >
                     <dt>Admin panel</dt>

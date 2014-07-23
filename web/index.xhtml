@@ -14,15 +14,19 @@
         <div id="wrapper">
             <div id="inner">
                 <ui:include src="include/header.xhtml"/>
-                <div id="body">
-                    <ui:include src="include/admin.xhtml"/>
-                    <ui:include src="include/user.xhtml"/>
-                </div>
-                <!-- end body -->
-                <ui:include src="include/footer.xhtml"/> 
+
             </div>
-            <!-- end inner -->
+            <div id="body">
+                <ui:include src="include/admin.xhtml"/>
+                <div style="float: right">
+                     <ui:include src="include/user.xhtml"/>
+                </div>
+               
+            </div>
+            <!-- end body -->
+            <ui:include src="include/footer.xhtml"/> 
         </div>
+        <!-- end inner -->
         <!-- end wrapper -->
     </h:body>
 </html>
