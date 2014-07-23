@@ -276,3 +276,38 @@ h3 {
     .cbbMenu{
         width: 100%;
     }
+ .right{
+    background: url(../images/product-bg.jpg) no-repeat;
+    width: 500px;
+    height: 622px;
+}
+.right1{
+    float: right;
+    padding-bottom: 20px;
+}
+.right .product ul{
+    padding-top: 60px;
+    width: 500px;
+    margin: 0 auto;
+    float: left;
+}
+.right.product  li{
+    float: left;
+    width: 140px;
+    height: 224px;
+    text-align: center;
+}
+.textCtrl {
+    font-size: 12px;
+    font-family: Lato, Helvetica, sans-serif;
+    color: #000000;
+    background-color: #ffffff;
+    padding: 5px 3px;
+    margin-bottom: 2px;
+    border: 1px solid rgb(226, 226, 226);
+    -webkit-border-radius: 2px;
+    -moz-border-radius: 2px;
+    -khtml-border-radius: 2px;
+    border-radius: 2px;
+    outline: 0;
+}
