@@ -20,7 +20,16 @@ public class Project {
     private String customer;
     private Date startDate;
     private Date finishDate;
+    private String avatar;
 
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
+    }
+    
     public String getCustomer() {
         return customer;
     }
@@ -44,10 +53,6 @@ public class Project {
     public void setFinishDate(Date finishDate) {
         this.finishDate = finishDate;
     }
-
-    
-    
-    
 
     public String getShortTitle() {
         return shortTitle;

@@ -12,6 +12,7 @@ import entity.Account;
 import entity.Elevator;
 import entity.Feedback;
 import entity.Filter;
+import entity.Project;
 import entity.Request;
 import entity.Task;
 import exception.CustomException;
@@ -25,6 +26,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 import javax.faces.event.ValueChangeEvent;
+import model.ProjectModel;
 import model.TaskModel;
 
 /**
@@ -50,6 +52,16 @@ public class HomePageManager implements Serializable {
         }
         return taskModel;
     }
+    
+    private ProjectModel projectModel;
+
+    public ProjectModel getProjectModel() {
+        if (projectModel == null)
+            projectModel = new ProjectModel();
+        return projectModel;
+    }
+    
+    
     private AccountController accountController;
     private ElevatorController elevatorController;
     private RequestController requestController;
@@ -140,7 +152,7 @@ public class HomePageManager implements Serializable {
     }
 
     public boolean isShowUserPage() {
-        return showUserPage;
+        return this.showUserPage;
     }
 
     public void makeUserPageShow(byte showUserPage) {
@@ -167,10 +179,6 @@ public class HomePageManager implements Serializable {
 
     public boolean isAdmin_ViewAllUsersMode() {
         return this.pageMode == PAGE_ADMIN_VIEWALLUSER;
-    }
-
-    public boolean isUser_ViewPageDefaultMode() {
-        return this.pageMode == PAGE_USER_DEFAULT;
     }
     //</editor-fold>
 
@@ -746,5 +754,29 @@ public class HomePageManager implements Serializable {
     public void showPageUserViewRequest() {
         makeUserPageShow(PAGE_USER_VIEWREQUEST);
     }
+    //</editor-fold>
+    
+    
+    //<editor-fold desc="DEFAULT PAGE">
+    public boolean isUser_ViewPageDefaultMode() {
+        return this.pageMode == PAGE_USER_DEFAULT;
+    }
+    
+    private List<Project> projectList;
+
+    public List<Project> getProjectList() {
+        try {
+            return getProjectModel().getAllProjects();
+        } catch (SQLException | ClassNotFoundException | CustomException ex) {
+            Logger.getLogger(HomePageManager.class.getName()).log(Level.SEVERE, null, ex);
+            return new ArrayList<Project>();
+        }
+    }
+
+    public void setProjectList(List<Project> projectList) {
+        this.projectList = projectList;
+    }
+    
+    
     //</editor-fold>
 }
