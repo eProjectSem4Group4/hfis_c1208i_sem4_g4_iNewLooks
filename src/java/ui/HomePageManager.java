@@ -103,11 +103,12 @@ public class HomePageManager implements Serializable {
     public final byte PAGE_USER_SENDREQUEST = 2;
     public final byte PAGE_USER_SENDFEEDBACK = 6;
     public final byte PAGE_USER_VIEWREQUEST = 8;
+    public final byte PAGE_USER_VIEWPROJECT = 9;
     public final byte PAGE_ADMIN_VIEWALLUSER = 3;
     public final byte PAGE_ADMIN_ADDELEVATOR = 4;
     public final byte PAGE_ADMIN_VIEWREQUEST = 5;
     public final byte PAGE_ADMIN_VIEWFEEDBACK = 7;
-    // last = 8
+    // last = 9
     private byte pageMode = PAGE_USER_DEFAULT;
 
     private void changeValuePageMode(byte nValue) {
@@ -776,7 +777,25 @@ public class HomePageManager implements Serializable {
     public void setProjectList(List<Project> projectList) {
         this.projectList = projectList;
     }
+    private Project selectedProject;
+
+    public Project getSelectedProject() {
+        return selectedProject;
+    }
+
+    public void setSelectedProject(Project selectedProject) {
+        this.selectedProject = selectedProject;
+    }
     
+    public void showProject(Project prj){
+        this.selectedProject = prj;
+        makeUserPageShow(this.PAGE_USER_VIEWPROJECT);
+    }
+    //</editor-fold>
     
+    //<editor-fold desc="USER VIEW PROJECT">
+    public boolean isUser_ViewProjectMode() {
+        return this.pageMode == PAGE_USER_VIEWPROJECT;
+    }
     //</editor-fold>
 }
