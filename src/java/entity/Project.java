@@ -4,6 +4,7 @@
  */
 package entity;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,6 +17,37 @@ public class Project {
     private String title;
     private String information;
     private String shortTitle;
+    private String customer;
+    private Date startDate;
+    private Date finishDate;
+
+    public String getCustomer() {
+        return customer;
+    }
+
+    public void setCustomer(String customer) {
+        this.customer = customer;
+    }
+
+    public Date getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
+    }
+
+    public Date getFinishDate() {
+        return finishDate;
+    }
+
+    public void setFinishDate(Date finishDate) {
+        this.finishDate = finishDate;
+    }
+
+    
+    
+    
 
     public String getShortTitle() {
         return shortTitle;

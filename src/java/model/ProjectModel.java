@@ -35,6 +35,9 @@ public class ProjectModel extends DatabaseManagement implements Serializable {
                 prj.setTitle(rs.getString("title"));
                 prj.setInformation(rs.getString("information"));
                 prj.setShortTitle(rs.getString("shortTitle"));
+                prj.setCustomer(rs.getString("customer"));
+                prj.setStartDate(rs.getDate("startDate"));
+                prj.setFinishDate(rs.getDate("finishDate"));
                 result.add(prj);
             }
             closeConnection();
