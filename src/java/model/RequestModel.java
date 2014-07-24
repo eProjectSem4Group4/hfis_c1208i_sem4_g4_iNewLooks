@@ -87,6 +87,44 @@ public class RequestModel extends DatabaseManagement implements Serializable {
         }
     }
 
+    public List<Request> getRequestsOfUser(Account user) throws SQLException, ClassNotFoundException, CustomException {
+        try {
+            List<Request> result = new ArrayList<Request>();
+            makeConnection();
+            ResultSet rs = getResultSet(
+                    "SELECT r.id, r.userId, r.elevatorId, r.floorCount, r.systemCount, r.[address], r.totalPrice, r.done, r.processing, r.postDate, r.finishDate, a.username, e.name AS 'elevatorName'\n"
+                    + "FROM Account a INNER JOIN Request r \n"
+                    + "	ON a.id = r.userId JOIN Elevator e\n"
+                    + "	ON r.elevatorId = e.id"
+                    + " WHERE a.id = ?", new QueryParameter[]{ new QueryParameter(1, user.getId())});
+            while (rs.next()) {
+                Request req = new Request();
+                req.setId(rs.getInt("id"));
+                req.setUserId(rs.getInt("userId"));
+                req.setElevatorId(rs.getInt("elevatorId"));
+                req.setFloorCount(rs.getInt("floorCount"));
+                req.setSystemCount(rs.getInt("systemCount"));
+                req.setAddress(rs.getString("address"));
+                req.setTotalPrice(rs.getDouble("totalPrice"));
+                req.setDone(rs.getBoolean("done"));
+                req.setProcessing(rs.getBoolean("processing"));
+                req.setSenderUsername(rs.getString("username"));
+                req.setElevatorName(rs.getString("elevatorName"));
+                req.setPostDate(rs.getDate("postDate"));
+                req.setFinishDate(rs.getDate("finishDate"));
+                result.add(req);
+            }
+            closeConnection();
+            return result;
+        } catch (SQLException | ClassNotFoundException | CustomException ex) {
+            Logger.getLogger(RequestModel.class.getName()).log(Level.SEVERE, null, ex);
+            throw ex;
+        } catch (Exception ex) {
+            Logger.getLogger(RequestModel.class.getName()).log(Level.SEVERE, null, ex);
+            throw new CustomException("Unknown exception", ex);
+        }
+    }
+
     public void setRequestStatus(int requestId, boolean status) throws SQLException, ClassNotFoundException, CustomException {
         try {
             makeConnection();

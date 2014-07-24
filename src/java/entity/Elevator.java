@@ -29,6 +29,17 @@ public class Elevator {
     private int maxWeight;
     private int maxHuman;
     private String country;
+    private String producer;
+
+    public String getProducer() {
+        return producer;
+    }
+
+    public void setProducer(String producer) {
+        this.producer = producer;
+    }
+    
+    
 
     public int getId() {
         return id;

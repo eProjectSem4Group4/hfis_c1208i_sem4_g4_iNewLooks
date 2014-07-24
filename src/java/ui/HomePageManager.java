@@ -90,11 +90,12 @@ public class HomePageManager implements Serializable {
     public final byte PAGE_USER_REPORT = 1;
     public final byte PAGE_USER_SENDREQUEST = 2;
     public final byte PAGE_USER_SENDFEEDBACK = 6;
+    public final byte PAGE_USER_VIEWREQUEST = 8;
     public final byte PAGE_ADMIN_VIEWALLUSER = 3;
     public final byte PAGE_ADMIN_ADDELEVATOR = 4;
     public final byte PAGE_ADMIN_VIEWREQUEST = 5;
     public final byte PAGE_ADMIN_VIEWFEEDBACK = 7;
-    // last = 7
+    // last = 8
     private byte pageMode = PAGE_USER_DEFAULT;
 
     private void changeValuePageMode(byte nValue) {
@@ -114,6 +115,7 @@ public class HomePageManager implements Serializable {
             this.getAddElevator().setCountry(null);
             this.getAddElevator().setBasePrice(0);
             this.getAddElevator().setFloorPrice(0);
+            this.getAddElevator().setProducer(null);
         }
         if (nValue != PAGE_ADMIN_VIEWREQUEST) {
             this.viewrequest_selectedRequest = null;
@@ -432,6 +434,7 @@ public class HomePageManager implements Serializable {
             this.addElevator.setName(null);
             this.addElevator.setDescription(null);
             this.addElevator.setCountry(null);
+            this.addElevator.setProducer(null);
             this.elevators = getElevatorController().getAllElevators();
         } catch (SQLException | ClassNotFoundException | CustomException ex) {
             Logger.getLogger(HomePageManager.class.getName()).log(Level.SEVERE, null, ex);
@@ -527,7 +530,11 @@ public class HomePageManager implements Serializable {
 
     public List<Request> getViewrequest_requestList() {
         try {
-            this.viewrequest_requestList = getRequestController().getAllRequests();
+            if (this.pageMode == PAGE_USER_VIEWREQUEST) {
+                this.viewrequest_requestList = getRequestController().getRequestModel().getRequestsOfUser(login.getUser());
+            } else {
+                this.viewrequest_requestList = getRequestController().getAllRequests();
+            }
             for (Request r : viewrequest_requestList) {
                 try {
                     r.setTaskList(getTaskModel().getAllTask(r.getId()));
@@ -609,7 +616,6 @@ public class HomePageManager implements Serializable {
             viewrequest_message = "An error occured";
         }
     }
-    
     private List<Request> viewrequest_filterRequest;
 
     public List<Request> getViewrequest_filterRequest() {
@@ -619,10 +625,9 @@ public class HomePageManager implements Serializable {
     public void setViewrequest_filterRequest(List<Request> viewrequest_filterRequest) {
         this.viewrequest_filterRequest = viewrequest_filterRequest;
     }
-    
+
     //END================= VIEW REQUEST
     //</editor-fold>
-
     //<editor-fold desc="SEND FEEDBACK">
     public boolean isUser_ViewSendFeedbackMode() {
         return this.pageMode == PAGE_USER_SENDFEEDBACK;
@@ -730,6 +735,16 @@ public class HomePageManager implements Serializable {
         } catch (SQLException | ClassNotFoundException | CustomException ex) {
             Logger.getLogger(HomePageManager.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }
+    //</editor-fold>
+
+    //<editor-fold desc="USER VIEW REQUEST">
+    public boolean isUser_ViewRequestMode() {
+        return this.pageMode == PAGE_USER_VIEWREQUEST;
+    }
+
+    public void showPageUserViewRequest() {
+        makeUserPageShow(PAGE_USER_VIEWREQUEST);
     }
     //</editor-fold>
 }

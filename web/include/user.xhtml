@@ -3,7 +3,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:f="http://xmlns.jcp.org/jsf/core">
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
     <h:body>
         <h:form id="frmUserPage">
             <p:panel id="pnlUserPage" visible="#{hpmanager.showUserPage}">
@@ -34,25 +35,22 @@
                     <p:panel id="pnlUser_SendRequest" visible="#{hpmanager.user_ViewSendRequestMode}">
                         <table>
                             <tr>
-                                <td>Elevator system height</td>
+                                <td>Elevator system height (floors)</td>
                                 <td>
                                     <p:inputText id="txt_sendrequest_floorCount" value="#{hpmanager.sendrequest_Elevator.floorCount}" maxlength="4" required="true" requiredMessage="You must let us know how many floor do you want"  immediate="true">
                                         <p:ajax update="pnlSendRequest_ElevatorInfo"/>
-                                    </p:inputText> floor
+                                    </p:inputText>
                                 </td>
                             </tr>
                             <tr>
                                 <td>Elevator type</td>
                                 <td>
-                                    <p:selectOneMenu id="cbbElevatorType" styleClass="cbbMenu" value="#{hpmanager.sendrequest_ElevatorChosed.id}" valueChangeListener="#{hpmanager.elevatorTypeChangeListener}" required="true" requiredMessage="You must select at least one elevator type">
+                                    <p:selectOneMenu style="width: 100%;" id="cbbElevatorType" styleClass="cbbMenu" value="#{hpmanager.sendrequest_ElevatorChosed.id}" valueChangeListener="#{hpmanager.elevatorTypeChangeListener}" required="true" requiredMessage="You must select at least one elevator type">
                                         <f:selectItem itemLabel="Select elevator" itemValue="0"/>
                                         <f:selectItems value="#{hpmanager.elevators}" var="elevator" itemLabel="#{elevator.name}" itemValue="#{elevator.id}"/>
                                         <p:ajax event="change" update="pnlSendRequest_ElevatorInfo"/>
                                     </p:selectOneMenu>&nbps;
-                                    <p:selectOneMenu  id="cbbFilterType" styleClass="cbbMenu" value="#{hpmanager.sendrequest_filter}" valueChangeListener="#{hpmanager.filterTypeChangeListener}">
-                                        <f:selectItems value="#{hpmanager.sendrequest_filterList}" var="filter" itemLabel="#{filter.name}" itemValue="#{filter.id}"/>
-                                        <p:ajax event="change" update="cbbElevatorType"/>
-                                    </p:selectOneMenu>
+
                                 </td>
                             </tr>
                             <tr>
@@ -99,41 +97,140 @@
                                 </tr>
                             </table>
                         </p:panel>
-                        <p:dataTable value="#{hpmanager.elevators}" var="ele" styleClass="DataTable"
-                                     filteredValue="#{hpmanager.elevatorsFilter}">
-                            <p:ajax global="false" process="@this" event="rowToggle"/>
-                            <p:column style="width:3%">
-                                <p:commandLink value="Select" process="@this" actionListener="#{hpmanager.selectElevator(ele.id)}" update=":frmUserPage:cbbElevatorType :frmUserPage:pnlSendRequest_ElevatorInfo"/>
-                                <p:rowToggler  />
-                            </p:column>
-                            <p:column headerText="Name" filterMatchMode="contains" filterBy="#{ele.name}" sortBy="#{ele.name}" >
-                                <h:outputText value="#{ele.name}"/>
-                            </p:column>
-                            <p:column headerText="Max human carry" resizable="true" filterMatchMode="contains" filterBy="#{ele.maxHuman}" sortBy="#{ele.maxHuman}" >
-                                <h:outputText value="#{ele.maxHuman}"/>
-                            </p:column>
-                            <p:column headerText="Made in" filterMatchMode="contains" filterBy="#{ele.country}" sortBy="#{ele.country}" >
-                                <h:outputText value="#{ele.country}"/>
-                            </p:column>
-                            <p:rowExpansion>
-                                <p:panelGrid columns="2" styleClass="row-expansion">
-                                    <h:outputText value="Product name:"/>
+                        <p:panel style="overflow: scroll; width: 100%;">
+                            <p:dataTable value="#{hpmanager.elevators}" var="ele" styleClass="DataTable"
+                                         filteredValue="#{hpmanager.elevatorsFilter}">
+                                <p:ajax global="false" process="@this" event="rowToggle"/>
+                                <p:column style="width:3%">
+                                    <p:commandLink value="Select" process="@this" actionListener="#{hpmanager.selectElevator(ele.id)}" update=":frmUserPage:cbbElevatorType :frmUserPage:pnlSendRequest_ElevatorInfo"/>
+                                    <p:rowToggler  />
+                                </p:column>
+                                <p:column headerText="Name" filterMatchMode="contains" filterBy="#{ele.name}" sortBy="#{ele.name}" >
                                     <h:outputText value="#{ele.name}"/>
-                                    <h:outputText value="Base price"/>
-                                    <h:outputText value="#{ele.basePrice}"/>
-                                    <h:outputText value="Floor price"  />
-                                    <h:outputText value="#{ele.floorPrice}"/>
-                                    <h:outputText value="Max weight" />
-                                    <h:outputText value="#{ele.maxWeight}"/>
-                                    <h:outputText value="Max human carry" />
-                                    <h:outputText value="#{ele.maxHuman}"/>
-                                    <h:outputText value="Made in" />
+                                </p:column>
+                                <p:column headerText="Producer" filterMatchMode="contains" filterBy="#{ele.producer}" sortBy="#{ele.producer}" >
+                                    <h:outputText value="#{ele.producer}"/>
+                                </p:column>
+                                <p:column headerText="Made in" filterMatchMode="contains" filterBy="#{ele.country}" sortBy="#{ele.country}" >
                                     <h:outputText value="#{ele.country}"/>
-                                    <h:outputText value="Description" />
-                                    <h:outputText value="#{ele.description}"/>
-                                </p:panelGrid>
-                            </p:rowExpansion>
-                        </p:dataTable>
+                                </p:column>
+                                <p:column headerText="Max human carry" resizable="true" filterMatchMode="contains" filterBy="#{ele.maxHuman}" sortBy="#{ele.maxHuman}" >
+                                    <h:outputText value="#{ele.maxHuman}"/>
+                                </p:column>
+                                <p:column headerText="Floor price" resizable="true" filterMatchMode="contains" filterBy="#{ele.floorPrice}" sortBy="#{ele.floorPrice}" >
+                                    <h:outputText value="#{ele.floorPrice}"/>
+                                </p:column>
+                                <p:rowExpansion>
+                                    <p:panelGrid columns="2" styleClass="row-expansion">
+                                        <h:outputText value="Product name:"/>
+                                        <h:outputText value="#{ele.name}"/>
+                                        <h:outputText value="Producer:"/>
+                                        <h:outputText value="#{ele.producer}"/>
+                                        <h:outputText value="Base price"/>
+                                        <h:outputText value="#{ele.basePrice}"/>
+                                        <h:outputText value="Floor price"  />
+                                        <h:outputText value="#{ele.floorPrice}"/>
+                                        <h:outputText value="Max weight" />
+                                        <h:outputText value="#{ele.maxWeight}"/>
+                                        <h:outputText value="Max human carry" />
+                                        <h:outputText value="#{ele.maxHuman}"/>
+                                        <h:outputText value="Made in" />
+                                        <h:outputText value="#{ele.country}"/>
+                                        <h:outputText value="Description" />
+                                        <h:outputText value="#{ele.description}"/>
+                                    </p:panelGrid>
+                                </p:rowExpansion>
+                            </p:dataTable>
+                        </p:panel>
+                    </p:panel>
+                    <p:panel id="pnlUser_ViewMyRequests" visible="#{hpmanager.user_ViewRequestMode}">
+                        <p:panel id="pnlUser_shSltedReq" visible="#{hpmanager.viewrequest_showSelectedRequest}">
+                            <h1><h:outputText value="Selected request"/><br/></h1>
+                            <br/>
+                            <c:set var="vr" value="#{hpmanager.viewrequest_selectedRequest}"/>
+                            <c:set var="vra" value="#{hpmanager.viewrequest_selectedRequestSender}"/>
+                            <table>
+                                <tr>
+                                    <td>
+                                        <h:outputText value="From #{vr.postDate} - "/>
+                                    </td>
+                                    <td>
+                                        <h:outputText value="Not started" rendered="#{!vr.processing}"/>
+                                        <h:outputText value="#{vr.finishDate}" rendered="#{vr.done}"/>
+                                        <h:outputText value="Not finish (#{vr.completedPercent} %)" rendered="#{!vr.done and vr.processing}"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Request id</td>
+                                    <td>
+                                        <h:outputText value="#{vr.id}"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Floor count</td>
+                                    <td>
+                                        <h:outputText value="#{vr.floorCount}"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>System count</td>
+                                    <td>
+                                        <h:outputText value="#{vr.systemCount}"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Address</td>
+                                    <td>
+                                        <h:outputText value="#{vr.address}"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Total price</td>
+                                    <td>
+                                        <h:outputText value="#{vr.totalPrice}"/>
+                                    </td>
+                                </tr>
+                            </table>
+                            <br/>
+                            <p:dataTable id="tblTask" styleClass="DataTable"
+                                         value="#{vr.taskList}" var="task" emptyMessage="No task was added for this request">
+                                <p:column headerText="Is done">
+                                    <p:selectBooleanCheckbox disabled="true" value="#{task.done}"/>
+                                </p:column>
+                                <p:column headerText="Task">
+                                    <p:outputLabel value="#{task.toDo}"/>
+                                </p:column>
+                            </p:dataTable>
+                        </p:panel>
+                        <font color="=red"><p:outputLabel id="lbviewrequest_message" value="#{hpmanager.viewrequest_message}"/></font>
+                        <h1>All requests</h1>
+                        <br/>
+                        <p:panel style="width:100%; overflow: scroll">
+                            <p:dataTable id="tblMyRequests" styleClass="DataTable" value="#{hpmanager.viewrequest_requestList}" var="vrs" emptyMessage="You didn't send any request to us!"
+                                         filteredValue="#{hpmanager.viewrequest_filterRequest}">
+                                <p:column headerText="View request">
+                                    <center><p:commandLink value="Click" process="@this"
+                                                           update=":frmUserPage:pnlUser_shSltedReq"
+                                                           actionListener="#{hpmanager.viewRequest(vrs)}"/></center>
+                                </p:column>
+                                <p:column headerText="Finished date" filterMatchMode="contains" filterBy="#{vrs.completedPercent}" sortBy="#{vrs.completedPercent}">
+                                    <center>
+                                        <h:outputText value="Not started" rendered="#{!vrs.processing}"/>
+                                        <h:outputText value="#{vrs.finishDate}" rendered="#{vrs.done}"/>
+                                        <h:outputText value="Not finish (#{vrs.completedPercent}%)" rendered="#{!vrs.done and vrs.processing}"/>
+                                    </center>
+                                </p:column>
+                                <p:column headerText="Elevator" filterMatchMode="contains" filterBy="#{vrs.elevatorName}" sortBy="#{vrs.elevatorName}">
+                                    <center><h:outputText value="#{vrs.elevatorName}"/></center>
+                                </p:column>
+                                <p:column headerText="Price" filterMatchMode="contains" sortBy="#{vrs.totalPrice}">
+                                    <center><h:outputText value="#{vrs.totalPrice}"/></center>
+                                </p:column>
+                                <p:column headerText="id" filterMatchMode="contains" filterBy="#{vrs.id}" sortBy="#{vrs.id}">
+                                    <center><h:outputText value="#{vrs.id}"/></center>
+                                </p:column>
+                            </p:dataTable>
+                        </p:panel>
                     </p:panel>
                     <p:panel id="pnlUser_SendFeedback" visible="#{hpmanager.user_ViewSendFeedbackMode}">
                         <table>
