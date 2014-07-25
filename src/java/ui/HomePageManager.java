@@ -95,6 +95,7 @@ public class HomePageManager implements Serializable {
         return feedbackController;
     }
     //</editor-fold>
+    
     //<editor-fold desc="View state">
     private boolean showAdminPage = false;
     private boolean showUserPage = true;
@@ -108,7 +109,8 @@ public class HomePageManager implements Serializable {
     public final byte PAGE_ADMIN_ADDELEVATOR = 4;
     public final byte PAGE_ADMIN_VIEWREQUEST = 5;
     public final byte PAGE_ADMIN_VIEWFEEDBACK = 7;
-    // last = 9
+    public final byte PAGE_ADMIN_ADDPROJECT = 10;
+    // last = 10
     private byte pageMode = PAGE_USER_DEFAULT;
 
     private void changeValuePageMode(byte nValue) {
@@ -197,8 +199,7 @@ public class HomePageManager implements Serializable {
         }
     }
 
-    //<editor-fold desc="SEND REQUEST">
-    //BEGIN================= SEND REQUEST
+    //<editor-fold desc="USER SEND REQUEST">
     public boolean isUser_ViewSendRequestMode() {
         return this.pageMode == PAGE_USER_SENDREQUEST;
     }
@@ -397,11 +398,9 @@ public class HomePageManager implements Serializable {
         } catch (Exception ex) {
         }
     }
-    //END================= SEND REQUEST
     //</editor-fold>
 
-    //<editor-fold desc="ADD ELEVATOR">
-    //BEGIN================= ADD ELEVATOR
+    //<editor-fold desc="ADMIN ADD ELEVATOR">
     public boolean isAdmin_AddElevatorMode() {
         return this.pageMode == PAGE_ADMIN_ADDELEVATOR;
     }
@@ -460,11 +459,9 @@ public class HomePageManager implements Serializable {
     public void setAddelevator_message(String addelevator_message) {
         this.addelevator_message = addelevator_message;
     }
-    //END================= ADD ELEVATOR
     //</editor-fold>
 
-    //<editor-fold desc="VIEW REQUEST">
-    //BEGIN================= VIEW REQUEST
+    //<editor-fold desc="ADMIN VIEW REQUEST">
     public boolean isAdmin_ViewRequestMode() {
         return this.pageMode == PAGE_ADMIN_VIEWREQUEST;
     }
@@ -634,10 +631,9 @@ public class HomePageManager implements Serializable {
     public void setViewrequest_filterRequest(List<Request> viewrequest_filterRequest) {
         this.viewrequest_filterRequest = viewrequest_filterRequest;
     }
-
-    //END================= VIEW REQUEST
     //</editor-fold>
-    //<editor-fold desc="SEND FEEDBACK">
+    
+    //<editor-fold desc="USER SEND FEEDBACK">
     public boolean isUser_ViewSendFeedbackMode() {
         return this.pageMode == PAGE_USER_SENDFEEDBACK;
     }
@@ -707,7 +703,8 @@ public class HomePageManager implements Serializable {
     }
 
     //</editor-fold>
-    //<editor-fold desc="VIEW FEEDBACK">
+    
+    //<editor-fold desc="ADMIN VIEW FEEDBACK">
     public boolean isAdmin_ViewFeedbackMode() {
         return this.pageMode == PAGE_ADMIN_VIEWFEEDBACK;
     }
@@ -757,8 +754,7 @@ public class HomePageManager implements Serializable {
     }
     //</editor-fold>
     
-    
-    //<editor-fold desc="DEFAULT PAGE">
+    //<editor-fold desc="DEFAULT PAGE + USER SHOW PROJECT">
     public boolean isUser_ViewPageDefaultMode() {
         return this.pageMode == PAGE_USER_DEFAULT;
     }
@@ -777,15 +773,6 @@ public class HomePageManager implements Serializable {
     public void setProjectList(List<Project> projectList) {
         this.projectList = projectList;
     }
-    private Project selectedProject;
-
-    public Project getSelectedProject() {
-        return selectedProject;
-    }
-
-    public void setSelectedProject(Project selectedProject) {
-        this.selectedProject = selectedProject;
-    }
     
     public void showProject(Project prj){
         this.selectedProject = prj;
@@ -797,5 +784,68 @@ public class HomePageManager implements Serializable {
     public boolean isUser_ViewProjectMode() {
         return this.pageMode == PAGE_USER_VIEWPROJECT;
     }
+    
+    private Project selectedProject;
+
+    public Project getSelectedProject() {
+        return selectedProject;
+    }
+
+    public void setSelectedProject(Project selectedProject) {
+        this.selectedProject = selectedProject;
+    }
+    
     //</editor-fold>
+    
+    //<editor-fold desc="ADMIN ADD PROJECT">
+    public boolean isAdmin_AddProjectMode() {
+        return this.pageMode == PAGE_ADMIN_ADDPROJECT;
+    }
+
+    public void showPageAdminAddProject() {
+        makeAdminPageShow(PAGE_ADMIN_ADDPROJECT);
+    }
+    
+    private Project addproject_newProject;
+
+    public Project getAddproject_newProject() {
+        if (addproject_newProject == null){
+            addproject_newProject = new Project();
+            addproject_newProject.setStartDate(new java.sql.Date(java.util.Calendar.getInstance().getTime().getTime()));
+            addproject_newProject.setFinishDate(new java.sql.Date(java.util.Calendar.getInstance().getTime().getTime()));
+        }
+        return addproject_newProject;
+    }
+    
+    public void setAddproject_newProject(Project addproject_newProject) {
+        this.addproject_newProject = addproject_newProject;
+    }
+    
+    private String addproject_message;
+
+    public String getAddproject_message() {
+        String copy = addproject_message;
+        addproject_message = null;
+        return copy;
+    }
+
+    public void setAddproject_message(String addproject_message) {
+        this.addproject_message = addproject_message;
+    }
+    
+    public void addProject_submit(){
+        System.out.println("    ADDDDDD          ");
+        try {
+            getProjectModel().createProject(addproject_newProject);
+            System.out.println("    ED          ");
+            addproject_message = "Project created";
+            addproject_newProject = null;
+        } catch (SQLException | ClassNotFoundException | CustomException ex) {
+        System.out.println("    FAIL          ");
+            Logger.getLogger(HomePageManager.class.getName()).log(Level.SEVERE, null, ex);
+            addproject_message = "An error occured: " + ex.getMessage();
+        }
+    }
+    //</editor-fold>
+
 }

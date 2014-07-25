@@ -279,6 +279,34 @@
                         </p:rowExpansion>
                     </p:dataTable>
                 </p:panel>
+                <p:panel id="pnlAdmin_AddProject" visible="#{hpmanager.admin_AddProjectMode}">
+                    <p:panelGrid columns="2">
+                        <p:outputLabel value="Tiêu đề ngắn (20 ký tự)"/>
+                        <p:inputText value="#{hpmanager.addproject_newProject.shortTitle}"/>
+                        
+                        <p:outputLabel value="Tiêu đề"/>
+                        <p:inputText value="#{hpmanager.addproject_newProject.title}"/>
+                        
+                        <p:outputLabel value="Nội dung bài viết"/>
+                        <p:inputText value="#{hpmanager.addproject_newProject.information}"/>
+                        
+                        <p:outputLabel value="Thông tin khách hàng"/>
+                        <p:inputText value="#{hpmanager.addproject_newProject.customer}"/>
+                        
+                        <p:outputLabel value="Ngày bắt đầu"/>
+                        <p:calendar value="#{hpmanager.addproject_newProject.startDate}"/>
+                        
+                        <p:outputLabel value="Ngày kết thúc"/>
+                        <p:calendar value="#{hpmanager.addproject_newProject.finishDate}"/>
+                        
+                        <p:outputLabel value="Ảnh bìa"/>
+                        <p:inputText value="#{hpmanager.addproject_newProject.avatar}"/>
+                        
+                        <p:outputLabel id="addproject_message" value="#{hpmanager.addproject_message}"/>
+                        <p:commandButton value="Thêm dự án" actionListener="#{hpmanager.addProject_submit()}"
+                                         process="@this" update="addproject_message"/>
+                    </p:panelGrid>
+                </p:panel>
             </p:panel>
         </h:form>
     </h:body>

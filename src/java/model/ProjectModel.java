@@ -51,4 +51,28 @@ public class ProjectModel extends DatabaseManagement implements Serializable {
             throw new CustomException("Unknown exception", ex);
         }
     }
+    
+    public void createProject(Project project) throws SQLException, ClassNotFoundException, CustomException {
+        try {
+            makeConnection();
+            doQuery("INSERT INTO Project(shortTitle, title, information, customer, startDate, finishDate, avatar)"
+                    + "\nVALUES (?,?,?,?,?,?,?)",
+                    new QueryParameter[]{
+                new QueryParameter(1, project.getShortTitle()),
+                new QueryParameter(2, project.getTitle()),
+                new QueryParameter(3, project.getInformation()),
+                new QueryParameter(4, project.getCustomer()),
+                new QueryParameter(5, project.getStartDate()),
+                new QueryParameter(6, project.getFinishDate()),
+                new QueryParameter(7, project.getAvatar())
+            });
+            closeConnection();
+        } catch (SQLException | ClassNotFoundException | CustomException ex) {
+            Logger.getLogger(FeedbackModel.class.getName()).log(Level.SEVERE, null, ex);
+            throw ex;
+        } catch (Exception ex) {
+            Logger.getLogger(FeedbackModel.class.getName()).log(Level.SEVERE, null, ex);
+            throw new CustomException("Unknown exception", ex);
+        }
+    }
 }
